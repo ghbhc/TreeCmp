@@ -208,21 +208,41 @@ public class CommandLineParser {
                     IOset.setPruneTrees(true);
                     custOpts.add(oP);
                 }
+                else {
+                    IOset.setPruneTrees(false);
+                    custOpts.remove(oP);
+                }
                 if (commandLine.hasOption(oSS.getOpt())) {
                     IOset.setRandomComparison(true);
                     custOpts.add(oSS);
+                }
+                else {
+                    IOset.setRandomComparison(false);
+                    custOpts.remove(oSS);
                 }
                 if (commandLine.hasOption(oA.getOpt())) {
                     IOset.setGenAlignments(true);
                     custOpts.add(oA);
                 }
+                else {
+                    IOset.setGenAlignments(false);
+                    custOpts.remove(oA);
+                }
                 if (commandLine.hasOption(oOO.getOpt())) {
                     IOset.setOptMsMcByRf(true);
                     custOpts.add(oOO);
                 }
+                else {
+                    IOset.setOptMsMcByRf(false);
+                    custOpts.remove(oOO);
+                }
                 if (commandLine.hasOption(oII.getOpt())) {
                     IOset.setGenSummary(true);
                     custOpts.add(oII);
+                }
+                else {
+                    IOset.setGenSummary(false);
+                    custOpts.remove(oII);
                 }
                 /*
                 if (commandLine.hasOption(oF.getOpt())) {

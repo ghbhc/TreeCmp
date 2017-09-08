@@ -24,10 +24,10 @@ import treecmp.config.IOSettings;
 public class ReportUtils {
     private final static int ROW_PRECISION = 4;
     public final static String ROW_DATA_FORMAT="%1$."+ROW_PRECISION+"f";
-    private final static IOSettings ioSet = IOSettings.getIOSettings();
-    private final static String sep = ioSet.getSSep();
-    private final static boolean pruneTrees = ioSet.isPruneTrees();
-    private final static boolean randomComparison = ioSet.isRandomComparison();
+    private static IOSettings ioSet = IOSettings.getIOSettings();
+    private static String sep = ioSet.getSSep();
+    private static boolean pruneTrees = ioSet.isPruneTrees();
+    private static boolean randomComparison = ioSet.isRandomComparison();
 
     public final static String NUM_COLUMN = "No";
     public final static String T1_COLUMN = "Tree1";
@@ -100,6 +100,7 @@ public class ReportUtils {
          
          return getHeaderRow(stats, false);
      }
+
      public static String getHeaderRow(StatCalculator[] stats, boolean ifReefTreeMode){
         StringBuilder sb = new StringBuilder();
 
@@ -162,5 +163,10 @@ public class ReportUtils {
         return sb.toString();
     }
 
-
+    public static void update() {
+        IOSettings ioSet = IOSettings.getIOSettings();
+        String sep = ioSet.getSSep();
+        pruneTrees = ioSet.isPruneTrees();
+        randomComparison = ioSet.isRandomComparison();
+    }
 }
