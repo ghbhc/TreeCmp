@@ -62,7 +62,9 @@ public class CommandLineParser {
                                         " pd - the Path Difference metric,\n"+
                                         " qt - the Quartet metric,\n"+
                                         " um - the UMAST metric,\n"+
+
                                         /*" wrf - the Weighted Robinson-Foulds metric,\n"+*/
+
                                         "Metrics for rooted trees:\n" +
                                         " mc - the Matching Cluster metric,\n"+
                                         " rc - the Robinson-Foulds metric based on clusters,\n" +
@@ -70,6 +72,12 @@ public class CommandLineParser {
                                         " tt - the Triples metric,\n"+
                                         " mp - the Matching Pair metric.\n"+
                                         " mt - the RMAST metric.\n"+
+
+                                        /*"Metrics for unrooted weighted trees:\n" +*/
+                                        /*" wrf - the Weighted Robinson-Foulds metric,\n"+*/
+
+                                        /*"Metrics for rooted weighted trees:\n" +*/
+
                                         "Example: -d ms rf\n";
 
     private final static String D_ARG = "metrics";
