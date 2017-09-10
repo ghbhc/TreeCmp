@@ -49,17 +49,7 @@
             <description>-Unrooted maximum agreement subtree distance</description>
             <unif_data>unif_MT.txt</unif_data>
             <yule_data>yule_MT.txt</yule_data>
-            <fullname>UMAST</fullname>
-            <complexity></complexity>
-        </metric>
-        <metric>
-            <name>WeightedR-F</name>
-            <command_name>wrf</command_name>
-            <class>treecmp.metric.WRFMetric</class>
-            <description>-Weighted Robinson-Foulds metric</description>
-            <unif_data>unif_WRF.txt</unif_data>
-            <yule_data>yule_WRF.txt</yule_data>
-            <fullname>Weighted Robinson-Foulds metric</fullname>
+            <fullname>Unrooted maximum agreement subtree distance</fullname>
             <complexity></complexity>
         </metric>
         <metric>
@@ -118,8 +108,6 @@
             <fullname>Matching Pair metric</fullname>
             <complexity></complexity>
         </metric>
-        <metric>
-        </metric>
 		<metric>
             <name>MAST</name>
             <command_name>mt</command_name>
@@ -128,9 +116,20 @@
             <unif_data>unif_MT.txt</unif_data>
             <yule_data>yule_MT.txt</yule_data>
 			<rooted>true</rooted>
-            <fullname>RMAST</fullname>
+            <fullname>Rooted maximum agreement subtree distance</fullname>
             <complexity></complexity>
         </metric>
+        <!--        <metric>
+            <name>WeightedR-F</name>
+            <command_name>wrf</command_name>
+            <class>treecmp.metric.WRFMetric</class>
+            <description>-Weighted Robinson-Foulds metric</description>
+            <unif_data>unif_WRF.txt</unif_data>
+            <yule_data>yule_WRF.txt</yule_data>
+            <weighted>true</weighted>
+            <fullname>Weighted Robinson-Foulds metric</fullname>
+            <complexity></complexity>
+        </metric>-->
     </defined_metrics>
     <reporting>
         <filed_separator>tab</filed_separator>
