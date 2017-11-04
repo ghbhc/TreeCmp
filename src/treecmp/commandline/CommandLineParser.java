@@ -55,7 +55,7 @@ public class CommandLineParser {
     private final static String CMD_ERROR = "Error. There is a problem with parsing the command line. See the usage below.\n";
 
 
-    private final static String D_DESC = "- Allow to specify distances (from 1 up to 11):\n"+
+    private final static String D_DESC = "- Allow to specify distances (from 1 up to 12):\n"+
                                         "Metrics for unrooted trees:\n" +
                                         " ms - the Matching Split metric,\n"+
                                         " rf - the Robinson-Foulds metric,\n"+
@@ -70,9 +70,9 @@ public class CommandLineParser {
                                         " rc - the Robinson-Foulds metric based on clusters,\n" +
                                         " ns - the Nodal Splitted metric with L2 norm,\n"+
                                         " tt - the Triples metric,\n"+
-                                        " mp - the Matching Pair metric.\n"+
-                                        " mt - the RMAST metric.\n"+
-
+                                        " mp - the Matching Pair metric,\n"+
+                                        " mt - the RMAST metric,\n"+
+                                        " co - the Cophenetic Metric with L2 norm.\n"+
                                         /*"Metrics for unrooted weighted trees:\n" +*/
                                         /*" wrf - the Weighted Robinson-Foulds metric,\n"+*/
 
@@ -343,30 +343,29 @@ public class CommandLineParser {
         }
         return cmd;
     }
-    private static void printOptionsInEffect(String analysisType,ActiveMetricsSet AMSet,String inputFileName,String outputFileName, List<Option> custOpts){
+    private static void printOptionsInEffect(String analysisType, ActiveMetricsSet AMSet, String inputFileName, String outputFileName, List<Option> custOpts) {
         System.out.print(OPTS_HEADER);
-        System.out.print(OPTS_TYPE+analysisType+"\n");
+        System.out.print(OPTS_TYPE + analysisType + "\n");
         System.out.print(OPTS_METRICS);
-        Metric[] metrics=AMSet.getActiveMetricsTable();
+        Metric[] metrics = AMSet.getActiveMetricsTable();
         int nr;
         Metric m;
-        for(int i=0;i<metrics.length;i++){
-            m=metrics[i];
-            nr=i+1;
-            System.out.print("  "+nr+". "+m.getName()+" ("+m.getCommandLineName()+")\n");
+        for (int i = 0; i < metrics.length; i++) {
+            m = metrics[i];
+            nr = i + 1;
+            System.out.print("  " + nr + ". " + m.getName() + " (" + m.getCommandLineName() + ")\n");
         }
-   
-        System.out.print(OPTS_INPUT+inputFileName+"\n");
-        System.out.print(OPTS_OUTPUT+outputFileName+"\n");
-        if (!custOpts.isEmpty()){
+
+        System.out.print(OPTS_INPUT + inputFileName + "\n");
+        System.out.print(OPTS_OUTPUT + outputFileName + "\n");
+        if (!custOpts.isEmpty()) {
             System.out.print(OPTS_CUSTOM);
-            for (Option opt: custOpts){
-                String optMsg = opt.getOpt() +" " + opt.getDescription()+"\n";
-                 System.out.print(optMsg);
+            for (Option opt : custOpts) {
+                String optMsg = opt.getOpt() + " " + opt.getDescription() + "\n";
+                System.out.print(optMsg);
             }
         }
         System.out.print("-----\n");
-
 
     }
 }
@@ -376,26 +375,27 @@ class OptOrder implements Comparator {
     private LinkedHashMap<String, Integer> order = new LinkedHashMap<String, Integer>();
 
     public OptOrder() {
-        order.put("s", new Integer(1));
-        order.put("w", new Integer(2));
-        order.put("m", new Integer(3));
-        order.put("r", new Integer(4));
-        order.put("d", new Integer(5));
-        order.put("i", new Integer(6));
-        order.put("o", new Integer(7));
-        order.put("N", new Integer(8));
-        order.put("P", new Integer(9));
-        order.put("I", new Integer(10));
-        order.put("A", new Integer(11));
-        order.put("O", new Integer(12));
+        order.put("s", 1);
+        order.put("w", 2);
+        order.put("m", 3);
+        order.put("r", 4);
+        order.put("d", 5);
+        order.put("i", 6);
+        order.put("o", 7);
+        order.put("N", 8);
+        order.put("P", 9);
+        order.put("I", 10);
+        order.put("A", 11);
+        order.put("O", 12);
        // order.put("F", new Integer(13));
     }
 
+    @Override
     public int compare(Object o1, Object o2) {
         Option opt1 = (Option) o1;
         Option opt2 = (Option) o2;
-        Integer n1 = (Integer) order.get(opt1.getOpt());
-        Integer n2 = (Integer) order.get(opt2.getOpt());
+        Integer n1 = order.get(opt1.getOpt());
+        Integer n2 = order.get(opt2.getOpt());
         if (n1 != null || n2 != null) {
             return n1 - n2;
         } else {

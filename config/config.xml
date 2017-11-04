@@ -47,8 +47,8 @@
             <command_name>um</command_name>
             <class>treecmp.metric.UmastMetric</class>
             <description>-Unrooted maximum agreement subtree distance</description>
-            <unif_data>unif_MT.txt</unif_data>
-            <yule_data>yule_MT.txt</yule_data>
+            <unif_data>unif_UM.txt</unif_data>
+            <yule_data>yule_UM.txt</yule_data>
             <fullname>Unrooted maximum agreement subtree distance</fullname>
             <complexity></complexity>
         </metric>
@@ -119,6 +119,17 @@
             <fullname>Rooted maximum agreement subtree distance</fullname>
             <complexity></complexity>
         </metric>
+        <metric>
+            <name>CopheneticL2Metric</name>
+            <command_name>co</command_name>
+            <class>treecmp.metric.CopheneticL2Metric</class>
+            <description>-Cophenetic Metric with L2 norm</description>
+            <unif_data>unif_CO.txt</unif_data>
+            <yule_data>yule_CO.txt</yule_data>
+            <rooted>true</rooted>
+            <fullname>Cophenetic Metric with L2 norm</fullname>
+            <complexity></complexity>
+        </metric>    
         <!--        <metric>
             <name>WeightedR-F</name>
             <command_name>wrf</command_name>
