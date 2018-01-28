@@ -24,6 +24,12 @@ import pal.tree.Tree;
 import pal.tree.TreeUtils;
 import treecmp.common.TreeCmpUtils;
 
+/*
+ * Cophenetic metric for rooted trees with L2 norm based on
+ * "Cophenetic metrics for phylogenetic trees, after Sokal and Rohlf"
+ * by Gabriel Cardona, Arnau Mir, Francesc Rossello, Lucia Rotger and David Sanchez
+ * BMC Bioinformatics 2013 14:3, https://doi.org/10.1186/1471-2105-14-3
+ */
 
 public class CopheneticL2Metric extends BaseMetric implements Metric {
 
@@ -54,8 +60,8 @@ public class CopheneticL2Metric extends BaseMetric implements Metric {
         short[] extDepthT1 = new short[extT1Num];
         short[] extDepthT2 = new short[extT2Num];
 
-        TreeCmpUtils.calcNodeDepth(t1, preOrderT1, extDepthT1, intDepthT1);
-        TreeCmpUtils.calcNodeDepth(t2, preOrderT2, extDepthT2, intDepthT2);
+        TreeCmpUtils.calcNodeDepth(t1, preOrderT1, extDepthT1, intDepthT1, null);
+        TreeCmpUtils.calcNodeDepth(t2, preOrderT2, extDepthT2, intDepthT2, id1);
 
         double diff, dist = 0.0;
         int xNodeNum, yNodeNum, xyNodeNumT1, xyNodeNumT2;
