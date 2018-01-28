@@ -19,7 +19,6 @@ package treecmp.common;
 
 import java.util.ArrayList;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -845,46 +844,54 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
         }
         return resultMatrix;
     }
+    
+    /**
+     *
+     * @param t
+     * @param preOrderNodes
+     * @param externalNodesDepthTab
+     * @param internalNodesDepthTab
+     * @param idGroup
+     */
+    public static void calcNodeDepth(Tree t, Node[] preOrderNodes, short[] externalNodesDepthTab, short[] internalNodesDepthTab, IdGroup idGroup) {
+        int parentNum, curNodeNum;
+        Node curNode;
+        short depth;
+        if (idGroup == null) {
+            idGroup = TreeUtils.getLeafIdGroup(t);
+        }
 
-	/**
-	*
-	* @param t
-	* @param preOrderNodes
-	* @param externalNodesDepthTab
-	* @param internalNodesDepthTab
-	*/
-	public static void calcNodeDepth(Tree t, Node[] preOrderNodes, short[] externalNodesDepthTab, short[] internalNodesDepthTab) {
-	   int parentNum, curNodeNum;
-	   Node curNode;
-	   short depth;
-	   for (int i = 0; i < preOrderNodes.length; i++) {
-	       curNode = preOrderNodes[i];
-	       curNodeNum = curNode.getNumber();
-	       if (curNode.isRoot()) {
-	           internalNodesDepthTab[curNodeNum] = 0;
-	       } else {
-	           parentNum = curNode.getParent().getNumber();
-	           depth = (short) (internalNodesDepthTab[parentNum] + 1);
-	           if (curNode.isLeaf()) {
-	               externalNodesDepthTab[curNodeNum] = depth;
-	           } else {
-	               internalNodesDepthTab[curNodeNum] = depth;
-	           }
-	       }
-	   }
-	}
-	
-	public static short max (short [] tab){
-	   short currMax = tab[0];
-	   for (int i = 1; i < tab.length; i++){
-	       if (tab[i] > currMax){
-	           currMax = tab[i];
-	       }
-	   }
-	   return currMax;
-	}
-
+        int[] alias = TreeUtils.mapExternalIdentifiers(idGroup, t);
+        for (int i = 0; i < preOrderNodes.length; i++) {
+            curNode = preOrderNodes[i];
+            curNodeNum = curNode.getNumber();
+            if (curNode.isRoot()) {
+                internalNodesDepthTab[curNodeNum] = 0;
+            } else {
+                parentNum = curNode.getParent().getNumber();
+                depth = (short) (internalNodesDepthTab[parentNum] + 1);
+                if (curNode.isLeaf()) {
+                    externalNodesDepthTab[alias[curNodeNum]] = depth;
+                } else {
+                    internalNodesDepthTab[curNodeNum] = depth;
+                }
+            }
+        }
+    }
+    
+    public static short max (short [] tab){
+        short currMax = tab[0];
+        for (int i = 1; i < tab.length; i++){
+            if (tab[i] > currMax){
+                currMax = tab[i];
+            }
+        }
+        return currMax;
+    }
 }
+
+	
+
 
 class TCUtilsNode{
      private List< List<Integer> > leafSets;
