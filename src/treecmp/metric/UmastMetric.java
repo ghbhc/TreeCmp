@@ -301,22 +301,29 @@ public class UmastMetric extends BaseMetric implements Metric {
     }
 
     private static final class CRMASTSet {
-        private final int[][][][] values;
+        private final Map<Long, Integer> values;
         private final int t1Leafs;
         private final int t2Leafs;
         private final int t1Nodes;
         private final int t2Nodes;
+
+        private final long u1Dim;
+        private final long u2Dim;
+        private final long v1Dim;
 
         public CRMASTSet(Tree t1, Tree t2) {
             t1Leafs = t1.getExternalNodeCount();
             t2Leafs = t2.getExternalNodeCount();
             t1Nodes = t1Leafs + t1.getInternalNodeCount();
             t2Nodes = t2Leafs + t2.getInternalNodeCount();
-            values = new int[t1Nodes][][][];
+            values = new HashMap<Long, Integer>();
+            u1Dim = t1Nodes * t1Nodes * t2Nodes;
+            u2Dim = t1Nodes * t2Nodes;
+            v1Dim = t2Nodes;
         }
 
         public int getForEdgePair(Node v1, Node w1, Node v2, Node w2) {
-            return values[getT1Index(v1)][getT1Index(w1)][getT2Index(v2)][getT2Index(w2)];
+            return values.get(u1Dim * getT1Index(v1) + u2Dim * getT1Index(w1) + v1Dim * getT2Index(v2) + getT2Index(w2));
         }
 
         public void include(CRMAST crmast, Tree tree1, Tree tree2) {
@@ -325,21 +332,12 @@ public class UmastMetric extends BaseMetric implements Metric {
                     final Node u1 = v1.getParent();
                     final int u1Idx = getT1Index(u1);
                     final int v1Idx = getT1Index(v1);
-                    if (values[u1Idx] == null) {
-                        values[u1Idx] = new int[t1Nodes][][];
-                    }
-                    if (values[u1Idx][v1Idx] == null) {
-                        values[u1Idx][v1Idx] = new int[t2Nodes][];
-                    }
                     for (final Node v2 : TreeCmpUtils.getAllNodes(tree2)) {
                         if (!v2.isRoot()) {
                             final Node u2 = v2.getParent();
                             final int u2Idx = getT2Index(u2);
                             final int v2Idx = getT2Index(v2);
-                            if (values[u1Idx][v1Idx][u2Idx] == null) {
-                                values[u1Idx][v1Idx][u2Idx] = new int[t2Nodes];
-                            }
-                            values[u1Idx][v1Idx][u2Idx][v2Idx] = crmast.getRMAST(v1, v2);
+                            values.put(u1Dim * u1Idx + u2Dim * v1Idx + v1Dim * u2Idx + v2Idx, crmast.getRMAST(v1, v2));
                         }
                     }
                 }
