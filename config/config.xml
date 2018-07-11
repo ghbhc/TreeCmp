@@ -1,6 +1,7 @@
 <?xml version = "1.0" ?>
 <config>
     <defined_metrics>
+        <!-- unrooted metrics -->
         <metric> 
             <name>MatchingSplit</name>
             <command_name>ms</command_name>
@@ -14,49 +15,8 @@
             <authors>Bogdanowicz and Giaro</authors>             
             <publication>Matching split distance for unrooted binary phylogenetic trees</publication>
             <year>2012</year>         
-            <description></description>
-        </metric>
-        <metric>
-            <name>R-F</name>
-            <command_name>rf</command_name>
-            <class>treecmp.metric.RFMetric</class>
-            <description>-Robinson-Foulds metric</description>
-            <unif_data>unif_RF.txt</unif_data>
-            <yule_data>yule_RF.txt</yule_data>
-            <fullname>Robinson-Foulds distance</fullname>
-            <complexity>n</complexity>
-            <authors>Robinson and Foulds</authors>             
-            <publication>Comparison of phylogenetic trees</publication>
-            <year>1981</year>        
-            <description></description>
-        </metric>
-        <metric>
-            <name>PathDiffernce</name>
-            <command_name>pd</command_name>
-            <class>treecmp.metric.NodalL2Metric</class>
-            <description>-Path Difference metric</description>
-            <unif_data>unif_PD.txt</unif_data>
-            <yule_data>yule_PD.txt</yule_data>
-            <fullname>Path difference distance</fullname>
-            <complexity>n^2</complexity>
-            <authors>Steel and Penny</authors>             
-            <publication>Distributions of tree comparison metrics some new results</publication>
-            <year>1993</year>         
-            <description></description>
-        </metric>
-        <metric>
-            <name>Quartet</name>
-            <command_name>qt</command_name>
-            <class>treecmp.metric.QuartetMetricLong</class>
-            <description>-Quartet metric</description>
-            <unif_data>unif_QT.txt</unif_data>
-            <yule_data>yule_QT.txt</yule_data>
-            <fullname>Quartet distance</fullname>
-            <complexity>n^3</complexity>
-            <authors>Estabrook, McMorris, Meacham</authors>          
-            <publication>Comparison of undirected phylogenetic trees based on subtrees of four evolutionary units</publication>
-            <year>1985</year>
-            <description></description>
+            <description>Matching Split distance is based on comparing splits in two trees. A split A|B of a set L is an unordered pair (ie, A|B = B|A) of its subsets, such that L = A∪B and A∩B = ∅. Let min(A|B) = min{|A|, |B|}. To compare splits in two
+trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vertices correspond to splits in these two trees and edges connect each split from one tree to a split in another tree. If the number of splits in the trees differs, the smaller set is extended by the missing number of “dummy” elements.</description>
         </metric>
         <metric>
             <name>UMAST</name>
@@ -70,7 +30,65 @@
             <authors>Farach and Thorup</authors>             
             <publication>Fast comparison of evolutionary trees</publication>
             <year>1994</year>
-            <description></description>
+            <description>Given a set A of n species and two unrooted trees leaves uniquely labeled by the items of A, Unrooted Maximum Agreement Subtree distance is the difference between cardinality of A and cardinality of the largest subset B of A such that the subtrees of compared trees induced by B are isomorphic</description>
+        </metric>
+        <metric>
+            <name>PathDiffernce</name>
+            <command_name>pd</command_name>
+            <class>treecmp.metric.NodalL2Metric</class>
+            <description>-Path Difference metric</description>
+            <unif_data>unif_PD.txt</unif_data>
+            <yule_data>yule_PD.txt</yule_data>
+            <fullname>Path difference distance</fullname>
+            <complexity>n^2</complexity>
+            <authors>Steel and Penny</authors>             
+            <publication>Distributions of tree comparison metrics some new results</publication>
+            <year>1993</year>         
+            <description>Path difference distance is the square root of the sum of squares of the differences in the distance between individual pairs of leaves in the compared trees.</description>
+        </metric>
+        <metric>
+            <name>Quartet</name>
+            <command_name>qt</command_name>
+            <class>treecmp.metric.QuartetMetricLong</class>
+            <description>-Quartet metric</description>
+            <unif_data>unif_QT.txt</unif_data>
+            <yule_data>yule_QT.txt</yule_data>
+            <fullname>Quartet distance</fullname>
+            <complexity>n^3</complexity>
+            <authors>Estabrook, McMorris and Meacham</authors>          
+            <publication>Comparison of undirected phylogenetic trees based on subtrees of four evolutionary units</publication>
+            <year>1985</year>
+            <description>The Quartet distance is based on comparing sets of quartets induced by two trees. A set of quartets induced by an unrooted tree is the set of the topologies of all 4-species subsets of its leaves consistent with its topology. Quartet distance between two trees is the number of different quartets in two respective sets.</description>
+        </metric>
+        <metric>
+            <name>R-F(0.5)</name>
+            <command_name>rf</command_name>
+            <class>treecmp.metric.RFMetric</class>
+            <description>-Robinson-Foulds metric</description>
+            <unif_data>unif_RF.txt</unif_data>
+            <yule_data>yule_RF.txt</yule_data>
+            <fullname>Robinson-Foulds distance</fullname>
+            <complexity>n</complexity>
+            <authors>Robinson and Foulds</authors>             
+            <publication>Comparison of phylogenetic trees</publication>
+            <year>1981</year>        
+            <description>The Robinson-Foulds distance is one of the most commonly used methods to measure the similarity of phylogenetic trees. This metric is equal to the number of different splits in compared trees (divided by 2). </description>
+        </metric>
+        <!-- rooted metrics -->
+        <metric> 
+            <name>MatchingPair</name>
+            <command_name>mp</command_name>
+            <class>treecmp.metric.MatchingPairMetric</class>
+            <description>-Matching Pair metric</description>
+            <unif_data>unif_MP.txt</unif_data>
+            <yule_data>yule_MP.txt</yule_data>
+            <rooted>true</rooted>
+            <fullname>Matching Pair metric</fullname>
+            <complexity></complexity>
+            <authors>Bogdanowicz and Giaro</authors>             
+            <publication>Comparing phylogenetic trees by matching nodes using the transfer distance between partitions</publication>
+            <year>2017</year>
+            <description>The Matching Pair metric uses the concept of the minimum-weight perfect matching in a complete bipartite graph constructed from partitions of all pairs of leaves of the compared phylogenetic trees. This metric becomes the transfer distance between partitions of the set of unordered leaf pairs determined by compared trees.</description>
         </metric>
         <metric>
             <name>MatchingCluster</name>
@@ -86,22 +104,23 @@
             <authors>Bogdanowicz and Giaro</authors>             
             <publication>On a matching distance between rooted phylogenetic trees</publication>
             <year>2013</year>
-            <description></description>
+            <description>Matching Cluster metric is based on comparing clusters in two trees. A cluster associated with a vertex v in a rooted tree T with leaves L is a subset of leaves that are descendants of v. To measure the dissimilarity between clusters, MC uses function hC(A, B) = |A⊕B|. For a dummy element, O = ∅, hC(A, O) = |A|.
+            </description>
         </metric>
         <metric>
-            <name>R-F_Cluster</name>
-            <command_name>rc</command_name>
-            <class>treecmp.metric.RFClusterMetric</class>
-            <description>-Robinson-Foulds Cluster metric</description>
-            <unif_data>unif_RC.txt</unif_data>
-            <yule_data>yule_RC.txt</yule_data>
+            <name>CopheneticL2Metric</name>
+            <command_name>co</command_name>
+            <class>treecmp.metric.CopheneticL2Metric</class>
+            <description>-Cophenetic Metric with L2 norm</description>
+            <unif_data>unif_CO.txt</unif_data>
+            <yule_data>yule_CO.txt</yule_data>
             <rooted>true</rooted>
-            <fullname>Robinson-Foulds metric based on clusters</fullname>
-            <complexity>n</complexity>
-            <authors>Robinson and Foulds</authors>             
-            <publication>Comparison of phylogenetic trees</publication>
-            <year>1981</year>        
-            <description></description>
+            <fullname>Cophenetic Metric with L2 norm</fullname>
+            <complexity>n^2</complexity>
+            <authors>Cardona, Mir, Rosselló, Rotger and Sánchez</authors>
+            <publication>Cophenetic metrics for phylogenetic trees, after Sokal and Rohlf</publication>
+            <year>2013</year>         
+            <description>Cophenetic Metric comparing cophenetic vectors consist of all pairs of cophenetic values (depth of lowest commonancestor of a pair of nodes) between pairs of taxa in T and all depths of taxa in T by means of L2 norm</description>
         </metric>
         <metric>
             <name>NodalSplitted</name>
@@ -116,7 +135,7 @@
             <authors>Cardona, Llabres, Rossello and Valiente</authors>             
             <publication>Nodal distances for rooted phylogenetic trees</publication>
             <year>2010</year>
-            <description></description>
+            <description>Nodal Splitted metric is L2 norm of two splitted path lengths matrices with rows and columns indexed by taxa and where every entry is the distance from the least common ancestor of the pair of nodes. </description>
         </metric>
         <metric>
             <name>Triples</name>
@@ -128,25 +147,10 @@
             <rooted>true</rooted>
             <fullname>Triples metric</fullname>
             <complexity></complexity>
-            <authors></authors>             
-            <publication></publication>
-            <year></year>
-            <description></description>
-        </metric>
-        <metric> 
-            <name>MatchingPair</name>
-            <command_name>mp</command_name>
-            <class>treecmp.metric.MatchingPairMetric</class>
-            <description>-Matching Pair metric</description>
-            <unif_data>unif_MP.txt</unif_data>
-            <yule_data>yule_MP.txt</yule_data>
-            <rooted>true</rooted>
-            <fullname>Matching Pair metric</fullname>
-            <complexity></complexity>
-            <authors>Bogdanowicz and Giaro</authors>             
-            <publication>Comparing phylogenetic trees by matching nodes using the transfer distance between partitions</publication>
-            <year>2017</year>
-            <description></description>
+            <authors>Critchlow, Pearl and Qian</authors>             
+            <publication>Triples Distance for rooted bifurcating phylogenetic trees</publication>
+            <year>1996</year>
+            <description>The Triples metric is based on comparing sets of triples induced by two trees. A set of triples induced by a rooted tree is a set of the topologies of all 3-species rooted subtrees consistent with this tree. Triplets distance between two trees is the number of different triples in the respective sets.<description>
         </metric>
 		<metric>
             <name>MAST</name>
@@ -161,23 +165,23 @@
             <authors>Farach and Thorup</authors>             
             <publication>Fast comparison of evolutionary trees</publication>
             <year>1994</year>
-            <description></description>
+            <description>Given a set A of n species and two rooted trees leaves uniquely labeled by the items of A, Maximum Agreement Subtree distance is the difference between cardinality of A and cardinality of the largest subset B of A such that the subtrees of compared trees induced by B are isomorphic</description>
         </metric>
         <metric>
-            <name>CopheneticL2Metric</name>
-            <command_name>co</command_name>
-            <class>treecmp.metric.CopheneticL2Metric</class>
-            <description>-Cophenetic Metric with L2 norm</description>
-            <unif_data>unif_CO.txt</unif_data>
-            <yule_data>yule_CO.txt</yule_data>
+            <name>R-F_Cluster(0.5)</name>
+            <command_name>rc</command_name>
+            <class>treecmp.metric.RFClusterMetric</class>
+            <description>-Robinson-Foulds Cluster metric</description>
+            <unif_data>unif_RC.txt</unif_data>
+            <yule_data>yule_RC.txt</yule_data>
             <rooted>true</rooted>
-            <fullname>Cophenetic Metric with L2 norm</fullname>
-            <complexity></complexity>
-            <authors></authors>
-            <publication></publication>
-            <year></year>         
-            <description></description>
-        </metric>    
+            <fullname>Robinson-Foulds metric based on clusters</fullname>
+            <complexity>n</complexity>
+            <authors>Robinson and Foulds</authors>             
+            <publication>Comparison of phylogenetic trees</publication>
+            <year>1981</year>        
+            <description>The Robinson-Foulds Cluster distance is one of the most commonly used methods to measure the similarity of phylogenetic trees. This metric is equal to the number of different clusters in compared trees (divided by 2).</description>
+        </metric>
         <!--        <metric>
             <name>WeightedR-F</name>
             <command_name>wrf</command_name>
