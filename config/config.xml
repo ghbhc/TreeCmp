@@ -15,8 +15,8 @@
             <authors>Bogdanowicz and Giaro</authors>             
             <publication>Matching split distance for unrooted binary phylogenetic trees</publication>
             <year>2012</year>         
-            <description>Matching Split distance is based on comparing splits in two trees. A split A|B of a set L is an unordered pair (ie, A|B = B|A) of its subsets, such that L = A∪B and A∩B = ∅. Let min(A|B) = min{|A|, |B|}. To compare splits in two
-trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vertices correspond to splits in these two trees and edges connect each split from one tree to a split in another tree. If the number of splits in the trees differs, the smaller set is extended by the missing number of “dummy” elements.</description>
+            <description>Matching Split distance is based on comparing splits in two trees. A split A|B of a set L is an unordered pair (ie, A|B = B|A) of its subsets, such that L = A∪B and A∩B = ∅. To compare splits in two
+trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vertices correspond to splits in these two trees and edges connect each split from one tree to a split in another tree. If the number of splits in the trees differs, the smaller set is extended by the missing number of "dummy" elements.</description>
         </metric>
         <metric>
             <name>UMAST</name>
@@ -26,11 +26,11 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <unif_data>unif_UM.txt</unif_data>
             <yule_data>yule_UM.txt</yule_data>
             <fullname>Unrooted maximum agreement subtree distance</fullname>
-            <complexity>n^(2+o(1))</complexity>
+            <complexity>|L|^(2+o(1))</complexity>
             <authors>Farach and Thorup</authors>             
             <publication>Fast comparison of evolutionary trees</publication>
             <year>1994</year>
-            <description>Given a set A of n species and two unrooted trees leaves uniquely labeled by the items of A, Unrooted Maximum Agreement Subtree distance is the difference between cardinality of A and cardinality of the largest subset B of A such that the subtrees of compared trees induced by B are isomorphic</description>
+            <description>Given a set of species L and two unrooted trees leaves uniquely labeled by the items of L, Unrooted Maximum Agreement Subtree distance is the difference between cardinality of L and cardinality of the largest subset A of L such that the subtrees of compared trees induced by A are isomorphic</description>
         </metric>
         <metric>
             <name>PathDiffernce</name>
@@ -40,9 +40,9 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <unif_data>unif_PD.txt</unif_data>
             <yule_data>yule_PD.txt</yule_data>
             <fullname>Path difference distance</fullname>
-            <complexity>n^2</complexity>
+            <complexity>|L|^2</complexity>
             <authors>Steel and Penny</authors>             
-            <publication>Distributions of tree comparison metrics some new results</publication>
+            <publication>Distributions of tree comparison metrics — Some new results</publication>
             <year>1993</year>         
             <description>Path difference distance is the square root of the sum of squares of the differences in the distance between individual pairs of leaves in the compared trees.</description>
         </metric>
@@ -54,7 +54,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <unif_data>unif_QT.txt</unif_data>
             <yule_data>yule_QT.txt</yule_data>
             <fullname>Quartet distance</fullname>
-            <complexity>n^3</complexity>
+            <complexity>|L|^3</complexity>
             <authors>Estabrook, McMorris and Meacham</authors>          
             <publication>Comparison of undirected phylogenetic trees based on subtrees of four evolutionary units</publication>
             <year>1985</year>
@@ -68,7 +68,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <unif_data>unif_RF.txt</unif_data>
             <yule_data>yule_RF.txt</yule_data>
             <fullname>Robinson-Foulds distance</fullname>
-            <complexity>n</complexity>
+            <complexity>|L|</complexity>
             <authors>Robinson and Foulds</authors>             
             <publication>Comparison of phylogenetic trees</publication>
             <year>1981</year>        
@@ -84,7 +84,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <yule_data>yule_MP.txt</yule_data>
             <rooted>true</rooted>
             <fullname>Matching Pair metric</fullname>
-            <complexity></complexity>
+            <complexity>|L|^2.5*log|L|</complexity>
             <authors>Bogdanowicz and Giaro</authors>             
             <publication>Comparing phylogenetic trees by matching nodes using the transfer distance between partitions</publication>
             <year>2017</year>
@@ -100,7 +100,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <aln_file_suffix>.aln_MC.txt</aln_file_suffix>
             <rooted>true</rooted>
             <fullname>Matching Cluster metric</fullname>
-            <complexity></complexity>
+            <complexity>|L|^2.5*log|L|</complexity>
             <authors>Bogdanowicz and Giaro</authors>             
             <publication>On a matching distance between rooted phylogenetic trees</publication>
             <year>2013</year>
@@ -116,11 +116,11 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <yule_data>yule_CO.txt</yule_data>
             <rooted>true</rooted>
             <fullname>Cophenetic Metric with L2 norm</fullname>
-            <complexity>n^2</complexity>
+            <complexity>|L|^2</complexity>
             <authors>Cardona, Mir, Rosselló, Rotger and Sánchez</authors>
             <publication>Cophenetic metrics for phylogenetic trees, after Sokal and Rohlf</publication>
-            <year>2013</year>         
-            <description>Cophenetic Metric comparing cophenetic vectors consist of all pairs of cophenetic values (depth of lowest commonancestor of a pair of nodes) between pairs of taxa in T and all depths of taxa in T by means of L2 norm</description>
+            <year>2013</year>
+            <description>For every rooted phylogenetic tree T, let its cophenetic vector φ(T) consist of all pairs of cophenetic values (depth of lowest common ancestor of a pair of nodes) between pairs of taxa in T and all depths of taxa in T. Cophenetic Metric comparing cophenetic vectors φ(T) of two trees by means of L2 norm.</description> 
         </metric>
         <metric>
             <name>NodalSplitted</name>
@@ -131,7 +131,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <yule_data>yule_NS.txt</yule_data>
             <rooted>true</rooted>
             <fullname>Nodal Splitted metric with L2 norm</fullname>
-            <complexity>n^2</complexity>
+            <complexity>|L|^2</complexity>
             <authors>Cardona, Llabres, Rossello and Valiente</authors>             
             <publication>Nodal distances for rooted phylogenetic trees</publication>
             <year>2010</year>
@@ -146,22 +146,22 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <yule_data>yule_TT.txt</yule_data>
             <rooted>true</rooted>
             <fullname>Triples metric</fullname>
-            <complexity></complexity>
-            <authors>Critchlow, Pearl and Qian</authors>             
+            <complexity>|L|^2</complexity>
+            <authors>Critchlow, Pearl and Qian</authors>           
             <publication>Triples Distance for rooted bifurcating phylogenetic trees</publication>
             <year>1996</year>
             <description>The Triples metric is based on comparing sets of triples induced by two trees. A set of triples induced by a rooted tree is a set of the topologies of all 3-species rooted subtrees consistent with this tree. Triplets distance between two trees is the number of different triples in the respective sets.<description>
         </metric>
-		<metric>
+        <metric>
             <name>MAST</name>
             <command_name>mt</command_name>
             <class>treecmp.metric.RMASTMetric</class>
             <description>-Maximum agreement subtree distance</description>
             <unif_data>unif_MT.txt</unif_data>
             <yule_data>yule_MT.txt</yule_data>
-			<rooted>true</rooted>
+            <rooted>true</rooted>
             <fullname>Rooted maximum agreement subtree distance</fullname>
-            <complexity>n^2</complexity>
+            <complexity>|L|^2</complexity>
             <authors>Farach and Thorup</authors>             
             <publication>Fast comparison of evolutionary trees</publication>
             <year>1994</year>
@@ -176,7 +176,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <yule_data>yule_RC.txt</yule_data>
             <rooted>true</rooted>
             <fullname>Robinson-Foulds metric based on clusters</fullname>
-            <complexity>n</complexity>
+            <complexity>|L|</complexity>
             <authors>Robinson and Foulds</authors>             
             <publication>Comparison of phylogenetic trees</publication>
             <year>1981</year>        
