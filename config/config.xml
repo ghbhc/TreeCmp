@@ -15,8 +15,8 @@
             <authors>Bogdanowicz and Giaro</authors>             
             <publication>Matching split distance for unrooted binary phylogenetic trees</publication>
             <year>2012</year>         
-            <description>Matching Split distance is based on comparing splits in two trees. A split A|B of a set L is an unordered pair (ie, A|B = B|A) of its subsets, such that L = A∪B and A∩B = ∅. To compare splits in two
-trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vertices correspond to splits in these two trees and edges connect each split from one tree to a split in another tree. If the number of splits in the trees differs, the smaller set is extended by the missing number of "dummy" elements.</description>
+            <full_description>Matching Split distance is based on comparing splits in two trees. A split A|B of a set L is an unordered pair (ie, A|B = B|A) of its subsets, such that L = A∪B and A∩B = ∅. To compare splits in two
+trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vertices correspond to splits in these two trees and edges connect each split from one tree to a split in another tree. If the number of splits in the trees differs, the smaller set is extended by the missing number of "dummy" elements.</full_description>
         </metric>
         <metric>
             <name>UMAST</name>
@@ -30,7 +30,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Farach and Thorup</authors>             
             <publication>Fast comparison of evolutionary trees</publication>
             <year>1994</year>
-            <description>Given a set of species L and two unrooted trees leaves uniquely labeled by the items of L, Unrooted Maximum Agreement Subtree distance is the difference between cardinality of L and cardinality of the largest subset A of L such that the subtrees of compared trees induced by A are isomorphic</description>
+            <full_description>Given a set of species L and two unrooted trees leaves uniquely labeled by the items of L, Unrooted Maximum Agreement Subtree distance is the difference between cardinality of L and cardinality of the largest subset A of L such that the subtrees of compared trees induced by A are isomorphic</full_description>
         </metric>
         <metric>
             <name>PathDiffernce</name>
@@ -44,7 +44,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Steel and Penny</authors>             
             <publication>Distributions of tree comparison metrics — Some new results</publication>
             <year>1993</year>         
-            <description>Path difference distance is the square root of the sum of squares of the differences in the distance between individual pairs of leaves in the compared trees.</description>
+            <full_description>Path difference distance is the square root of the sum of squares of the differences in the distance between individual pairs of leaves in the compared trees.</full_description>
         </metric>
         <metric>
             <name>Quartet</name>
@@ -58,7 +58,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Estabrook, McMorris and Meacham</authors>          
             <publication>Comparison of undirected phylogenetic trees based on subtrees of four evolutionary units</publication>
             <year>1985</year>
-            <description>The Quartet distance is based on comparing sets of quartets induced by two trees. A set of quartets induced by an unrooted tree is the set of the topologies of all 4-species subsets of its leaves consistent with its topology. Quartet distance between two trees is the number of different quartets in two respective sets.</description>
+            <full_description>The Quartet distance is based on comparing sets of quartets induced by two trees. A set of quartets induced by an unrooted tree is the set of the topologies of all 4-species subsets of its leaves consistent with its topology. Quartet distance between two trees is the number of different quartets in two respective sets.</full_description>
         </metric>
         <metric>
             <name>R-F(0.5)</name>
@@ -72,7 +72,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Robinson and Foulds</authors>             
             <publication>Comparison of phylogenetic trees</publication>
             <year>1981</year>        
-            <description>The Robinson-Foulds distance is one of the most commonly used methods to measure the similarity of phylogenetic trees. This metric is equal to the number of different splits in compared trees (divided by 2).</description>
+            <full_description>The Robinson-Foulds distance is one of the most commonly used methods to measure the similarity of phylogenetic trees. This metric is equal to the number of different splits in compared trees (divided by 2).</full_description>
         </metric>
         <!-- rooted metrics -->
         <metric> 
@@ -88,7 +88,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Bogdanowicz and Giaro</authors>             
             <publication>Comparing phylogenetic trees by matching nodes using the transfer distance between partitions</publication>
             <year>2017</year>
-            <description>The Matching Pair metric uses the concept of the minimum-weight perfect matching in a complete bipartite graph constructed from partitions of all pairs of leaves of the compared phylogenetic trees. This metric becomes the transfer distance between partitions of the set of unordered leaf pairs determined by compared trees.</description>
+            <full_description>The Matching Pair metric uses the concept of the minimum-weight perfect matching in a complete bipartite graph constructed from partitions of all pairs of leaves of the compared phylogenetic trees. This metric becomes the transfer distance between partitions of the set of unordered leaf pairs determined by compared trees.</full_description>
         </metric>
         <metric>
             <name>MatchingCluster</name>
@@ -104,7 +104,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Bogdanowicz and Giaro</authors>             
             <publication>On a matching distance between rooted phylogenetic trees</publication>
             <year>2013</year>
-            <description>Matching Cluster metric is based on comparing clusters in two trees. A cluster associated with a vertex v in a rooted tree T with leaves L is a subset of leaves that are descendants of v. To measure the dissimilarity between clusters, MC uses function hC(A, B) = |A⊕B|. For a dummy element, O = ∅, hC(A, O) = |A|.</description>
+            <full_description>Matching Cluster metric is based on comparing clusters in two trees. A cluster associated with a vertex v in a rooted tree T with leaves L is a subset of leaves that are descendants of v. To measure the dissimilarity between clusters, MC uses function hC(A, B) = |A⊕B|. For a dummy element, O = ∅, hC(A, O) = |A|.</full_description>
         </metric>
         <metric>
             <name>CopheneticL2Metric</name>
@@ -119,7 +119,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Cardona, Mir, Rosselló, Rotger and Sánchez</authors>
             <publication>Cophenetic metrics for phylogenetic trees, after Sokal and Rohlf</publication>
             <year>2013</year>
-            <description>For every rooted phylogenetic tree T, let its cophenetic vector φ(T) consist of all pairs of cophenetic values (depth of lowest common ancestor of a pair of nodes) between pairs of taxa in T and all depths of taxa in T. Cophenetic Metric comparing cophenetic vectors φ(T) of two trees by means of L2 norm.</description>
+            <full_description>For every rooted phylogenetic tree T, let its cophenetic vector φ(T) consist of all pairs of cophenetic values (depth of lowest common ancestor of a pair of nodes) between pairs of taxa in T and all depths of taxa in T. Cophenetic Metric comparing cophenetic vectors φ(T) of two trees by means of L2 norm.</full_description>
         </metric>
         <metric>
             <name>NodalSplitted</name>
@@ -134,7 +134,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Cardona, Llabres, Rossello and Valiente</authors>             
             <publication>Nodal distances for rooted phylogenetic trees</publication>
             <year>2010</year>
-            <description>Nodal Splitted metric is L2 norm of two splitted path lengths matrices with rows and columns indexed by taxa and where every entry is the distance from the least common ancestor of the pair of nodes.</description>
+            <full_description>Nodal Splitted metric is L2 norm of two splitted path lengths matrices with rows and columns indexed by taxa and where every entry is the distance from the least common ancestor of the pair of nodes.</full_description>
         </metric>
         <metric>
             <name>Triples</name>
@@ -149,7 +149,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Critchlow, Pearl and Qian</authors>           
             <publication>Triples Distance for rooted bifurcating phylogenetic trees</publication>
             <year>1996</year>
-            <description>The Triples metric is based on comparing sets of triples induced by two trees. A set of triples induced by a rooted tree is a set of the topologies of all 3-species rooted subtrees consistent with this tree. Triplets distance between two trees is the number of different triples in the respective sets.</description>
+            <full_description>The Triples metric is based on comparing sets of triples induced by two trees. A set of triples induced by a rooted tree is a set of the topologies of all 3-species rooted subtrees consistent with this tree. Triplets distance between two trees is the number of different triples in the respective sets.</full_description>
 
         </metric>
         <metric>
@@ -165,7 +165,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Farach and Thorup</authors>             
             <publication>Fast comparison of evolutionary trees</publication>
             <year>1994</year>
-            <description>Given a set A of n species and two rooted trees leaves uniquely labeled by the items of A, Maximum Agreement Subtree distance is the difference between cardinality of A and cardinality of the largest subset B of A such that the subtrees of compared trees induced by B are isomorphic</description>
+            <full_description>Given a set A of n species and two rooted trees leaves uniquely labeled by the items of A, Maximum Agreement Subtree distance is the difference between cardinality of A and cardinality of the largest subset B of A such that the subtrees of compared trees induced by B are isomorphic</full_description>
         </metric>
         <metric>
             <name>R-F_Cluster(0.5)</name>
@@ -180,7 +180,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Robinson and Foulds</authors>             
             <publication>Comparison of phylogenetic trees</publication>
             <year>1981</year>        
-            <description>The Robinson-Foulds Cluster distance is one of the most commonly used methods to measure the similarity of phylogenetic trees. This metric is equal to the number of different clusters in compared trees (divided by 2).</description>
+            <full_description>The Robinson-Foulds Cluster distance is one of the most commonly used methods to measure the similarity of phylogenetic trees. This metric is equal to the number of different clusters in compared trees (divided by 2).</full_description>
         </metric>
         <!--        <metric>
             <name>WeightedR-F</name>
