@@ -150,7 +150,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Critchlow, Pearl and Qian</authors>           
             <publication>Triples Distance for rooted bifurcating phylogenetic trees</publication>
             <year>1996</year>
-            <description>The Triples metric is based on comparing sets of triples induced by two trees. A set of triples induced by a rooted tree is a set of the topologies of all 3-species rooted subtrees consistent with this tree. Triplets distance between two trees is the number of different triples in the respective sets.<description>
+            <description>The Triples metric is based on comparing sets of triples induced by two trees. A set of triples induced by a rooted tree is a set of the topologies of all 3-species rooted subtrees consistent with this tree. Triplets distance between two trees is the number of different triples in the respective sets.</description>
         </metric>
         <metric>
             <name>MAST</name>
