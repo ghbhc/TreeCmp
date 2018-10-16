@@ -62,12 +62,6 @@ public class CommandLineParser {
                                         " pd - the Path Difference metric,\n"+
                                         " qt - the Quartet metric,\n"+
                                         " um - the UMAST metric,\n"+
-
-<<<<<<< HEAD
-                                        /*" wrf - the Weighted Robinson-Foulds metric,\n"+*/
-
-=======
->>>>>>> dev
                                         "Metrics for rooted trees:\n" +
                                         " mc - the Matching Cluster metric,\n"+
                                         " rc - the Robinson-Foulds metric based on clusters,\n" +
