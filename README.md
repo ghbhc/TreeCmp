@@ -15,25 +15,17 @@ javac -d out/class -cp lib/commons-cli-1.4.jar src/treecmp/*.java src/treecmp/*/
 
 The resulting compiled files can be run directly, for example by issuing the command
 `java -cp out/class:lib/commons-cli-1.4.jar treecmp.Main`
-(you will need to replace the colon with a semicolon on windows systems). However, it is usually easier to create a stand-alone .jar executable.
+(you will need to replace the colon with a semicolon on windows systems). However, it is usually easier to create a stand-alone .jar executable as below.
 
 ## Creating a jar executable from the command line
 
-The jar executable is built to expect the commons-cli-1.4.jar library in a `lib` directory in the same
-place as the jar file, and the file `config.xml` file in a  `config` directory one level above. A simple way to 
-create such a structure is to create a top level directory named `bin`, and to copy the `lib` folder there.
-On unix systems this can be done as follows
-
-```
-mkdir bin; cp -a lib bin/
-```
-
-A jar file named `TreeCmp.jar` can then be created in the `bin` directory by using the supplied MANIFEST.MF file
-in `src/META-INF`, as follows
+The jar executable (e.g. `TreeCmp.jar`) should be created in the `bin` directory, as it expects to find the `config/config.xml` file one level above the directory in which the executable resides. Once the class files have been compiled in the `out/class` directory as above, this jar file can be created in the correct place using the MANIFEST.MF file in `src/META-INF`:
 
 ```
 jar cvfm bin/TreeCmp.jar src/META-INF/MANIFEST.MF -C out/class/ .
 ```
 
-The `TreeCmp.jar` file can then be run as described in the [manual](TreeCmp_manual.pdf) (e.g. 
+As defined in the manifest, extra libraries are expected to be placed in `lib` directory in the same place as the jar file. An easy way to do this is to move or copy the `lib` folder (containing `commons-cli-1.4.jar`) into the `bin` directory. For example, on unix-like systems you could do `cp -a lib bin/`, on windows `xcopy lib bin\`.
+
+Once the `commons-cli-1.4.jar` library has been copied to the correct place, the `TreeCmp.jar` file can be run as described in the [manual](TreeCmp_manual.pdf) (e.g. 
 `java -jar bin/TreeCmp.jar -w 2 -d ms -i examples/beast/testBSP.newick -o testBSP.newick_w_2.out -I`
