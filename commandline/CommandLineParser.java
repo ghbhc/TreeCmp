@@ -325,8 +325,8 @@ public class CommandLineParser {
                 return null;
             }
         } catch (ParseException ex) {
+            System.out.println(ex.getMessage());
             System.out.println(CMD_ERROR);
-            //System.out.println(ex.getMessage());
            
             formatter.printHelp(CMD_LINE_SYNTAX, HEADER,opts,FOOTER, false);
 
