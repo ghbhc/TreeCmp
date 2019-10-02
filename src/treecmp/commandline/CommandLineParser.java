@@ -89,8 +89,7 @@ public class CommandLineParser {
     //private final static String HEADER = "";
     //private final static String FOOTER = "ssd";
     private final static String CMD_LINE_SYNTAX = "java -jar TreeCmp.jar -s|-w <size>|-m|-r <refTreeFile>"
-            +" -d <metrics> -i <inputFile> -o <outputFile> [-N] [-P] [-I] [-A|-O]\n"
-            + "Options order is important.";
+            +" -d <metrics> -i <inputFile> -o <outputFile> [-N] [-P] [-I] [-A|-O]\n";
 
     public static Command run(String args[]) {
         Command cmd = null;
