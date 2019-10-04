@@ -22,10 +22,10 @@ import treecmp.config.IOSettings;
 
 
 public class ReportUtils {
+
     private final static int ROW_PRECISION = 4;
     public final static String ROW_DATA_FORMAT="%1$."+ROW_PRECISION+"f";
     private static IOSettings ioSet = IOSettings.getIOSettings();
-    private static String sep = ioSet.getSSep();
     private static boolean pruneTrees = ioSet.isPruneTrees();
     private static boolean randomComparison = ioSet.isRandomComparison();
 
@@ -44,64 +44,69 @@ public class ReportUtils {
     public final static String NA_FRAC= "N/A";
     //it t2 ==-1 do not print t2
 
-     public static String getResultRow(int rowNum, int t1, int t2, StatCalculator[] stats){
+    private static int rowCount;
 
-        StringBuilder sb = new StringBuilder();
-        double dist, distToYuleAvg, distToUnifAvg;
-        String distStr;
-        
-        sb.append(rowNum);
-        sb.append(sep);
-        
-        sb.append(t1);
-        
-        sb.append(sep);
-        sb.append(t2);
-        
+    public static void setRowCount(int metricsCount) {
+        int rc = metricsCount;
+        if (randomComparison) rc *= 3;
+        if (pruneTrees) rc += 3;
+        rc += 3;
+        rowCount = rc;
+    }
+
+     public static Object[] getResultRow(int rowNum, int t1, int t2, StatCalculator[] stats){
+
+         Object[] row = new Object[rowCount];
+         double dist, distToYuleAvg, distToUnifAvg;
+         String distStr;
+         int cellNum = 0;
+         row[cellNum++] = rowNum;
+         row[cellNum++] = t1;
+         row[cellNum++] = t2;
+
         //to do if prune enabled
         if (pruneTrees && stats.length > 0){
-            sb.append(sep);
-            sb.append(stats[0].getT1TaxaNum());
-            sb.append(sep);
-            sb.append(stats[0].getT2TaxaNum());
-            sb.append(sep);
-            sb.append(stats[0].getCommonTaxaNum());
+            row[cellNum++] = stats[0].getT1TaxaNum();
+            row[cellNum++] = stats[0].getT2TaxaNum();
+            row[cellNum++] = stats[0].getCommonTaxaNum();
         }
 
         for (int i=0; i< stats.length; i++){
-             sb.append(sep);
-             
+
              dist = stats[i].getLastDist();
              distStr = String.format(Locale.US,ROW_DATA_FORMAT, dist);
-             sb.append(distStr);
+             row[cellNum++] = distStr;
              if (randomComparison){
                  distToYuleAvg = stats[i].getLastDistToYuleAvg();
                  if (distToYuleAvg != Double.NEGATIVE_INFINITY)
                     distStr = String.format(Locale.US,ROW_DATA_FORMAT, distToYuleAvg);
                  else
                      distStr = NA_FRAC;
-                 sb.append(sep);
-                 sb.append(distStr);
+                 row[cellNum++] = distStr;
 
                  distToUnifAvg = stats[i].getLastDistToUnifAvg();
                  if (distToUnifAvg != Double.NEGATIVE_INFINITY)
                     distStr = String.format(Locale.US,ROW_DATA_FORMAT, distToUnifAvg);
                  else
                      distStr = NA_FRAC;
-                 sb.append(sep);
-                 sb.append(distStr);           
+                 row[cellNum++] = distStr;
              }
         }
 
-        return sb.toString();
+        return row;
     }
-    
-     public static String getHeaderRow(StatCalculator[] stats){
+
+    public static Object[] getHeaderRow(StatCalculator[] stats){
+
+        return getHeaderRow(stats, false);
+    }
+
+/*     public static String getHeaderRow(StatCalculator[] stats){
          
          return getHeaderRow(stats, false);
-     }
+     }*/
 
-     public static String getHeaderRow(StatCalculator[] stats, boolean ifReefTreeMode){
+     /*public static String getHeaderRow(StatCalculator[] stats, boolean ifReefTreeMode){
         StringBuilder sb = new StringBuilder();
 
         String metricName;
@@ -161,6 +166,59 @@ public class ReportUtils {
         }
         //sb.append("\n");
         return sb.toString();
+    }*/
+
+    public static Object[] getHeaderRow(StatCalculator[] stats, boolean ifReefTreeMode){
+
+        Object[] row = new Object[rowCount];
+        String metricName;
+        int cellNum = 0;
+        if (!ifReefTreeMode){
+            row[cellNum++] = NUM_COLUMN;
+            row[cellNum++] = T1_COLUMN;
+        }else{
+            row[cellNum++] = NUM_COLUMN;
+            //row[cellNum++] = sep;
+            row[cellNum++] = RT_COLUMN;
+        }
+
+        //used in reference tree mode
+        if (!ifReefTreeMode){
+            //row[cellNum++] = sep;
+            row[cellNum++] = T2_COLUMN;
+        } else {
+            //row[cellNum++] = sep;
+            row[cellNum++] = T_COLUMN;
+        }
+        //to do if prune enabled
+        if (pruneTrees && stats.length > 0) {
+            //row[cellNum++] = sep;
+
+            if (!ifReefTreeMode) {
+                row[cellNum++] = T1_TAXA;
+            } else {
+                row[cellNum++] = RT_TAXA;
+            }
+
+            if (!ifReefTreeMode) {
+                row[cellNum++] = T2_TAXA;
+            } else {
+                row[cellNum++] = T_TAXA;
+            }
+
+            row[cellNum++] = COMMON_TAXA;
+        }
+
+        for (int i = 0; i < stats.length; i++) {
+            metricName = stats[i].getName();
+            row[cellNum++] = metricName;
+            if (randomComparison){
+                row[cellNum++] = metricName + YULE_FRAC;
+                row[cellNum++] = metricName + UNIF_FRAC;
+            }
+        }
+        //row[cellNum++] = "\n";
+        return row;
     }
 
     public static void update() {

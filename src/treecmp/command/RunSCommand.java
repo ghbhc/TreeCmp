@@ -63,7 +63,7 @@ private void pairCompareEx(TreeReader reader, ResultWriter out, StatCalculator[]
         pal.tree.Tree tree2;
         int i;
         double val;
-        String row="";
+        Object[] row;
         int num = 1;
 
         int mSize = metrics.length;
@@ -74,8 +74,8 @@ private void pairCompareEx(TreeReader reader, ResultWriter out, StatCalculator[]
             sStatCalc[i]=new SummaryStatCalculator(metrics[i]);
         }
 
-        String head = ReportUtils.getHeaderRow(metrics);
-        out.setText(head);
+        Object[] head = ReportUtils.getHeaderRow(metrics);
+        out.setRow(head);
         out.write();
 
         AlignWriter aw = new AlignWriter();
@@ -97,7 +97,7 @@ private void pairCompareEx(TreeReader reader, ResultWriter out, StatCalculator[]
                 sStatCalc[i].insertValue(val);
             }
             row = ReportUtils.getResultRow(num, num, num + 1, metrics);
-            out.setText(row);
+            out.setRow(row);
             out.write();
 
             aw.writeAlignments(num, num, num + 1, metrics);

@@ -204,7 +204,7 @@ public class CommandLineParser {
                 IOset.setInputFile(inputFileName);
                 IOset.setOutputFile(outputFileName);
 
-                //custom additinal options
+                //custom additional options
                 ArrayList<Option> custOpts = new ArrayList<Option>();
 
 

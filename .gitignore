@@ -65,15 +65,20 @@ fabric.properties
 
 # Package Files #
 *.jar
-!/lib/commons-cli-1.4.jar
+!/lib/*.jar
 *.war
 *.ear
 *.zip
 *.tar.gz
 *.rar
 
-# Newick and .out files
+# Newick, Excel, .csv, .txt and .out files
 *.newick
+*.tree
+*.xls
+*.xlsx
+*.csv
+*.txt
 *.out
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
