@@ -58,7 +58,7 @@ public class RunWCommand extends Command {
 
         pal.tree.Tree tree1, tree2;
         ArrayList<Tree> tree_vec = new ArrayList<Tree>();
-        String row="";
+        Object[] row;
         int k, num, base;
         int n = 0;
         double val=0;
@@ -70,8 +70,8 @@ public class RunWCommand extends Command {
             sStatCalc[i]=new SummaryStatCalculator(metrics[i]);
         }
         
-        String head = ReportUtils.getHeaderRow(metrics);
-        out.setText(head);
+        Object[] head = ReportUtils.getHeaderRow(metrics);
+        out.setRow(head);
         out.write();
 
         AlignWriter aw = new AlignWriter();
@@ -124,7 +124,7 @@ public class RunWCommand extends Command {
                         //print row statistic
                         base = num + 1;
                         row = ReportUtils.getResultRow((int)counter, base+ i, base + j, metrics);
-                        out.setText(row);
+                        out.setRow(row);
                         out.write();
 
                         aw.writeAlignments((int)counter, base+ i, base + j, metrics);

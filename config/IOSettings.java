@@ -24,6 +24,7 @@ public class IOSettings {
     private String inputFile;
     private String outputFile;
     private String sSep;
+    private String csvSep;
     private boolean pruneTrees;
     private boolean randomComparison;
     private boolean optMsMcByRf;
@@ -72,6 +73,14 @@ public class IOSettings {
 
     public void setSSep(String sSep) {
         this.sSep = sSep;
+    }
+
+    public String getCsvSep() {
+        return  csvSep;
+    }
+
+    public void setCsvSep(String csvSep) {
+        this.csvSep = csvSep;
     }
 
     public int getIStep() {
@@ -145,6 +154,7 @@ public class IOSettings {
     public void setOptMsMcByRf(boolean optMsMcByRf) {
         this.optMsMcByRf = optMsMcByRf;
     }
+
 }
 
 

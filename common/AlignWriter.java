@@ -69,6 +69,7 @@ public class AlignWriter {
                 rw[i] = new ResultWriter();
                 rw[i].setFileName(name);
                 rw[i].isWriteToFile(true);
+                rw[i].setOutputFileType("txt");
                 rw[i].init();
             }
         }
@@ -135,7 +136,7 @@ public class AlignWriter {
         }
         sb.append(NEW_LINE);
 
-        rw.setText(sb.toString());
+        rw.setRowString(sb.toString());
         rw.write_pure();
 
         IntNodePair[] aln = alignInfo.getAln();
@@ -167,11 +168,11 @@ public class AlignWriter {
             sb.append(cost_row);
             sb.append(NEW_LINE);
 
-            rw.setText(sb.toString());
+            rw.setRowString(sb.toString());
             rw.write_pure();
         }
-        rw.setText(ALIGN_SEP);
-        rw.write();
+        rw.setRowString(ALIGN_SEP);
+        rw.write_pure();
 
     }
 
@@ -222,9 +223,7 @@ public class AlignWriter {
     }
 
     private String getHeader(StatCalculator stat) {
-
         return "";
-
     }
 }
 class LeafNodeComparator implements Comparator<Node>{

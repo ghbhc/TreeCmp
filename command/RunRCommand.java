@@ -79,7 +79,7 @@ public class RunRCommand extends Command {
         Tree tree;
         Tree refTree;
         double val;
-        String row = "";
+        Object[] row;
         long num = 1;
 
         int mSize = metrics.length;
@@ -90,8 +90,8 @@ public class RunRCommand extends Command {
             sStatCalc[i] = new SummaryStatCalculator(metrics[i]);
         }
 
-        String head = ReportUtils.getHeaderRow(metrics, true);
-        out.setText(head);
+        Object[] head = ReportUtils.getHeaderRow(metrics, true);
+        out.setRow(head);
         out.write();
 
         AlignWriter aw = new AlignWriter();
@@ -116,7 +116,7 @@ public class RunRCommand extends Command {
                 }
 
                 row = ReportUtils.getResultRow((int) num, i + 1, j + 1, metrics);
-                out.setText(row);
+                out.setRow(row);
                 out.write();
 
                 aw.writeAlignments((int) num, i + 1, j + 1, metrics);

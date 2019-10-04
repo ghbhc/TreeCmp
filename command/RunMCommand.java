@@ -54,11 +54,12 @@ public class RunMCommand extends Command {
         pal.tree.Tree tree1,tree2 ;
         ArrayList<Tree> tree_vec = new ArrayList<Tree>();
         int k;
-        long counter,maxIt;
+        long counter, maxIt;
         double val;
-        String row;
+        Object[] row;
 
         int mSize = metrics.length;
+        ReportUtils.setRowCount(mSize);
 
         //initialize summary stat calculators
         SummaryStatCalculator[] sStatCalc=new SummaryStatCalculator[mSize];
@@ -66,8 +67,8 @@ public class RunMCommand extends Command {
             sStatCalc[i]=new SummaryStatCalculator(metrics[i]);
         }
 
-        String head = ReportUtils.getHeaderRow(metrics);
-        out.setText(head);
+        Object[] head = ReportUtils.getHeaderRow(metrics);
+        out.setRow(head);
         out.write();
 
         AlignWriter aw = new AlignWriter();
@@ -95,7 +96,7 @@ public class RunMCommand extends Command {
                     sStatCalc[k].insertValue(val);
                 }   
                 row = ReportUtils.getResultRow((int)counter, i + 1, j + 1, metrics);
-                out.setText(row);
+                out.setRow(row);
                 out.write();
 
                 aw.writeAlignments((int)counter, i + 1, j + 1, metrics);

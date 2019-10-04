@@ -148,35 +148,35 @@ public class SummaryStatCalculator {
         if (IOSettings.getIOSettings().isGenSummary()) {
             int size = sStatCalc.length;
             String separator = IOSettings.getIOSettings().getSSep();
-            String line = "";
+            Object[] line = new Object[6];
 
-            line = "---------";
-            out.setText(line);
+            line[0] = "---------";
+            out.setRow(line);
             out.write();
-            line = "Summary:";
+            line[0] = "Summary:";
 
-            out.setText(line);
+            out.setRow(line);
             out.write();
 
             //name-avg-std-min-max-count
-            line = "Name" + separator;
-            line += "Avg" + separator;
-            line += "Std" + separator;
-            line += "Min" + separator;
-            line += "Max" + separator;
-            line += "Count";
+            line[0] = "Name";
+            line[1] = "Avg";
+            line[2] = "Std";
+            line[3] = "Min";
+            line[4] = "Max";
+            line[5] = "Count";
 
-            out.setText(line);
+            out.setRow(line);
             out.write();
 
             for (int i = 0; i < size; i++) {
-                line = sStatCalc[i].getName() + separator;
-                line += sStatCalc[i].getAvg() + separator;
-                line += sStatCalc[i].getStd() + separator;
-                line += sStatCalc[i].getMin() + separator;
-                line += sStatCalc[i].getMax() + separator;
-                line += sStatCalc[i].getCount();
-                out.setText(line);
+                line[0] = sStatCalc[i].getName();
+                line[1] = sStatCalc[i].getAvg();
+                line[2] = sStatCalc[i].getStd();
+                line[3] = sStatCalc[i].getMin();
+                line[4] = sStatCalc[i].getMax();
+                line[5] = sStatCalc[i].getCount();
+                out.setRow(line);
                 out.write();
             }
         }

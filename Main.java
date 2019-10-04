@@ -23,6 +23,7 @@ import java.net.URLDecoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import treecmp.common.TreeCmpException;
+import treecmp.io.OutputFileType;
 import treecmp.io.ResultWriter;
 import treecmp.io.TreeReader;
 import treecmp.command.Command;
@@ -33,6 +34,7 @@ import treecmp.config.ConfigSettings;
 import treecmp.config.IOSettings;
 import treecmp.config.PersistentInfo;
 import treecmp.metric.Metric;
+import org.apache.commons.io.FilenameUtils;
 
 public class Main {
 
@@ -132,6 +134,8 @@ public class Main {
             ResultWriter out = new ResultWriter();
             out.isWriteToFile(true);
             out.setFileName(settings.getOutputFile());
+            String ext = FilenameUtils.getExtension(settings.getOutputFile());
+            out.setOutputFileType(ext);
             cmd.setOut(out);
             try {
                 cmd.run();

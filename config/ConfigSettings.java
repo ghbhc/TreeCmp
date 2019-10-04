@@ -133,6 +133,7 @@ public class ConfigSettings {
             } else {
                 IOs.setSSep(sSep);
             }
+            IOs.setCsvSep(";");
 
         } catch (SAXException ex) {
             Logger.getLogger(ConfigSettings.class.getName()).log(Level.SEVERE, null, ex);
