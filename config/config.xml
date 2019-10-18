@@ -61,7 +61,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <full_description>The Quartet distance is based on comparing sets of quartets induced by two trees. A set of quartets induced by an unrooted tree is the set of the topologies of all 4-species subsets of its leaves consistent with its topology. Quartet distance between two trees is the number of different quartets in two respective sets.</full_description>
         </metric>
         <metric>
-            <name>R-F(0.5)</name>
+            <name>RF</name>
             <command_name>rf</command_name>
             <class>treecmp.metric.RFMetric</class>
             <description>-Robinson-Foulds metric</description>
@@ -73,6 +73,31 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <publication>Comparison of phylogenetic trees</publication>
             <year>1981</year>        
             <full_description>The Robinson-Foulds distance is one of the most commonly used methods to measure the similarity of phylogenetic trees. This metric is equal to the number of different splits in compared trees (divided by 2).</full_description>
+        </metric>
+        <!-- weighted unrooted metric -->
+        <metric>
+            <name>RFWeighted</name>
+            <command_name>rfw</command_name>
+            <class>treecmp.metric.weighted.RFWeightMetric</class>
+            <description>-Robinsin Foulds weight metric</description>
+            <fullname>Robinsin Foulds weight distance</fullname>
+            <complexity>|L|</complexity>
+            <authors>Robinson and Foulds</authors>
+            <publication>Comparison of weighted labelled trees</publication>
+            <year>1979</year>
+            <full_description>The weighted RF metric adds the length of the edges to the RF metric. By identifying split with an edge, it sums the difference of weights of split edges present in the two trees and weights of diffrent split edges. (divided by 2).</full_description>
+        </metric>
+        <metric>
+            <name>GeoUnrooted</name>
+            <command_name>gdu</command_name>
+            <class>treecmp.metric.weighted.GeoUnrootedMetric</class>
+            <description>-Geodesic Unrooted metric</description>
+            <fullname>Geodesic Unrooted distance</fullname>
+            <complexity>A Fast Algorithm for Computing Geodesic Distances in Tree Space.</complexity>
+            <authors>Owen and Provan</authors>
+            <publication>|L|^4</publication>
+            <year>2009</year>
+            <full_description>Metric is based on concept of a continuous tree space consists of a set of Euclidean regions, called orthants, one for each tree topology. Orthants are joined together whenever one tree topology can be made into another by exchanging edges between the trees. Within an orthant, the coordinates of each point represent the edge lengths for a particular tree with the topology associated with that orthant. The geodesic between two trees is the unique shortest path connecting the two associated points in this space. Thus traversing the geodesic corresponds to continuously transforming one tree into the other.</full_description>
         </metric>
         <!-- rooted metrics -->
         <metric> 
@@ -167,7 +192,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <full_description>Given a set A of n species and two rooted trees leaves uniquely labeled by the items of A, Maximum Agreement Subtree distance is the difference between cardinality of A and cardinality of the largest subset B of A such that the subtrees of compared trees induced by B are isomorphic</full_description>
         </metric>
         <metric>
-            <name>R-F_Cluster(0.5)</name>
+            <name>RFCluster</name>
             <command_name>rc</command_name>
             <class>treecmp.metric.RFClusterMetric</class>
             <description>-Robinson-Foulds Cluster metric</description>
@@ -181,17 +206,45 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <year>1981</year>        
             <full_description>The Robinson-Foulds Cluster distance is one of the most commonly used methods to measure the similarity of phylogenetic trees. This metric is equal to the number of different clusters in compared trees (divided by 2).</full_description>
         </metric>
-        <!--        <metric>
-            <name>WeightedR-F</name>
-            <command_name>wrf</command_name>
-            <class>treecmp.metric.WRFMetric</class>
-            <description>-Weighted Robinson-Foulds metric</description>
-            <unif_data>unif_WRF.txt</unif_data>
-            <yule_data>yule_WRF.txt</yule_data>
-            <weighted>true</weighted>
-            <fullname>Weighted Robinson-Foulds metric</fullname>
-            <complexity></complexity>
-        </metric>-->
+        <!-- weighted rooted metric -->
+        <metric>
+            <name>RFClusterWeighted</name>
+            <command_name>rcw</command_name>
+            <class>treecmp.metric.weighted.RFWeightMetric</class>
+            <description>-Robinsin Foulds Cluster weight metric</description>
+            <fullname>Robinsin Foulds weight metric based on clusters</fullname>
+            <complexity>|L|</complexity>
+            <authors>Robinson and Foulds</authors>
+            <publication>Comparison of weighted labelled trees</publication>
+            <year>1979</year>
+            <full_description>The weighted RF metric adds the length of the edges to the RF metric. By identifying cluster with an edge, it sums the difference of weights of cluster edges present in the two trees and weights of diffrent cluster edges. (divided by 2).</full_description>
+        </metric>
+        <metric>
+            <name>NodalSplittedWeighted</name>
+            <command_name>nsw</command_name>
+            <class>treecmp.metric.weighted.NodalL2EdgeWeightMetric</class>
+            <description>-Nodal Splitted weight metric</description>
+            <rooted>true</rooted>
+            <fullname>Nodal Splitted weighted metric with L2 norm</fullname>
+            <complexity>|L|^2</complexity>
+            <authors>Cardona, Llabres, Rossello and Valiente</authors>
+            <publication>Nodal distances for rooted phylogenetic trees</publication>
+            <year>2010</year>
+            <full_description>Nodal Splitted weighted metric is L2 norm of two splitted path lengths matrices with rows and columns indexed by taxa and where every entry is the distance from the least common ancestor of the pair of nodes.</full_description>
+        </metric>
+        <metric>
+            <name>GeoRooted</name>
+            <command_name>gdr</command_name>
+            <class>treecmp.metric.weighted.GeoRootedMetric</class>
+            <description>-Geodesic Rooted metric</description>
+            <rooted>true</rooted>
+            <fullname>Geodesic Rooted metric</fullname>
+            <complexity>A Fast Algorithm for Computing Geodesic Distances in Tree Space.</complexity>
+            <authors>Owen and Provan</authors>
+            <publication>|L|^4</publication>
+            <year>2009</year>
+            <full_description>Metric is based on concept of a continuous tree space consists of a set of Euclidean regions, called orthants, one for each tree topology. Orthants are joined together whenever one tree topology can be made into another by exchanging edges between the trees. Within an orthant, the coordinates of each point represent the edge lengths for a particular tree with the topology associated with that orthant. The geodesic between two trees is the unique shortest path connecting the two associated points in this space. Thus traversing the geodesic corresponds to continuously transforming one tree into the other.</full_description>
+        </metric>
     </defined_metrics>
     <reporting>
         <filed_separator>tab</filed_separator>

@@ -6,7 +6,8 @@ Class-Path: lib/commons-cli-1.4.jar
 Class-Path: lib/poi-4.1.0.jar
 Class-Path: lib/poi-ooxml-4.1.0.jar
 Class-Path: lib/poi-ooxml-schemas-4.1.0.jar
-Class-Path: commons-collections4-4.3.jar
-Class-Path: xmlbeans-3.1.0.jar
-Class-Path: commons-compress-1.18.jar
-Class-Path: commons-io-2.6.jar
+Class-Path: lib/commons-collections4-4.3.jar
+Class-Path: lib/xmlbeans-3.1.0.jar
+Class-Path: lib/commons-compress-1.18.jar
+Class-Path: lib/commons-io-2.6.jar
+Class-Path: lib/gtp.jar

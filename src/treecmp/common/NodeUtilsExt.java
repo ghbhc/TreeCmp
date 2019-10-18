@@ -8,6 +8,7 @@ package treecmp.common;
 import java.io.PrintWriter;
 import pal.io.FormattedOutput;
 import pal.io.OutputTarget;
+import pal.misc.IdGroup;
 import pal.tree.Node;
 import pal.tree.NodeUtils;
 import pal.tree.Tree;
@@ -19,7 +20,7 @@ import pal.tree.Tree;
 public class NodeUtilsExt extends NodeUtils {
 
     public static int printNH(PrintWriter out, Node node,
-            boolean printLengths, boolean printInternalLabels, int column, int fractionDigits) {
+                              boolean printLengths, boolean printInternalLabels, int column, int fractionDigits) {
 
         if (!node.isLeaf()) {
             out.print("(");
@@ -67,5 +68,36 @@ public class NodeUtilsExt extends NodeUtils {
         String treeNewick = out.getString();
         out.close();
         return treeNewick;
+    }
+
+
+    public static void getSplitExternal(IdGroup idGroup, Node externalNode, boolean[] split) {
+        // make sure split is reset
+        for (int i = 0; i < split.length; i++) {
+            split[i] = false;
+        }
+
+        if (externalNode.isLeaf()) {
+            String name1 = externalNode.getIdentifier().getName();
+            int index = idGroup.whichIdNumber(name1);
+
+            if (index < 0) {
+                throw new IllegalArgumentException("INCOMPATIBLE IDENTIFIER (" + name1 + ")");
+            }
+            split[index] = true;
+        } else{
+            throw new IllegalArgumentException("NOT EXTERNAL NODE CHOSEN: " + externalNode);
+        }
+
+        // standardize split (i.e. first index is alway true)
+        if (split[0] == false) {
+            for (int i = 0; i < split.length; i++) {
+                if (split[i] == false) {
+                    split[i] = true;
+                } else {
+                    split[i] = false;
+                }
+            }
+        }
     }
 }
