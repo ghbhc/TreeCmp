@@ -33,6 +33,11 @@ import treecmp.common.TreeCmpUtils;
 
 public class CopheneticL2Metric extends BaseMetric implements Metric {
 
+    @Override
+    public boolean isRooted() {
+        return true;
+    }
+
     public CopheneticL2Metric() {
         super();
     }
