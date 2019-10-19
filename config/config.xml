@@ -79,8 +79,8 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <name>RFWeighted</name>
             <command_name>rfw</command_name>
             <class>treecmp.metric.weighted.RFWeightMetric</class>
-            <description>-Robinsin Foulds weight metric</description>
-            <fullname>Robinsin Foulds weight distance</fullname>
+            <description>-weighted Robinsin Foulds metric</description>
+            <fullname>Weighted Robinsin Foulds distance</fullname>
             <complexity>|L|</complexity>
             <authors>Robinson and Foulds</authors>
             <publication>Comparison of weighted labelled trees</publication>
@@ -211,8 +211,8 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <name>RFClusterWeighted</name>
             <command_name>rcw</command_name>
             <class>treecmp.metric.weighted.RFWeightMetric</class>
-            <description>-Robinsin Foulds Cluster weight metric</description>
-            <fullname>Robinsin Foulds weight metric based on clusters</fullname>
+            <description>-Weighted Robinsin Foulds Cluster metric</description>
+            <fullname>Weighted Robinsin Foulds metric based on clusters</fullname>
             <complexity>|L|</complexity>
             <authors>Robinson and Foulds</authors>
             <publication>Comparison of weighted labelled trees</publication>
@@ -223,14 +223,14 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <name>NodalSplittedWeighted</name>
             <command_name>nsw</command_name>
             <class>treecmp.metric.weighted.NodalL2EdgeWeightMetric</class>
-            <description>-Nodal Splitted weight metric</description>
+            <description>-Weighted Nodal Splitted metric</description>
             <rooted>true</rooted>
-            <fullname>Nodal Splitted weighted metric with L2 norm</fullname>
+            <fullname>Weighted Nodal Splitted metric with L2 norm</fullname>
             <complexity>|L|^2</complexity>
             <authors>Cardona, Llabres, Rossello and Valiente</authors>
             <publication>Nodal distances for rooted phylogenetic trees</publication>
             <year>2010</year>
-            <full_description>Nodal Splitted weighted metric is L2 norm of two splitted path lengths matrices with rows and columns indexed by taxa and where every entry is the distance from the least common ancestor of the pair of nodes.</full_description>
+            <full_description>The weighted Nodal Splitted metric is L2 norm of two splitted path lengths matrices with rows and columns indexed by taxa and where every entry is the distance from the least common ancestor of the pair of nodes.</full_description>
         </metric>
         <metric>
             <name>GeoRooted</name>
@@ -249,9 +249,9 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <name>CopheneticL2WeightedMetric</name>
             <command_name>cow</command_name>
             <class>treecmp.metric.weighted.CopheneticL2WeightMetric</class>
-            <description>-Cophenetic Weighted Metric with L2 norm</description>
+            <description>-Weighted Cophenetic Metric with L2 norm</description>
             <rooted>true</rooted>
-            <fullname>Cophenetic Weight Metric with L2 norm</fullname>
+            <fullname>Weighted Cophenetic Metric with L2 norm</fullname>
             <complexity>|L|^2</complexity>
             <authors>Cardona, Mir, Rosselló, Rotger and Sánchez</authors>
             <publication>Cophenetic metrics for phylogenetic trees, after Sokal and Rohlf</publication>

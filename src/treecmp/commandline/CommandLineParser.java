@@ -55,13 +55,18 @@ public class CommandLineParser {
     private final static String CMD_ERROR = "Error. There is a problem with parsing the command line. See the usage below.\n";
 
 
-    private final static String D_DESC = "- Allow to specify distances (from 1 up to 12):\n"+
+    private final static String D_DESC = "- Allow to specify distances (from 1 up to 18):\n"+
                                         "Metrics for unrooted trees:\n" +
                                         " ms - the Matching Split metric,\n"+
                                         " rf - the Robinson-Foulds metric,\n"+
                                         " pd - the Path Difference metric,\n"+
                                         " qt - the Quartet metric,\n"+
-                                        " um - the UMAST metric,\n"+
+                                        " um - the UMAST metric.\n"+
+
+                                        "Metrics for unrooted weighted trees:\n" +
+                                        " rfw - the Weighted Robinson-Foulds metric,\n"+
+                                        " gdu - the Geodesic Unrooted metric.\n"+
+
                                         "Metrics for rooted trees:\n" +
                                         " mc - the Matching Cluster metric,\n"+
                                         " rc - the Robinson-Foulds metric based on clusters,\n" +
@@ -70,12 +75,14 @@ public class CommandLineParser {
                                         " mp - the Matching Pair metric,\n"+
                                         " mt - the RMAST metric,\n"+
                                         " co - the Cophenetic Metric with L2 norm.\n"+
-                                        /*"Metrics for unrooted weighted trees:\n" +*/
-                                        /*" wrf - the Weighted Robinson-Foulds metric,\n"+*/
 
-                                        /*"Metrics for rooted weighted trees:\n" +*/
+                                        "Metrics for rooted weighted trees:\n" +
+                                        " rcw - the Weighted Matching Cluster metric,\n"+
+                                        " nsw - the Weighted Nodal Splitted metric with L2 norm,\n"+
+                                        " gdr - the Geodesic Rooted metric,\n"+
+                                        " cow - the Weighted Cophenetic Metric with L2 norm.\n"+
 
-                                        "Example: -d ms rf\n";
+                                        "Example: -d ms rfw\n";
 
     private final static String D_ARG = "metrics";
     private final static String OPTS_HEADER = "Active options:\n";

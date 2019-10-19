@@ -15,6 +15,9 @@ import distanceAlg1.PhyloTree;
 import pal.tree.*;
 import polyAlg.PolyMain;
 import treecmp.common.NodeUtilsExt;
+
+import java.io.IOException;
+
 /**
  *
  * @author Damian
@@ -35,8 +38,13 @@ public class GeoMetricWrapper {
         
         PhyloTree pt1 = new PhyloTree(tree1Newick, rooted);
         PhyloTree pt2 = new PhyloTree(tree2Newick, rooted);
-        
-        Geodesic geo = PolyMain.getGeodesic(pt1, pt2, logFileName);
+
+        Geodesic geo = null;
+        try {
+            geo = PolyMain.getGeodesic(pt1, pt2, logFileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         double dist = geo.getDist();     
         return dist;
     }
