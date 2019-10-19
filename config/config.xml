@@ -245,6 +245,19 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <year>2009</year>
             <full_description>Metric is based on concept of a continuous tree space consists of a set of Euclidean regions, called orthants, one for each tree topology. Orthants are joined together whenever one tree topology can be made into another by exchanging edges between the trees. Within an orthant, the coordinates of each point represent the edge lengths for a particular tree with the topology associated with that orthant. The geodesic between two trees is the unique shortest path connecting the two associated points in this space. Thus traversing the geodesic corresponds to continuously transforming one tree into the other.</full_description>
         </metric>
+        <metric>
+            <name>CopheneticL2WeightedMetric</name>
+            <command_name>cow</command_name>
+            <class>treecmp.metric.weighted.CopheneticL2WeightMetric</class>
+            <description>-Cophenetic Weighted Metric with L2 norm</description>
+            <rooted>true</rooted>
+            <fullname>Cophenetic Weight Metric with L2 norm</fullname>
+            <complexity>|L|^2</complexity>
+            <authors>Cardona, Mir, Rosselló, Rotger and Sánchez</authors>
+            <publication>Cophenetic metrics for phylogenetic trees, after Sokal and Rohlf</publication>
+            <year>2013</year>
+            <full_description>For every rooted phylogenetic tree T, let its cophenetic vector φ(T) consist of all pairs of cophenetic values (depth of lowest common ancestor of a pair of nodes) between pairs of taxa in T and all depths of taxa in T. Cophenetic Metric comparing cophenetic vectors φ(T) of two trees by means of L2 norm.</full_description>
+        </metric>
     </defined_metrics>
     <reporting>
         <filed_separator>tab</filed_separator>

@@ -878,6 +878,40 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
             }
         }
     }
+
+    /**
+     *
+     * @param t
+     * @param preOrderNodes
+     * @param externalNodesDepthTab
+     * @param internalNodesDepthTab
+     * @param idGroup
+     */
+    public static void calcNodeDepth(Tree t, Node[] preOrderNodes, double[] externalNodesDepthTab, double[] internalNodesDepthTab, IdGroup idGroup) {
+        int parentNum, curNodeNum;
+        Node curNode;
+        double depth;
+        if (idGroup == null) {
+            idGroup = TreeUtils.getLeafIdGroup(t);
+        }
+
+        int[] alias = TreeUtils.mapExternalIdentifiers(idGroup, t);
+        for (int i = 0; i < preOrderNodes.length; i++) {
+            curNode = preOrderNodes[i];
+            curNodeNum = curNode.getNumber();
+            if (curNode.isRoot()) {
+                internalNodesDepthTab[curNodeNum] = 0;
+            } else {
+                parentNum = curNode.getParent().getNumber();
+                depth = internalNodesDepthTab[parentNum] + curNode.getBranchLength();
+                if (curNode.isLeaf()) {
+                    externalNodesDepthTab[alias[curNodeNum]] = depth;
+                } else {
+                    internalNodesDepthTab[curNodeNum] = depth;
+                }
+            }
+        }
+    }
     
     public static short max (short [] tab){
         short currMax = tab[0];
