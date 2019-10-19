@@ -40,11 +40,7 @@ public class GeoMetricWrapper {
         PhyloTree pt2 = new PhyloTree(tree2Newick, rooted);
 
         Geodesic geo = null;
-        try {
-            geo = PolyMain.getGeodesic(pt1, pt2, logFileName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        geo = PolyMain.getGeodesic(pt1, pt2, logFileName);
         double dist = geo.getDist();     
         return dist;
     }
