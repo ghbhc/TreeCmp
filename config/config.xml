@@ -212,7 +212,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
         <metric>
             <name>RFClusterWeighted</name>
             <command_name>rcw</command_name>
-            <class>treecmp.metric.weighted.RFWeightMetric</class>
+            <class>treecmp.metric.weighted.RFCWeightMetric</class>
             <description>-Weighted Robinsin Foulds Cluster metric</description>
             <rooted>true</rooted>
             <weighted>true</weighted>

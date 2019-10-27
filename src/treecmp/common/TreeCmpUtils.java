@@ -726,6 +726,9 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
     }
 
     public static Tree unrootTreeIfNeeded(Tree t) {
+    if(t.getExternalNodeCount() == 2) {
+        return t;
+    }
         Tree ut = null;
         if (t != null) {
             Node r = t.getRoot();
