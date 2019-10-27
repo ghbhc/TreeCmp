@@ -74,6 +74,7 @@ public class ConfigSettings {
             String yuleFileName = "";
             String alnFileSuffix = "";
             String rooted = "";
+            String weighted = "";
             String diff_leaves = "";
             /**
              * Update defined metric set
@@ -94,6 +95,7 @@ public class ConfigSettings {
                 yuleFileName = getTextValue(element, "yule_data");
                 alnFileSuffix = getTextValue(element, "aln_file_suffix");
                 rooted = getTextValue(element, "rooted");
+                weighted = getTextValue(element, "weighted");
                 diff_leaves = getTextValue(element, "diff_leaves");
 
                 if (className != null) {
@@ -110,6 +112,11 @@ public class ConfigSettings {
                     if (rooted != null) {
                         if (rooted.equals("true")) {
                             m.setRooted(true);
+                        }
+                    }
+                    if (weighted != null) {
+                        if (weighted.equals("true")) {
+                            m.setWeighted(true);
                         }
                     }
                     if (diff_leaves != null) {
