@@ -80,6 +80,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <command_name>rfw</command_name>
             <class>treecmp.metric.weighted.RFWeightMetric</class>
             <description>-weighted Robinsin Foulds metric</description>
+            <weighted>true</weighted>
             <fullname>Weighted Robinsin Foulds distance</fullname>
             <complexity>|L|</complexity>
             <authors>Robinson and Foulds</authors>
@@ -92,6 +93,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <command_name>gdu</command_name>
             <class>treecmp.metric.weighted.GeoUnrootedMetric</class>
             <description>-Geodesic Unrooted metric</description>
+            <weighted>true</weighted>
             <fullname>Geodesic Unrooted distance</fullname>
             <complexity>A Fast Algorithm for Computing Geodesic Distances in Tree Space.</complexity>
             <authors>Owen and Provan</authors>
@@ -212,6 +214,8 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <command_name>rcw</command_name>
             <class>treecmp.metric.weighted.RFWeightMetric</class>
             <description>-Weighted Robinsin Foulds Cluster metric</description>
+            <rooted>true</rooted>
+            <weighted>true</weighted>
             <fullname>Weighted Robinsin Foulds metric based on clusters</fullname>
             <complexity>|L|</complexity>
             <authors>Robinson and Foulds</authors>
@@ -225,6 +229,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <class>treecmp.metric.weighted.NodalL2EdgeWeightMetric</class>
             <description>-Weighted Nodal Splitted metric</description>
             <rooted>true</rooted>
+            <weighted>true</weighted>
             <fullname>Weighted Nodal Splitted metric with L2 norm</fullname>
             <complexity>|L|^2</complexity>
             <authors>Cardona, Llabres, Rossello and Valiente</authors>
@@ -238,6 +243,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <class>treecmp.metric.weighted.GeoRootedMetric</class>
             <description>-Geodesic Rooted metric</description>
             <rooted>true</rooted>
+            <weighted>true</weighted>
             <fullname>Geodesic Rooted metric</fullname>
             <complexity>A Fast Algorithm for Computing Geodesic Distances in Tree Space.</complexity>
             <authors>Owen and Provan</authors>
@@ -251,6 +257,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <class>treecmp.metric.weighted.CopheneticL2WeightMetric</class>
             <description>-Weighted Cophenetic Metric with L2 norm</description>
             <rooted>true</rooted>
+            <weighted>true</weighted>
             <fullname>Weighted Cophenetic Metric with L2 norm</fullname>
             <complexity>|L|^2</complexity>
             <authors>Cardona, Mir, Rosselló, Rotger and Sánchez</authors>
