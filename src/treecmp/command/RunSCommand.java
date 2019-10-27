@@ -67,6 +67,7 @@ private void pairCompareEx(TreeReader reader, ResultWriter out, StatCalculator[]
         int num = 1;
 
         int mSize = metrics.length;
+    ReportUtils.setRowCount(mSize);
 
         //initialize summary stat calculators
         SummaryStatCalculator[] sStatCalc=new SummaryStatCalculator[mSize];
