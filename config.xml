@@ -15,8 +15,7 @@
             <authors>Bogdanowicz and Giaro</authors>             
             <publication>Matching split distance for unrooted binary phylogenetic trees</publication>
             <year>2012</year>         
-            <full_description>Matching Split distance is based on comparing splits in two trees. A split A|B of a set L is an unordered pair (ie, A|B = B|A) of its subsets, such that L = A∪B and A∩B = ∅. To compare splits in two
-trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vertices correspond to splits in these two trees and edges connect each split from one tree to a split in another tree. If the number of splits in the trees differs, the smaller set is extended by the missing number of "dummy" elements.</full_description>
+            <full_description>Matching Split distance is based on comparing splits in two trees. A split A|B of a set L is an unordered pair (ie, A|B = B|A) of its subsets, such that L = A∪B and A∩B = ∅. To compare splits in two trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vertices correspond to splits in these two trees and edges connect each split from one tree to a split in another tree. If the number of splits in the trees differs, the smaller set is extended by the missing number of "dummy" elements.</full_description>
         </metric>
         <metric>
             <name>UMAST</name>
@@ -72,7 +71,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Robinson and Foulds</authors>             
             <publication>Comparison of phylogenetic trees</publication>
             <year>1981</year>        
-            <full_description>The Robinson-Foulds distance is one of the most commonly used methods to measure the similarity of phylogenetic trees. This metric is equal to the number of different splits in compared trees (divided by 2).</full_description>
+            <full_description>The Robinson-Foulds distance is one of the most commonly used methods to measure the dissimilarity of phylogenetic trees. This metric is equal to the number of different splits in compared trees (divided by 2). A split A|B of a set L is an unordered pair (ie, A|B = B|A) of its subsets, such that L = A∪B and A∩B = ∅.</full_description>
         </metric>
         <!-- weighted unrooted metric -->
         <metric>
@@ -86,7 +85,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Robinson and Foulds</authors>
             <publication>Comparison of weighted labelled trees</publication>
             <year>1979</year>
-            <full_description>The weighted RF metric adds the length of the edges to the RF metric. By identifying split with an edge, it sums the difference of weights of split edges present in the two trees and weights of diffrent split edges. (divided by 2).</full_description>
+            <full_description>The weighted RF metric adds the length of the edges to the RF metric. By identifying split with an edge, it sums the difference of weights of split edges present in the two trees and weights of diffrent split edges. (divided by 2). A split A|B of a set L is an unordered pair (ie, A|B = B|A) of its subsets, such that L = A∪B and A∩B = ∅.</full_description>
         </metric>
         <metric>
             <name>GeoUnrooted</name>
@@ -131,7 +130,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Bogdanowicz and Giaro</authors>             
             <publication>On a matching distance between rooted phylogenetic trees</publication>
             <year>2013</year>
-            <full_description>Matching Cluster metric is based on comparing clusters in two trees. A cluster associated with a vertex v in a rooted tree T with leaves L is a subset of leaves that are descendants of v. To measure the dissimilarity between clusters, MC uses function hC(A, B) = |A⊕B|. For a dummy element, O = ∅, hC(A, O) = |A|.</full_description>
+            <full_description>Matching Cluster metric is based on comparing clusters in two trees. A cluster associated with a vertex v in a rooted tree T with leaves L is a subset of leaves that are descendants of v. To measure the dissimilarity between clusters, MC uses function hC(A, B) = |A⊕B|.  If the number of clusters in the trees differs, the smaller set is extended by the missing number of "dummy" elements.</full_description>
         </metric>
         <metric>
             <name>CopheneticL2Metric</name>
@@ -146,7 +145,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Cardona, Mir, Rosselló, Rotger and Sánchez</authors>
             <publication>Cophenetic metrics for phylogenetic trees, after Sokal and Rohlf</publication>
             <year>2013</year>
-            <full_description>For every rooted phylogenetic tree T, let its cophenetic vector φ(T) consist of all pairs of cophenetic values (depth of lowest common ancestor of a pair of nodes) between pairs of taxa in T and all depths of taxa in T. Cophenetic Metric comparing cophenetic vectors φ(T) of two trees by means of L2 norm.</full_description>
+            <full_description>For every rooted phylogenetic tree T, let its cophenetic vector φ(T) consist of all pairs of cophenetic values (depth of lowest common ancestor of a pair of nodes) between pairs of taxa in T and all depths of taxa in T. Cophenetic Metric comparing cophenetic vectors φ(T) of two trees by means of L2 norm distance.</full_description>
         </metric>
         <metric>
             <name>NodalSplitted</name>
@@ -191,7 +190,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Farach and Thorup</authors>             
             <publication>Fast comparison of evolutionary trees</publication>
             <year>1994</year>
-            <full_description>Given a set A of n species and two rooted trees leaves uniquely labeled by the items of A, Maximum Agreement Subtree distance is the difference between cardinality of A and cardinality of the largest subset B of A such that the subtrees of compared trees induced by B are isomorphic</full_description>
+            <full_description>Given a set L of n species and two rooted trees leaves uniquely labeled by the items of L, Maximum Agreement Subtree distance is the difference between cardinality of L and cardinality of the largest subset B of L such that the subtrees of compared trees induced by B are isomorphic</full_description>
         </metric>
         <metric>
             <name>RFCluster</name>
@@ -206,7 +205,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Robinson and Foulds</authors>             
             <publication>Comparison of phylogenetic trees</publication>
             <year>1981</year>        
-            <full_description>The Robinson-Foulds Cluster distance is one of the most commonly used methods to measure the similarity of phylogenetic trees. This metric is equal to the number of different clusters in compared trees (divided by 2).</full_description>
+            <full_description>The Robinson-Foulds Cluster distance is one of the most commonly used methods to measure the dissimilarity of phylogenetic trees. This metric is equal to the number of different clusters in compared trees (divided by 2). A cluster associated with a vertex v in a rooted tree T with leaves L is a subset of leaves that are descendants of v.</full_description>
         </metric>
         <!-- weighted rooted metric -->
         <metric>
@@ -221,7 +220,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Robinson and Foulds</authors>
             <publication>Comparison of weighted labelled trees</publication>
             <year>1979</year>
-            <full_description>The weighted RF metric adds the length of the edges to the RF metric. By identifying cluster with an edge, it sums the difference of weights of cluster edges present in the two trees and weights of diffrent cluster edges. (divided by 2).</full_description>
+            <full_description>The weighted RF metric adds the length of the edges to the RF metric. By identifying cluster with an edge, it sums the difference of weights of cluster edges present in the two trees and weights of diffrent cluster edges. (divided by 2). A cluster associated with a vertex v in a rooted tree T with leaves L is a subset of leaves that are descendants of v.</full_description>
         </metric>
         <metric>
             <name>NodalSplittedWeighted</name>
@@ -263,7 +262,7 @@ trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vert
             <authors>Cardona, Mir, Rosselló, Rotger and Sánchez</authors>
             <publication>Cophenetic metrics for phylogenetic trees, after Sokal and Rohlf</publication>
             <year>2013</year>
-            <full_description>For every rooted phylogenetic tree T, let its cophenetic vector φ(T) consist of all pairs of cophenetic values (depth of lowest common ancestor of a pair of nodes) between pairs of taxa in T and all depths of taxa in T. Cophenetic Metric comparing cophenetic vectors φ(T) of two trees by means of L2 norm.</full_description>
+            <full_description>For every rooted phylogenetic tree T, let its cophenetic vector φ(T) consist of all pairs of cophenetic values (depth of lowest common ancestor of a pair of nodes) between pairs of taxa in T and all depths of taxa in T. Cophenetic Metric comparing cophenetic vectors φ(T) of two trees by means of L2 norm distance.</full_description>
         </metric>
     </defined_metrics>
     <reporting>
