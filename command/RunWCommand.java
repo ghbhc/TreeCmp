@@ -63,6 +63,7 @@ public class RunWCommand extends Command {
         int n = 0;
         double val=0;
         int mSize = metrics.length;
+        ReportUtils.setRowCount(mSize);
 
         //initialize summary stat calculators
         SummaryStatCalculator[] sStatCalc=new SummaryStatCalculator[mSize];
