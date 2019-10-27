@@ -42,6 +42,7 @@ public abstract class BaseMetric implements Metric{
     protected IMetircDistrbHolder yuleRandData;
 
     protected boolean rooted;
+    protected boolean weighted;
     protected boolean diffLeafSets;
 
     public boolean isDiffLeafSets() {
@@ -60,6 +61,13 @@ public abstract class BaseMetric implements Metric{
         this.rooted = rooted;
     }
 
+    public void setWeighted(boolean weighted) {
+        this.weighted = weighted;
+    }
+
+    public boolean isWeighted() {
+        return weighted;
+    }
     public String getAlnFileSuffix() {
         return alnFileSuffix;
     }
