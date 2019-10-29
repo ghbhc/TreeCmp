@@ -24,12 +24,19 @@ public class GeoUnrootedMetric extends BaseMetric implements Metric {
 
     @Override
     public double getDistance(Tree t1, Tree t2) {
-        Tree t1u = TreeTool.getUnrooted(t1);
-        Tree t2u = TreeTool.getUnrooted(t2);
-        
-        //TODO: Need to check if the method handles unrooted trees properly
-        //If not it might be good to pass ther originally unrooted trees as
-        //trees rooted in a common leaf.
+        int extT1Num = t1.getExternalNodeCount();
+        Tree t1u, t2u;
+        if (extT1Num <= 1) {
+            return 0.0;
+        }
+        else if (extT1Num > 2) {
+            t1u = TreeTool.getUnrooted(t1);
+            t2u = TreeTool.getUnrooted(t2);
+        }
+        else {
+            t1u = t1;
+            t2u = t2;
+        }
         double dist = geoMetricWrapper.getDistance(t1u, t2u, false, null);
         return dist;
     }
