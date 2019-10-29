@@ -53,7 +53,7 @@ import treecmp.metric.Metric;
     public double getDistance(Tree t1, Tree t2) {
         int extT1Num = t1.getExternalNodeCount();
         int extT2Num = t2.getExternalNodeCount();
-        if (extT1Num <= 2) {
+        if (extT1Num <= 1) {
             return 0.0;
         }
         IdGroup id1 = TreeUtils.getLeafIdGroup(t1);
