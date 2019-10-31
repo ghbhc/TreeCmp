@@ -56,7 +56,6 @@ public class ActiveMetricsSet {
     }
     public ArrayList<Metric> getActiveMetrics()
     {
-
         return this.metricList;
     }
 
@@ -68,10 +67,7 @@ public class ActiveMetricsSet {
         for(int i=0;i<size;i++)
         {
             mTable[i]=this.metricList.get(i);
-
         }
-
-
          return mTable;
     }
      
@@ -79,4 +75,14 @@ public class ActiveMetricsSet {
     	 metricList.clear();
      }
 
+    public boolean isAnyRootedMetric() {
+        int size=this.metricList.size();
+        for(int i=0;i<size;i++)
+        {
+            if(this.metricList.get(i).isWeighted()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
