@@ -46,6 +46,7 @@ public class CommandLineParser {
     private final static String I_ARG = "inputFile";
     private final static String O_DESC = "- Output file.";
     private final static String O_ARG = "outputFile";
+    private final static String WW_DESC = "- allow zero value weights, it will be default value if the weight is not defined.";
     private final static String P_DESC = "- Prune compared trees if needed (trees can have different leaf sets).";
     private final static String SS_DESC = "- Report normalized distances.";
     private final static String II_DESC = "- Include summary section in the output file.";
@@ -96,7 +97,7 @@ public class CommandLineParser {
     //private final static String HEADER = "";
     //private final static String FOOTER = "ssd";
     private final static String CMD_LINE_SYNTAX = "java -jar TreeCmp.jar -s|-w <size>|-m|-r <refTreeFile>"
-            +" -d <metrics> -i <inputFile> -o <outputFile> [-N] [-P] [-I] [-A|-O]\n";
+            +" -d <metrics> -i <inputFile> -o <outputFile> [-W] [-N] [-P] [-I] [-A|-O]\n";
 
     public static Command run(String args[]) {
         Command cmd = null;
@@ -136,6 +137,7 @@ public class CommandLineParser {
         oO.setArgName(O_ARG);
         oO.setRequired(true);
 
+        Option oWW = new Option("W", WW_DESC);
         Option oP = new Option("P", P_DESC);
         Option oSS = new Option("N", SS_DESC);
         Option oII = new Option("I", II_DESC);
@@ -154,6 +156,7 @@ public class CommandLineParser {
         opts.addOption(oD);
         opts.addOption(oI);
         opts.addOption(oO);
+        opts.addOption(oWW);
         opts.addOption(oP);
         opts.addOption(oSS);
         opts.addOption(oII);
@@ -214,7 +217,14 @@ public class CommandLineParser {
                 //custom additional options
                 ArrayList<Option> custOpts = new ArrayList<Option>();
 
-
+                if (commandLine.hasOption(oWW.getOpt())) {
+                    IOset.setZeroValueWeights(true);
+                    custOpts.add(oWW);
+                }
+                else {
+                    IOset.setZeroValueWeights(false);
+                    custOpts.remove(oWW);
+                }
                 if (commandLine.hasOption(oP.getOpt())) {
                     IOset.setPruneTrees(true);
                     custOpts.add(oP);
@@ -385,12 +395,13 @@ class OptOrder implements Comparator {
         order.put("d", 5);
         order.put("i", 6);
         order.put("o", 7);
-        order.put("N", 8);
-        order.put("P", 9);
-        order.put("I", 10);
-        order.put("A", 11);
-        order.put("O", 12);
-       // order.put("F", new Integer(13));
+        order.put("W", 8);
+        order.put("N", 9);
+        order.put("P", 10);
+        order.put("I", 11);
+        order.put("A", 12);
+        order.put("O", 13);
+       // order.put("F", 14);
     }
 
     @Override
