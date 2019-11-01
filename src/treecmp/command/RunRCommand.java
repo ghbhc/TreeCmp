@@ -19,6 +19,7 @@
 package treecmp.command;
 
 import pal.tree.Tree;
+import pal.tree.TreeParseException;
 import treecmp.common.AlignWriter;
 import treecmp.common.ProgressIndicator;
 import treecmp.common.ReportUtils;
@@ -41,7 +42,7 @@ public class RunRCommand extends Command {
     }
 
     @Override
-    public void run() throws TreeCmpException {
+    public void run() throws TreeCmpException, TreeParseException {
         super.run();
 
         out.init();
@@ -61,7 +62,7 @@ public class RunRCommand extends Command {
 
     }
 
-    public void refTreeCompareExecute(TreeReader reader, ResultWriter out) throws TreeCmpException {
+    public void refTreeCompareExecute(TreeReader reader, ResultWriter out) throws TreeCmpException, TreeParseException {
 
         Metric[] metrics = ActiveMetricsSet.getActiveMetricsSet().getActiveMetricsTable();
         StatCalculator[] statsMetrics = new StatCalculator[metrics.length];
@@ -74,7 +75,7 @@ public class RunRCommand extends Command {
 
     }
 
-    private void refTreeCompareEx(TreeReader reader, ResultWriter out, StatCalculator[] metrics) throws TreeCmpException {
+    private void refTreeCompareEx(TreeReader reader, ResultWriter out, StatCalculator[] metrics) throws TreeCmpException, TreeParseException {
 
         Tree tree;
         Tree refTree;
