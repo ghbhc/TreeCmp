@@ -22,6 +22,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javafx.animation.Animation;
+import pal.tree.TreeParseException;
 import treecmp.common.TreeCmpException;
 import treecmp.io.OutputFileType;
 import treecmp.io.ResultWriter;
@@ -123,7 +126,14 @@ public class Main {
             }
 
             System.out.println(TimeDate.now() + ": Start of scanning input file: " + settings.getInputFile());
-            int numberOfTrees = reader.scan();
+            int numberOfTrees = 0;
+            try {
+                numberOfTrees = reader.scan();
+            } catch (TreeParseException e) {
+                e.printStackTrace();
+                System.out.println(TimeDate.now() + ": Error during scanning input file: " + e.getMessage() );
+                System.exit(-1);
+            }
             reader.close();
             System.out.println(TimeDate.now() + ": End of scanning input file: " + settings.getInputFile());
             System.out.println(TimeDate.now() + ": " + numberOfTrees + " valid trees found in file: " + settings.getInputFile());
@@ -141,6 +151,8 @@ public class Main {
                 cmd.run();
             } catch (TreeCmpException ex) {
                 System.out.println(ex.getError());
+            } catch (TreeParseException e) {
+                e.printStackTrace();
             }
 
         }

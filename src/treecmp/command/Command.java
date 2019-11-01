@@ -17,6 +17,7 @@
 
 package treecmp.command;
 
+import pal.tree.TreeParseException;
 import treecmp.common.TreeCmpException;
 import treecmp.io.ResultWriter;
 import treecmp.io.TreeReader;
@@ -51,7 +52,7 @@ public class Command {
         this.name = name;
     }
 
-    public void run() throws TreeCmpException {
+    public void run() throws TreeCmpException, TreeParseException {
         //this method need to be overidden
 
     }

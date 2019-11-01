@@ -18,6 +18,8 @@
 package treecmp.command;
 
 import java.util.ArrayList;
+
+import pal.tree.TreeParseException;
 import treecmp.common.ProgressIndicator;
 import treecmp.common.StatCalculator;
 import treecmp.common.SummaryStatCalculator;
@@ -38,7 +40,7 @@ public class RunMCommand extends Command {
     }
 
     @Override
-    public void run() throws TreeCmpException{
+    public void run() throws TreeCmpException, TreeParseException {
         super.run();       
         out.init();
         reader.open();
@@ -49,7 +51,7 @@ public class RunMCommand extends Command {
         out.close();
     }
 
-    private void matrixCompareEx(TreeReader reader, ResultWriter out, StatCalculator[] metrics) throws TreeCmpException {
+    private void matrixCompareEx(TreeReader reader, ResultWriter out, StatCalculator[] metrics) throws TreeCmpException, TreeParseException {
 
         pal.tree.Tree tree1,tree2 ;
         ArrayList<Tree> tree_vec = new ArrayList<Tree>();
@@ -110,7 +112,7 @@ public class RunMCommand extends Command {
         SummaryStatCalculator.printSummary(out, sStatCalc);
     }  
     
-    public void matrixCompareExecute(TreeReader reader, ResultWriter out ) throws TreeCmpException {
+    public void matrixCompareExecute(TreeReader reader, ResultWriter out ) throws TreeCmpException, TreeParseException {
 
         Metric[] metrics = ActiveMetricsSet.getActiveMetricsSet().getActiveMetricsTable();
         StatCalculator[] statsMetrics=new StatCalculator[metrics.length];
