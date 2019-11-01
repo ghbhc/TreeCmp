@@ -25,6 +25,7 @@ public class IOSettings {
     private String outputFile;
     private String sSep;
     private String csvSep;
+    private boolean zeroValueWeights;
     private boolean pruneTrees;
     private boolean randomComparison;
     private boolean optMsMcByRf;
@@ -131,6 +132,12 @@ public class IOSettings {
         return IOConf;
     }
 
+    public void setZeroValueWeights(boolean zeroValueWeights) {
+        this.zeroValueWeights = zeroValueWeights;
+    }
+
+    public boolean isZeroValueWeights() { return zeroValueWeights; }
+
     public boolean isPruneTrees() {
         return pruneTrees;
     }
@@ -154,7 +161,6 @@ public class IOSettings {
     public void setOptMsMcByRf(boolean optMsMcByRf) {
         this.optMsMcByRf = optMsMcByRf;
     }
-
 }
 
 
