@@ -58,98 +58,101 @@ public class ConfigSettings {
 
     private void readConfigFromFile() throws FileNotFoundException {
 
-        try {
+        DefinedMetricsSet DMset = DefinedMetricsSet.getDefinedMetricsSet();
+        if( DMset.size() == 0) {
 
-            File xmlFile = new File(configFile);
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            // Use the factory to create a builder
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(xmlFile);
-            String className = "";
-            String metricName = "";
-            String commandLineName = "";
-            String metricDesc = "";
+            try {
 
-            String uniformFileName = "";
-            String yuleFileName = "";
-            String alnFileSuffix = "";
-            String rooted = "";
-            String weighted = "";
-            String diff_leaves = "";
-            /**
-             * Update defined metric set
-             *
-             */
-            DefinedMetricsSet DMset = DefinedMetricsSet.getDefinedMetricsSet();
+                File xmlFile = new File(configFile);
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                // Use the factory to create a builder
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                Document doc = builder.parse(xmlFile);
+                String className = "";
+                String metricName = "";
+                String commandLineName = "";
+                String metricDesc = "";
 
-            NodeList list = doc.getElementsByTagName("metric");
-            for (int i = 0; i < list.getLength(); i++) {
-                // Get element
-                Element element = (Element) list.item(i);
-                //System.out.println(getTextValue(element, "class"));
-                className = getTextValue(element, "class");
-                metricName = getTextValue(element, "name");
-                commandLineName = getTextValue(element, "command_name");
-                metricDesc = getTextValue(element, "description");
-                uniformFileName = getTextValue(element, "unif_data");
-                yuleFileName = getTextValue(element, "yule_data");
-                alnFileSuffix = getTextValue(element, "aln_file_suffix");
-                rooted = getTextValue(element, "rooted");
-                weighted = getTextValue(element, "weighted");
-                diff_leaves = getTextValue(element, "diff_leaves");
+                String uniformFileName = "";
+                String yuleFileName = "";
+                String alnFileSuffix = "";
+                String rooted = "";
+                String weighted = "";
+                String diff_leaves = "";
+                /**
+                 * Update defined metric set
+                 *
+                 */
 
-                if (className != null) {
-                    Class cl = Class.forName(className);
-                    //Metric m=(Metric) cl.newInstance();
-                    BaseMetric m = (BaseMetric) cl.newInstance();
+                NodeList list = doc.getElementsByTagName("metric");
+                for (int i = 0; i < list.getLength(); i++) {
+                    // Get element
+                    Element element = (Element) list.item(i);
+                    //System.out.println(getTextValue(element, "class"));
+                    className = getTextValue(element, "class");
+                    metricName = getTextValue(element, "name");
+                    commandLineName = getTextValue(element, "command_name");
+                    metricDesc = getTextValue(element, "description");
+                    uniformFileName = getTextValue(element, "unif_data");
+                    yuleFileName = getTextValue(element, "yule_data");
+                    alnFileSuffix = getTextValue(element, "aln_file_suffix");
+                    rooted = getTextValue(element, "rooted");
+                    weighted = getTextValue(element, "weighted");
+                    diff_leaves = getTextValue(element, "diff_leaves");
 
-                    m.setName(metricName);
-                    m.setCommandLineName(commandLineName);
-                    m.setDescription(metricDesc);
-                    m.setUnifomFileName(uniformFileName);
-                    m.setYuleFileName(yuleFileName);
-                    m.setAlnFileSuffix(alnFileSuffix);
-                    if (rooted != null) {
-                        if (rooted.equals("true")) {
-                            m.setRooted(true);
+                    if (className != null) {
+                        Class cl = Class.forName(className);
+                        //Metric m=(Metric) cl.newInstance();
+                        BaseMetric m = (BaseMetric) cl.newInstance();
+
+                        m.setName(metricName);
+                        m.setCommandLineName(commandLineName);
+                        m.setDescription(metricDesc);
+                        m.setUnifomFileName(uniformFileName);
+                        m.setYuleFileName(yuleFileName);
+                        m.setAlnFileSuffix(alnFileSuffix);
+                        if (rooted != null) {
+                            if (rooted.equals("true")) {
+                                m.setRooted(true);
+                            }
                         }
-                    }
-                    if (weighted != null) {
-                        if (weighted.equals("true")) {
-                            m.setWeighted(true);
+                        if (weighted != null) {
+                            if (weighted.equals("true")) {
+                                m.setWeighted(true);
+                            }
                         }
-                    }
-                    if (diff_leaves != null) {
-                        if (diff_leaves.equals("true")) {
-                            m.setDiffLeafSets(true);
+                        if (diff_leaves != null) {
+                            if (diff_leaves.equals("true")) {
+                                m.setDiffLeafSets(true);
+                            }
                         }
-                    }
 
-                    DMset.addMetric(m);
+                        DMset.addMetric(m);
+                    }
                 }
+
+                //parse statistic section
+                list = doc.getElementsByTagName("reporting");
+                Element element = (Element) list.item(0);
+                String sSep = getTextValue(element, "filed_separator");
+                IOSettings IOs = IOSettings.getIOSettings();
+
+                if (sSep.compareTo("tab") == 0) {
+                    IOs.setSSep("\t");
+                } else {
+                    IOs.setSSep(sSep);
+                }
+                IOs.setCsvSep(";");
+
+            } catch (SAXException ex) {
+                Logger.getLogger(ConfigSettings.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (FileNotFoundException ex) {
+                throw ex;
+            } catch (IOException ex) {
+                Logger.getLogger(ConfigSettings.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(ConfigSettings.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            //parse statistic section
-            list = doc.getElementsByTagName("reporting");
-            Element element = (Element) list.item(0);
-            String sSep = getTextValue(element, "filed_separator");
-            IOSettings IOs = IOSettings.getIOSettings();
-
-            if (sSep.compareTo("tab") == 0) {
-                IOs.setSSep("\t");
-            } else {
-                IOs.setSSep(sSep);
-            }
-            IOs.setCsvSep(";");
-
-        } catch (SAXException ex) {
-            Logger.getLogger(ConfigSettings.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
-            throw ex;
-        } catch (IOException ex) {
-            Logger.getLogger(ConfigSettings.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(ConfigSettings.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
