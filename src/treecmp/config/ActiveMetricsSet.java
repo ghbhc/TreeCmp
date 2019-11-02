@@ -18,7 +18,10 @@
 package treecmp.config;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Vector;
+
 import treecmp.metric.Metric;
 
 public class ActiveMetricsSet {
@@ -41,6 +44,24 @@ public class ActiveMetricsSet {
             AMset=new ActiveMetricsSet();
         }
         return AMset;
+    }
+
+    public void setActiveMetricsSet(String[] metrics) {
+        DefinedMetricsSet DMSet = DefinedMetricsSet.getDefinedMetricsSet();
+        List<Metric> DMetrics = DMSet.getDefinedMetrics();
+        ListIterator<Metric> itDM = DMetrics.listIterator();
+        for(String dm :metrics) {
+            Metric found=null;
+            while (itDM.hasNext()) {
+                Metric m = itDM.next();
+                if(m.getCommandLineName().equals(dm)){
+                    found = m;
+                }
+            }
+            if (found != null){
+                metricList.add(found);
+            }
+        }
     }
 
     public void addMetric(Metric m)
