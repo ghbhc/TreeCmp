@@ -46,7 +46,7 @@ public class CommandLineParser {
     private final static String I_ARG = "inputFile";
     private final static String O_DESC = "- Output file.";
     private final static String O_ARG = "outputFile";
-    private final static String WW_DESC = "- allow zero value weights, it will be default value if the weight is not defined.";
+    private final static String WW_DESC = "- Allow zero value weights, it will be default value if the weight is not defined (applies only to weighted metrics).";
     private final static String P_DESC = "- Prune compared trees if needed (trees can have different leaf sets).";
     private final static String SS_DESC = "- Report normalized distances.";
     private final static String II_DESC = "- Include summary section in the output file.";

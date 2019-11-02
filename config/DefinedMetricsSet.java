@@ -61,4 +61,7 @@ public class DefinedMetricsSet {
     }
 
 
+    public int size() {
+        return this.metricList.size();
+    }
 }
