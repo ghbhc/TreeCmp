@@ -21,10 +21,10 @@
             <name>UMAST</name>
             <command_name>um</command_name>
             <class>treecmp.metric.UmastMetric</class>
-            <description>-Unrooted maximum agreement subtree distance</description>
+            <description>-Unrooted Maximum Agreement Subtree distance</description>
             <unif_data>unif_UM.txt</unif_data>
             <yule_data>yule_UM.txt</yule_data>
-            <fullname>Unrooted maximum agreement subtree distance</fullname>
+            <fullname>Unrooted Maximum Agreement Subtree distance</fullname>
             <complexity>|L|^(2+o(1))</complexity>
             <authors>Farach and Thorup</authors>             
             <publication>Fast comparison of evolutionary trees</publication>
@@ -181,11 +181,11 @@
             <name>MAST</name>
             <command_name>mt</command_name>
             <class>treecmp.metric.RMASTMetric</class>
-            <description>-Maximum agreement subtree distance</description>
+            <description>-Maximum Agreement Subtree distance</description>
             <unif_data>unif_MT.txt</unif_data>
             <yule_data>yule_MT.txt</yule_data>
             <rooted>true</rooted>
-            <fullname>Rooted maximum agreement subtree distance</fullname>
+            <fullname>Rooted Maximum Agreement Subtree distance</fullname>
             <complexity>|L|^2</complexity>
             <authors>Farach and Thorup</authors>             
             <publication>Fast comparison of evolutionary trees</publication>
