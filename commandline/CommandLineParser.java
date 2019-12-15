@@ -40,7 +40,7 @@ public class CommandLineParser {
     private final static String W_DESC = "- Window comparison mode. Every two trees within a window are compared.";
     private final static String W_ARG = "size";
     private final static String M_DESC = "- Matrix comparison mode. Every two trees in the input file are compared.";
-    private final static String R_DESC = "- Referential trees to all input trees mode. Each referential tree is compared to each tree in the input file.";
+    private final static String R_DESC = "- Reference trees to all input trees mode. Each reference tree is compared to each tree in the input file.";
     private final static String R_ARG = "refTreeFile";
     private final static String I_DESC = "- Input file.";
     private final static String I_ARG = "inputFile";
