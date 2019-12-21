@@ -1,19 +1,19 @@
 /** This file is part of TreeCmp, a tool for comparing phylogenetic trees
-    using the Matching Split distance and other metrics.
-    Copyright (C) 2011,  Damian Bogdanowicz
+ using the Matching Split distance and other metrics.
+ Copyright (C) 2011,  Damian Bogdanowicz
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 package treecmp.config;
 
@@ -36,6 +36,7 @@ public class IOSettings {
     private boolean calcCorrelation;
     private boolean genSummary;
     private boolean bifurcatingOnly;
+    private boolean rootedMetricUsed;
 
     public boolean isUseMsMcFreeLeafSet() {
         return useMsMcFreeLeafSet;
@@ -112,23 +113,23 @@ public class IOSettings {
     public void setOutputFile(String outputFile) {
         this.outputFile = outputFile;
     }
-    
-
-     protected IOSettings()
-     {
-         inputFile = null;
-         outputFile = null;
-         iStep = 1;
-         calcCorrelation = false;
-         pruneTrees = false;
-         randomComparison = false;
-         optMsMcByRf = false;
-         genAlignments = false;
-         genSummary = false;
 
 
-     }
-     public static IOSettings getIOSettings()
+    protected IOSettings()
+    {
+        inputFile = null;
+        outputFile = null;
+        iStep = 1;
+        calcCorrelation = false;
+        pruneTrees = false;
+        randomComparison = false;
+        optMsMcByRf = false;
+        genAlignments = false;
+        genSummary = false;
+
+
+    }
+    public static IOSettings getIOSettings()
     {
         if(IOConf==null)
         {
@@ -167,6 +168,11 @@ public class IOSettings {
         this.optMsMcByRf = optMsMcByRf;
     }
 
+    public boolean isRootedMetricUsed() { return rootedMetricUsed; }
+
+    public void setRootedMetricUsed(boolean rootedMetricUsed) {
+        this.rootedMetricUsed = rootedMetricUsed;
+    }
 }
 
 
