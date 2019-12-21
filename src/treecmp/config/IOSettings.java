@@ -35,6 +35,7 @@ public class IOSettings {
     //defalut false
     private boolean calcCorrelation;
     private boolean genSummary;
+    private boolean bifurcatingOnly;
 
     public boolean isUseMsMcFreeLeafSet() {
         return useMsMcFreeLeafSet;
@@ -52,6 +53,12 @@ public class IOSettings {
         this.genSummary = genSummary;
     }
 
+    public boolean isBifurcatingOnly() { return bifurcatingOnly; }
+
+    public void setBifurcatingOnly(boolean bifurcatingOnly) {
+        this.bifurcatingOnly = bifurcatingOnly;
+    }
+
     public boolean isRandomComparison() {
         return randomComparison;
     }
@@ -60,9 +67,7 @@ public class IOSettings {
         this.randomComparison = randomComparison;
     }
 
-    public boolean isCalcCorrelation() {
-        return calcCorrelation;
-    }
+    public boolean isCalcCorrelation() { return calcCorrelation; }
 
     public void setCalcCorrelation(boolean calcCorrelation) {
         this.calcCorrelation = calcCorrelation;
@@ -161,6 +166,7 @@ public class IOSettings {
     public void setOptMsMcByRf(boolean optMsMcByRf) {
         this.optMsMcByRf = optMsMcByRf;
     }
+
 }
 
 

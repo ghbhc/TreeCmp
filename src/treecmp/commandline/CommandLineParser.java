@@ -50,6 +50,7 @@ public class CommandLineParser {
     private final static String P_DESC = "- Prune compared trees if needed (trees can have different leaf sets).";
     private final static String SS_DESC = "- Report normalized distances.";
     private final static String II_DESC = "- Include summary section in the output file.";
+    private final static String B_DESC = "- Bifurcating trees only.";
     private final static String A_DESC = "- Generate alignment files (only for MS and MC metrics). Cannot be used with -O option.";
     private final static String OO_DESC = "- Use MS/MC metrics optimized for similar trees. Cannot be used with -A option.";
    // private final static String F_DESC = "- Use MS/MC metrics for trees with free leaf set. ";
@@ -141,6 +142,7 @@ public class CommandLineParser {
         Option oP = new Option("P", P_DESC);
         Option oSS = new Option("N", SS_DESC);
         Option oII = new Option("I", II_DESC);
+        Option oB = new Option("B", B_DESC);
 
         Option oOO = new Option("O", OO_DESC);
       //  Option oF = new Option("F", F_DESC);
@@ -160,6 +162,7 @@ public class CommandLineParser {
         opts.addOption(oP);
         opts.addOption(oSS);
         opts.addOption(oII);
+        opts.addOption(oB);
         opts.addOptionGroup(customMOpts);
 
 
@@ -264,6 +267,14 @@ public class CommandLineParser {
                 else {
                     IOset.setGenSummary(false);
                     custOpts.remove(oII);
+                }
+                if (commandLine.hasOption(oB.getOpt())) {
+                    IOset.setBifurcatingOnly(true);
+                    custOpts.add(oB);
+                }
+                else {
+                    IOset.setBifurcatingOnly(false);
+                    custOpts.remove(oB);
                 }
                 /*
                 if (commandLine.hasOption(oF.getOpt())) {
@@ -401,7 +412,8 @@ class OptOrder implements Comparator {
         order.put("I", 11);
         order.put("A", 12);
         order.put("O", 13);
-       // order.put("F", 14);
+        order.put("B", 14);
+       // order.put("F", 15);
     }
 
     @Override
