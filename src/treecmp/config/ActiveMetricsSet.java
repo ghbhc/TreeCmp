@@ -20,7 +20,6 @@ package treecmp.config;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Vector;
 
 import treecmp.metric.Metric;
 
@@ -73,6 +72,9 @@ public class ActiveMetricsSet {
          */
 
         this.metricList.add(m);
+        if (m.isRooted()) {
+            IOSettings.getIOSettings().setRootedMetricUsed(true);
+        }
 
     }
     public ArrayList<Metric> getActiveMetrics()
