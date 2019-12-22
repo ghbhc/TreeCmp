@@ -60,7 +60,7 @@
             <full_description>The Quartet distance is based on comparing sets of quartets induced by two trees. A set of quartets induced by an unrooted tree is the set of the topologies of all 4-species subsets of its leaves consistent with its topology. Quartet distance between two trees is the number of different quartets in two respective sets.</full_description>
         </metric>
         <metric>
-            <name>RF</name>
+            <name>RF(0.5)</name>
             <command_name>rf</command_name>
             <class>treecmp.metric.RFMetric</class>
             <description>-Robinson-Foulds metric</description>
@@ -75,7 +75,7 @@
         </metric>
         <!-- weighted unrooted metric -->
         <metric>
-            <name>RFWeighted</name>
+            <name>RFWeighted(0.5)</name>
             <command_name>rfw</command_name>
             <class>treecmp.metric.weighted.RFWeightMetric</class>
             <description>-weighted Robinsin Foulds metric</description>
@@ -193,7 +193,7 @@
             <full_description>Given a set L of n species and two rooted trees leaves uniquely labeled by the items of L, Maximum Agreement Subtree distance is the difference between cardinality of L and cardinality of the largest subset B of L such that the subtrees of compared trees induced by B are isomorphic</full_description>
         </metric>
         <metric>
-            <name>RFCluster</name>
+            <name>RFCluster(0.5)</name>
             <command_name>rc</command_name>
             <class>treecmp.metric.RFClusterMetric</class>
             <description>-Robinson-Foulds Cluster metric</description>
@@ -209,7 +209,7 @@
         </metric>
         <!-- weighted rooted metric -->
         <metric>
-            <name>RFClusterWeighted</name>
+            <name>RFClusterWeighted(0.5)</name>
             <command_name>rcw</command_name>
             <class>treecmp.metric.weighted.RFCWeightMetric</class>
             <description>-Weighted Robinsin Foulds Cluster metric</description>
