@@ -23,13 +23,15 @@ import pal.tree.TreeUtils;
 import treecmp.common.LapSolver;
 import treecmp.common.TreeCmpUtils;
 
-public class MatchingPairMetric extends BaseMetric implements Metric {
+import java.util.Set;
+
+public class MatchingTripletMetric extends BaseMetric implements Metric {
 
     protected int[] rowsol;
     protected int[] colsol;
     protected int[][] assigncost;
 
-    public MatchingPairMetric() {
+    public MatchingTripletMetric() {
         super();
     }
 
@@ -39,10 +41,16 @@ public class MatchingPairMetric extends BaseMetric implements Metric {
         if (t1.getExternalNodeCount() <= 2){
             return 0.0;
         }
-        
+
         IdGroup id1 = TreeUtils.getLeafIdGroup(t1);
-        int[][] lcaMatrix1 = TreeCmpUtils.calcLcaMatrix(t1, null);
-        int[][] lcaMatrix2 = TreeCmpUtils.calcLcaMatrix(t2, id1);
+
+        // ncv - nearest common vertex
+
+        Set<Node>[] verticesOutsideClade1 = TreeCmpUtils.getVerticesOutsideClade(t1);
+        Set<Node>[] verticesOutsideClade2 = TreeCmpUtils.getVerticesOutsideClade(t2);
+
+        int[][][] ncvMatrix1 = TreeCmpUtils.calcNcvMatrix(t1, null, verticesOutsideClade1);
+        int[][][] ncvMatrix2 = TreeCmpUtils.calcNcvMatrix(t2, id1, verticesOutsideClade2);
 
         int intT1Num = t1.getInternalNodeCount();
         int intT2Num = t2.getInternalNodeCount();
@@ -69,39 +77,42 @@ public class MatchingPairMetric extends BaseMetric implements Metric {
         int[] u = new int[size];
         int[] v = new int[size];
         
-        //iterate by all possible pairs of leaves
-        //and fill assigncont with the value of intersection size
+        //iterate by all possible triplets of leaves
+        //and fill assigncost with the value of intersection size
         for (int i = 0; i < N; i++){
             for (int j = i+1; j < N; j++){
-               int int1 = lcaMatrix1[i][j];
-               int int2 = lcaMatrix2[i][j];
-               assigncost[int1][int2]++;
+                for (int k = j+1; k < N; k++) {
+                    int int1 = ncvMatrix1[i][j][k];
+                    int int2 = ncvMatrix2[i][j][k];
+                    assigncost[int1][int2]++;
+                }
             }
         }
-        //count LCA pairs for t1
-        int[] t1IntPairCount = new int[intT1Num];
+        // todo: trzeba policzyć triplety zamiast par!
+        //count LCA triplets for t1
+        int[] t1IntTripletCount = new int[intT1Num];
         for (int i = 0; i < intT1Num; i++){
             //Node n = t1.getInternalNode(alias1[i]);
             Node n = t1.getInternalNode(i);
-            t1IntPairCount[i] =  coutChildrenPairs(n, cSize1);
+            t1IntTripletCount[i] =  coutTriplets(n, cSize1, verticesOutsideClade1);
         }
-        //count LCA pairs for t2
-        int[] t2IntPairCount = new int[intT2Num];
+        //count LCA triplets for t2
+        int[] t2IntTripletCount = new int[intT2Num];
         for (int i = 0; i < intT2Num; i++){
             //Node n = t2.getInternalNode(alias2[i]);
             Node n = t2.getInternalNode(i);
-            t2IntPairCount[i] =  coutChildrenPairs(n, cSize2);
+            t2IntTripletCount[i] =  coutTriplets(n, cSize2, verticesOutsideClade2);
         }
 
-        //calc xor valuses of pairs sets and store it in assigncost matrix
+        //calc xor values of triplets sets and store it in assigncost matrix
         for (int i = 0; i < size; i++){
             for (int j = 0; j < size; j++){
                 if (i < intT1Num && j < intT2Num){
-                    assigncost[i][j] = t1IntPairCount[i]+t2IntPairCount[j] - (assigncost[i][j] << 1);
+                    assigncost[i][j] = t1IntTripletCount[i]+t2IntTripletCount[j] - (assigncost[i][j] << 1);
                 } else if (i >= intT1Num && j < intT2Num){
-                    assigncost[i][j] = t2IntPairCount[j];
+                    assigncost[i][j] = t2IntTripletCount[j];
                 } else if (i < intT1Num && j >= intT2Num){
-                    assigncost[i][j] = t1IntPairCount[i];
+                    assigncost[i][j] = t1IntTripletCount[i];
                 }else {
                     //normally should not happen
                     assigncost[i][j] = 0;
@@ -111,7 +122,31 @@ public class MatchingPairMetric extends BaseMetric implements Metric {
         int metric = LapSolver.lap(size, assigncost, rowsol, colsol, u, v);
         return (0.5 * (double) metric);
     }
-    
+
+    int coutTriplets(Node n, short[] clustSizeTab, Set<Node>[] verticesOutsideClade) {
+        int chCount = n.getChildCount();
+        int[] chSize = new int[chCount + 1];
+
+        for (int i = 0; i < chCount; i++) {
+            Node chNode = n.getChild(i);
+            if (chNode.isLeaf()) {
+                chSize[i] = 1;
+            } else {
+                chSize[i] = clustSizeTab[chNode.getNumber()];
+            }
+        }
+        chSize[chCount] = verticesOutsideClade[n.getNumber()].size();
+
+        int pairCount = 0;
+        for (int i = 0; i < chSize.length; i++) {
+            for (int j = i + 1; j < chSize.length; j++) {
+                for (int k = j + 1; k < chSize.length; k++) {
+                    pairCount += (chSize[i] * chSize[j] * chSize[k]);
+                }
+            }
+        }
+        return pairCount;
+    }
     
     int coutChildrenPairs(Node n, short[] clustSizeTab) {
         int chCount = n.getChildCount();

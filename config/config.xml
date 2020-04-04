@@ -2,6 +2,20 @@
 <config>
     <defined_metrics>
         <!-- unrooted metrics -->
+        <metric>
+            <name>MatchingTriplet</name>
+            <command_name>m3</command_name>
+            <class>treecmp.metric.MatchingTripletMetric</class>
+            <description>-Matching Triplet metric</description>
+            <unif_data>unif_M3.txt</unif_data>
+            <yule_data>yule_M3.txt</yule_data>
+            <fullname>Matching Triplet metric</fullname>
+            <complexity>|L|^2.5*log|L|</complexity>
+            <authors>???</authors>
+            <publication>???????</publication>
+            <year>20??</year>
+            <full_description>????</full_description>
+        </metric>
         <metric> 
             <name>MatchingSplit</name>
             <command_name>ms</command_name>
