@@ -97,8 +97,119 @@ public class TreeCmpUtils {
         return lcaMatrix;
     }
 
-  
- /* This matix M contains the distances (number of edges) between
+    public static int[][][] calcNcvMatrix(Tree tree, IdGroup idGroup, Set<Node>[] verticesOutsideClade) {
+
+        int leafNum = tree.getExternalNodeCount();
+        int intNum = tree.getInternalNodeCount();
+        if (idGroup == null)
+            idGroup = TreeUtils.getLeafIdGroup(tree);
+        int[][] lcaMatrix = calcLcaMatrix(tree, idGroup);
+
+        if (verticesOutsideClade == null) {
+            verticesOutsideClade = getVerticesOutsideClade(tree);
+        }
+
+        int[][][] ncvMatrix = new int[leafNum][leafNum][leafNum];
+
+        for (int i=0;i<leafNum;i++) {
+            for (int j=0;j<leafNum;j++) {
+                ncvMatrix[i][i][j] = -1;
+                ncvMatrix[i][j][j] = -1;
+                ncvMatrix[j][i][j] = -1;
+            }
+        }
+
+        for (int i=0;i<leafNum;i++) {
+            for (int j=i+1;j<leafNum;j++) {
+                for (Node thirdVertex: verticesOutsideClade[lcaMatrix[i][j]]) {
+                    int thirdVertexNumber = thirdVertex.getNumber();
+                    if (thirdVertexNumber != i && thirdVertexNumber != j) {
+                        ncvMatrix[i][j][thirdVertexNumber] =
+                        ncvMatrix[i][thirdVertexNumber][j] =
+                        ncvMatrix[j][i][thirdVertexNumber] =
+                        ncvMatrix[j][thirdVertexNumber][i] =
+                        ncvMatrix[thirdVertexNumber][i][j] =
+                        ncvMatrix[thirdVertexNumber][j][i] = lcaMatrix[i][j];
+                    }
+                }
+                int lcaIndex = lcaMatrix[i][j];
+                Node lca = tree.getInternalNode(lcaIndex);
+                int lcaChildCount = lca.getChildCount();
+                for (int k = 0; k < lcaChildCount; k++) {
+                    Node child = lca.getChild(k);
+                    if (child.isLeaf()) {
+                        int thirdVertexNumber = child.getNumber();
+                        if (thirdVertexNumber != i && thirdVertexNumber != j) {
+                            ncvMatrix[i][j][thirdVertexNumber] =
+                                    ncvMatrix[i][thirdVertexNumber][j] =
+                                            ncvMatrix[j][i][thirdVertexNumber] =
+                                                    ncvMatrix[j][thirdVertexNumber][i] =
+                                                            ncvMatrix[thirdVertexNumber][i][j] =
+                                                                    ncvMatrix[thirdVertexNumber][j][i] = lcaMatrix[i][j];
+                        }
+                    }
+                    else {
+                        if (!verticesOutsideClade[child.getNumber()].contains(tree.getExternalNode(i))
+                                && !verticesOutsideClade[lca.getChild(k).getNumber()].contains(tree.getExternalNode(j))) {
+                            int thirdVertexNumber = lca.getChild(k).getNumber();
+                            if (thirdVertexNumber != i && thirdVertexNumber != j) {
+                                ncvMatrix[i][j][thirdVertexNumber] =
+                                        ncvMatrix[i][thirdVertexNumber][j] =
+                                                ncvMatrix[j][i][thirdVertexNumber] =
+                                                        ncvMatrix[j][thirdVertexNumber][i] =
+                                                                ncvMatrix[thirdVertexNumber][i][j] =
+                                                                        ncvMatrix[thirdVertexNumber][j][i] = lcaMatrix[i][j];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return ncvMatrix;
+    }
+
+    public static Set<Node>[] getVerticesOutsideClade(Tree tree) {
+        Set<Node>[] verticesInsideClade;
+        Set<Node>[] verticesOutsideClade;
+        int leafNum = tree.getExternalNodeCount();
+        int intNum = tree.getInternalNodeCount();
+
+        verticesInsideClade = new Set[intNum];
+        verticesOutsideClade = new Set[intNum];
+        Node[] postOrder = TreeCmpUtils.getNodesInPostOrder(tree);
+        for (Node curNode: postOrder){
+            if (curNode.isLeaf()) {
+                continue;
+            }
+            else {
+                int curNodeNumber = curNode.getNumber();
+                verticesOutsideClade[curNodeNumber] = new HashSet<Node>();
+                verticesInsideClade[curNodeNumber] = new HashSet<Node>();
+                for (int i = 0; i < leafNum; i++) {
+                    verticesOutsideClade[curNodeNumber].add(tree.getExternalNode(i));
+                }
+                int childCount = curNode.getChildCount();
+                for (int i = 0; i < childCount; i++) {
+                    Node child = curNode.getChild(i);
+                    if (child.isLeaf()) {
+                        verticesOutsideClade[curNodeNumber].remove(child);
+                        verticesInsideClade[curNodeNumber].add(child);
+                    }
+                    else {
+                        Set<Node> childVertices = verticesInsideClade[child.getNumber()];
+                        for (Node vertex: childVertices) {
+                            verticesOutsideClade[curNodeNumber].remove(vertex);
+                            verticesInsideClade[curNodeNumber].add(vertex);
+                        }
+                    }
+                }
+            }
+        }
+        return verticesOutsideClade;
+    }
+
+    /* This matix M contains the distances (number of edges) between
  * each of two leaves and their lowest common ancestor LCA (MRCA).
  * For any two leaves i and j:
  * - M[i][j] = distance from i to LCA(i,j),
@@ -114,8 +225,8 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
         int[] alias = TreeUtils.mapExternalIdentifiers(idGroup, tree);
             
         int[][] nodalSplittedMatrix = new int[leafNum][leafNum];
-        for (int i=0;i<leafNum;i++)
-            nodalSplittedMatrix[i][i] = 0;
+        /*for (int i=0;i<leafNum;i++)
+            nodalSplittedMatrix[i][i] = 0;*/
 
         TCUtilsNodeEx[] nodeInfoTab = new TCUtilsNodeEx[intNum];
         Node childNode, curNode = tree.getExternalNode(0);
@@ -332,9 +443,9 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
         return nodes;
     }
 
-    //Returns array of sizes of clusters releted to internal nodes.
-    //The index in the array correspond to the numner of an internal node in tree t
-    //intput parametes: 
+    //Returns array of sizes of clusters related to internal nodes.
+    //The index in the array correspond to the number of an internal node in tree t
+    //input parameters:
     // - Tree t,
     // - Node[] postOrderNodes,
     //output:

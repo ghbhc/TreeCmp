@@ -57,8 +57,9 @@ public class CommandLineParser {
     private final static String CMD_ERROR = "Error. There is a problem with parsing the command line. See the usage below.\n";
 
 
-    private final static String D_DESC = "- Allow to specify distances (from 1 up to 18):\n"+
+    private final static String D_DESC = "- Allow to specify distances (from 1 up to 19):\n"+
                                         "Metrics for unrooted trees:\n" +
+                                        " m3 - the Matching Triplet metric,\n"+
                                         " ms - the Matching Split metric,\n"+
                                         " rf - the Robinson-Foulds metric,\n"+
                                         " pd - the Path Difference metric,\n"+
