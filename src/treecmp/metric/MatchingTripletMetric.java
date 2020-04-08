@@ -88,7 +88,7 @@ public class MatchingTripletMetric extends BaseMetric implements Metric {
                 }
             }
         }
-        // todo: trzeba policzyć triplety zamiast par!
+
         //count LCA triplets for t1
         int[] t1IntTripletCount = new int[intT1Num];
         for (int i = 0; i < intT1Num; i++){

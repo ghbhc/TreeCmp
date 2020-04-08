@@ -103,6 +103,8 @@ public class TreeCmpUtils {
         int intNum = tree.getInternalNodeCount();
         if (idGroup == null)
             idGroup = TreeUtils.getLeafIdGroup(tree);
+
+        int[] alias = TreeUtils.mapExternalIdentifiers(idGroup, tree);
         int[][] lcaMatrix = calcLcaMatrix(tree, idGroup);
 
         if (verticesOutsideClade == null) {
@@ -121,15 +123,15 @@ public class TreeCmpUtils {
 
         for (int i=0;i<leafNum;i++) {
             for (int j=i+1;j<leafNum;j++) {
-                for (Node thirdVertex: verticesOutsideClade[lcaMatrix[i][j]]) {
+                for (Node thirdVertex: verticesOutsideClade[lcaMatrix[alias[i]][alias[j]]]) {
                     int thirdVertexNumber = thirdVertex.getNumber();
                     if (thirdVertexNumber != i && thirdVertexNumber != j) {
-                        ncvMatrix[i][j][thirdVertexNumber] =
-                        ncvMatrix[i][thirdVertexNumber][j] =
-                        ncvMatrix[j][i][thirdVertexNumber] =
-                        ncvMatrix[j][thirdVertexNumber][i] =
-                        ncvMatrix[thirdVertexNumber][i][j] =
-                        ncvMatrix[thirdVertexNumber][j][i] = lcaMatrix[i][j];
+                        ncvMatrix[alias[i]][alias[j]][alias[thirdVertexNumber]] =
+                        ncvMatrix[alias[i]][alias[thirdVertexNumber]][alias[j]] =
+                        ncvMatrix[alias[j]][alias[i]][alias[thirdVertexNumber]] =
+                        ncvMatrix[alias[j]][alias[thirdVertexNumber]][alias[i]] =
+                        ncvMatrix[alias[thirdVertexNumber]][alias[i]][alias[j]] =
+                        ncvMatrix[alias[thirdVertexNumber]][alias[j]][alias[i]] = lcaMatrix[alias[i]][alias[j]];
                     }
                 }
                 int lcaIndex = lcaMatrix[i][j];
@@ -140,12 +142,12 @@ public class TreeCmpUtils {
                     if (child.isLeaf()) {
                         int thirdVertexNumber = child.getNumber();
                         if (thirdVertexNumber != i && thirdVertexNumber != j) {
-                            ncvMatrix[i][j][thirdVertexNumber] =
-                                    ncvMatrix[i][thirdVertexNumber][j] =
-                                            ncvMatrix[j][i][thirdVertexNumber] =
-                                                    ncvMatrix[j][thirdVertexNumber][i] =
-                                                            ncvMatrix[thirdVertexNumber][i][j] =
-                                                                    ncvMatrix[thirdVertexNumber][j][i] = lcaMatrix[i][j];
+                            ncvMatrix[alias[i]][alias[j]][alias[thirdVertexNumber]] =
+                            ncvMatrix[alias[i]][alias[thirdVertexNumber]][alias[j]] =
+                            ncvMatrix[alias[j]][alias[i]][alias[thirdVertexNumber]] =
+                            ncvMatrix[alias[j]][alias[thirdVertexNumber]][alias[i]] =
+                            ncvMatrix[alias[thirdVertexNumber]][alias[i]][alias[j]] =
+                            ncvMatrix[alias[thirdVertexNumber]][alias[j]][alias[i]] = lcaMatrix[alias[i]][alias[j]];
                         }
                     }
                     else {
@@ -153,12 +155,12 @@ public class TreeCmpUtils {
                                 && !verticesOutsideClade[lca.getChild(k).getNumber()].contains(tree.getExternalNode(j))) {
                             int thirdVertexNumber = lca.getChild(k).getNumber();
                             if (thirdVertexNumber != i && thirdVertexNumber != j) {
-                                ncvMatrix[i][j][thirdVertexNumber] =
-                                        ncvMatrix[i][thirdVertexNumber][j] =
-                                                ncvMatrix[j][i][thirdVertexNumber] =
-                                                        ncvMatrix[j][thirdVertexNumber][i] =
-                                                                ncvMatrix[thirdVertexNumber][i][j] =
-                                                                        ncvMatrix[thirdVertexNumber][j][i] = lcaMatrix[i][j];
+                                ncvMatrix[alias[i]][alias[j]][alias[thirdVertexNumber]] =
+                                ncvMatrix[alias[i]][alias[thirdVertexNumber]][alias[j]] =
+                                ncvMatrix[alias[j]][alias[i]][alias[thirdVertexNumber]] =
+                                ncvMatrix[alias[j]][alias[thirdVertexNumber]][alias[i]] =
+                                ncvMatrix[alias[thirdVertexNumber]][alias[i]][alias[j]] =
+                                ncvMatrix[alias[thirdVertexNumber]][alias[j]][alias[i]] = lcaMatrix[alias[i]][alias[j]];
                             }
                         }
                     }
