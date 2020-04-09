@@ -134,7 +134,7 @@ public class TreeCmpUtils {
                         ncvMatrix[alias[thirdVertexNumber]][alias[j]][alias[i]] = lcaMatrix[alias[i]][alias[j]];
                     }
                 }
-                int lcaIndex = lcaMatrix[i][j];
+                int lcaIndex = lcaMatrix[alias[i]][alias[j]];
                 Node lca = tree.getInternalNode(lcaIndex);
                 int lcaChildCount = lca.getChildCount();
                 for (int k = 0; k < lcaChildCount; k++) {
