@@ -59,7 +59,7 @@ public class QuartetMetricDouble extends BaseMetric implements Metric {
 
     }
 
-    public double getDistance(pal.tree.Tree t1, pal.tree.Tree t2) {
+    public double getDistance(pal.tree.Tree t1, pal.tree.Tree t2, int... indexes) {
 
         return QuartetMetricDouble.getQuartetDistance(t1, t2);
     }

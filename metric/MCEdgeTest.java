@@ -24,7 +24,7 @@ import treecmp.common.TreeCmpUtils;
 
 public class MCEdgeTest extends BaseMetric implements Metric {
   
-    public double getDistance(Tree t1, Tree t2) {
+    public double getDistance(Tree t1, Tree t2, int...indexes) {
 
         int i, j;
         int metric = 0;

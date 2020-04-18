@@ -54,6 +54,8 @@ public class CommandLineParser {
     private final static String A_DESC = "- Generate alignment files (only for MS and MC metrics). Cannot be used with -O option.";
     private final static String OO_DESC = "- Use MS/MC metrics optimized for similar trees. Cannot be used with -A option.";
    // private final static String F_DESC = "- Use MS/MC metrics for trees with free leaf set. ";
+    private final static String ST_DESC = "- Save compared (pruned if set) tree pairs.";
+    private final static String SBT_DESC = "- Save compared (pruned if set) tree pairs (bifurcating only).";
     private final static String CMD_ERROR = "Error. There is a problem with parsing the command line. See the usage below.\n";
 
 
@@ -120,7 +122,7 @@ public class CommandLineParser {
         cmdOpts.addOption(oW);
         cmdOpts.addOption(oM);
         cmdOpts.addOption(oR);
-        
+
         cmdOpts.setRequired(true);
         //set metric option
         Option oD = new Option("d", D_DESC);
@@ -128,7 +130,7 @@ public class CommandLineParser {
         oD.setValueSeparator(' ');
         oD.setArgs(DMetrics.size());
         oD.setRequired(true);
-        
+
         Option oI = new Option("i", I_DESC);
         oI.setArgName(I_ARG);
         oI.setArgs(1);
@@ -147,12 +149,14 @@ public class CommandLineParser {
 
         Option oOO = new Option("O", OO_DESC);
       //  Option oF = new Option("F", F_DESC);
+        Option oST = new Option("ST", ST_DESC);
+        Option oSBT = new Option("SBT", SBT_DESC);
         Option oA = new Option("A", A_DESC);
         OptionGroup customMOpts = new OptionGroup();
         customMOpts.addOption(oOO);
         customMOpts.addOption(oA);
       //  customMOpts.addOption(oF);
-        
+
         Options opts = new Options();
 
         opts.addOptionGroup(cmdOpts);
@@ -164,6 +168,8 @@ public class CommandLineParser {
         opts.addOption(oSS);
         opts.addOption(oII);
         opts.addOption(oB);
+        opts.addOption(oST);
+        opts.addOption(oSBT);
         opts.addOptionGroup(customMOpts);
 
 
@@ -184,7 +190,7 @@ public class CommandLineParser {
         System.out.println(APP_NAME);
         if(args.length==0){
             formatter.printHelp(CMD_LINE_SYNTAX, HEADER,opts,FOOTER, false);
-            return null;                    
+            return null;
         }
 
 
@@ -285,6 +291,22 @@ public class CommandLineParser {
                     custOpts.add(oF);
                 }
                 */
+                if (commandLine.hasOption(oST.getOpt())) {
+                    IOset.setSaveComparedTreePairs(true);
+                    custOpts.add(oST);
+                }
+                else {
+                    IOset.setSaveComparedTreePairs(false);
+                    custOpts.remove(oST);
+                }
+                if (commandLine.hasOption(oSBT.getOpt())) {
+                    IOset.setSaveOnlyBifurcatingComparedTreePairs(true);
+                    custOpts.add(oSBT);
+                }
+                else {
+                    IOset.setSaveOnlyBifurcatingComparedTreePairs(false);
+                    custOpts.remove(oSBT);
+                }
                 Collections.sort(custOpts, new OptOrder());
                 /*
                 if(commandLine.hasOption(oStep))
@@ -356,7 +378,7 @@ public class CommandLineParser {
         } catch (ParseException ex) {
             System.out.println(ex.getMessage());
             System.out.println(CMD_ERROR);
-           
+
             formatter.printHelp(CMD_LINE_SYNTAX, HEADER,opts,FOOTER, false);
 
         } catch (NumberFormatException ex){
@@ -414,6 +436,8 @@ class OptOrder implements Comparator {
         order.put("A", 12);
         order.put("O", 13);
         order.put("B", 14);
+        order.put("ST", 15);
+        order.put("SBT", 16);
        // order.put("F", 15);
     }
 
@@ -423,7 +447,7 @@ class OptOrder implements Comparator {
         Option opt2 = (Option) o2;
         Integer n1 = order.get(opt1.getOpt());
         Integer n2 = order.get(opt2.getOpt());
-        if (n1 != null || n2 != null) {
+        if (n1 != null && n2 != null) {
             return n1 - n2;
         } else {
             return 0;

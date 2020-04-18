@@ -94,7 +94,7 @@ private void pairCompareEx(TreeReader reader, ResultWriter out, StatCalculator[]
         while ((tree2 = reader.readNextTree()) != null) {
             
             for(i=0; i<metrics.length; i++){
-                val = metrics[i].getDistance(tree1, tree2);
+                val = metrics[i].getDistance(tree1, tree2, num, num+1);
                  //summary
                 sStatCalc[i].insertValue(val);
             }

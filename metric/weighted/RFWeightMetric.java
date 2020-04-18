@@ -22,7 +22,7 @@ public class RFWeightMetric extends BaseMetric implements Metric {
     }
 
     @Override
-    public double getDistance(Tree t1, Tree t2) {
+    public double getDistance(Tree t1, Tree t2, int... indexes) {
         int t1_ExtNodes = t1.getExternalNodeCount();
         int t2_ExtNodes = t2.getExternalNodeCount();
         int t1_IntNodes = t1.getInternalNodeCount();

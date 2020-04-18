@@ -62,7 +62,7 @@ public class RFMetric extends BaseMetric implements Metric{
 
     
 
-    public double getDistance(Tree t1, Tree t2) {
+    public double getDistance(Tree t1, Tree t2, int... indexes) {
 
         return RFMetric.getRFDistance(t1, t2);
 

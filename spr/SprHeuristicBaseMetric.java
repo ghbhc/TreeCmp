@@ -20,7 +20,7 @@ public abstract class SprHeuristicBaseMetric extends BaseMetric implements Metri
 
     private Metric m = getMetric();
     
-    public double getDistance(Tree tree1, Tree tree2) {
+    public double getDistance(Tree tree1, Tree tree2, int... indexes) {
         double dist = 0;
         double startDist = 0;
       //  OutputTarget out = OutputTarget.openString();

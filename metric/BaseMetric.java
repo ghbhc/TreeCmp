@@ -132,7 +132,7 @@ public abstract class BaseMetric implements Metric{
         this.name = name;
     }
 
-    public abstract double getDistance(Tree t1, Tree t2) ;
+    public abstract double getDistance(Tree t1, Tree t2, int... indexes) ;
     public  AlignInfo getAlignment(){
         return null;
     }

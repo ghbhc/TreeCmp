@@ -21,7 +21,7 @@ public class NodalL2EdgeWeightMetric extends BaseMetric implements Metric {
     }
 
     @Override
-    public double getDistance(Tree t1, Tree t2) {
+    public double getDistance(Tree t1, Tree t2, int... indexes) {
         double dist, diff;
         String n1, n2;
         int row1, col1, row2, col2;

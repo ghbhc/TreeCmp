@@ -34,7 +34,7 @@ public class MatchingSplitMetric extends BaseMetric implements Metric {
       msFree = new MatchingSpliMetricFree();
   }
 
-    public double getDistance(Tree t1, Tree t2) {
+    public double getDistance(Tree t1, Tree t2, int... indexes) {
 
         if (IOSettings.getIOSettings().isOptMsMcByRf())
             return msRF.getDistance(t1, t2);

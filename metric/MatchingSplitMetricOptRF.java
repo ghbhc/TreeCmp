@@ -30,7 +30,7 @@ import treecmp.common.LapSolver;
 
 public class MatchingSplitMetricOptRF extends BaseMetric implements Metric {
 
-    public double getDistance(Tree t1, Tree t2) {
+    public double getDistance(Tree t1, Tree t2, int... indexes) {
 
          int i, j;
         int metric;

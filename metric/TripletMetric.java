@@ -33,7 +33,7 @@ public class TripletMetric extends BaseMetric implements Metric {
       tt2 = new TripletMetric2();
   }
 
-    public double getDistance(Tree t1, Tree t2) {
+    public double getDistance(Tree t1, Tree t2, int... indexes) {
 
         if (TreeCmpUtils.isBinary(t1, true) && TreeCmpUtils.isBinary(t2, true)) {
             return getDistForBinary(t1, t2);

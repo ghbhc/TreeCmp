@@ -37,6 +37,8 @@ public class IOSettings {
     private boolean genSummary;
     private boolean bifurcatingOnly;
     private boolean rootedMetricUsed;
+    private boolean saveComparedTreePairs;
+    private boolean saveOnlyBinaryComparedTreePairs;
 
     public boolean isUseMsMcFreeLeafSet() {
         return useMsMcFreeLeafSet;
@@ -173,6 +175,17 @@ public class IOSettings {
     public void setRootedMetricUsed(boolean rootedMetricUsed) {
         this.rootedMetricUsed = rootedMetricUsed;
     }
+
+    public void setSaveComparedTreePairs(boolean saveComparedTreePairs) {
+        this.saveComparedTreePairs = saveComparedTreePairs;
+    }
+    public boolean isSaveComparedTreePairs() { return saveComparedTreePairs; }
+
+    public void setSaveOnlyBifurcatingComparedTreePairs(boolean saveOnlyBinaryComparedTreePairs) {
+        this.saveOnlyBinaryComparedTreePairs = saveOnlyBinaryComparedTreePairs;
+    }
+    public boolean isSaveOnlyBinaryComparedTreePairs() { return saveOnlyBinaryComparedTreePairs; }
+
 }
 
 

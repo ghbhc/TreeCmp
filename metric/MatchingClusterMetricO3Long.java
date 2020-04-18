@@ -39,7 +39,7 @@ public class MatchingClusterMetricO3Long extends BaseMetric implements Metric {
     protected long[][] assigncost;
     protected ClustIntersectInfoMatrix cIntM;
 
-    public double getDistance(Tree t1, Tree t2) {
+    public double getDistance(Tree t1, Tree t2, int... indexes) {
 
         long metric, metric_scaled;
         int t1NodeNum, t2NodeNum, il, jl;

@@ -34,7 +34,7 @@ public class MatchingPairMetric extends BaseMetric implements Metric {
     }
 
     @Override
-    public double getDistance(Tree t1, Tree t2) {
+    public double getDistance(Tree t1, Tree t2, int... indexes) {
         
         if (t1.getExternalNodeCount() <= 2){
             return 0.0;

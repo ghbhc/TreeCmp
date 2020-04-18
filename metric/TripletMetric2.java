@@ -27,7 +27,7 @@ import treecmp.common.TreeCmpUtils;
 
 public class TripletMetric2 extends BaseMetric implements Metric {
 
-    public double getDistance(Tree t1, Tree t2) {
+    public double getDistance(Tree t1, Tree t2, int... indexes) {
 
         long n = t1.getExternalNodeCount();
         Node [] nodesT1 = TreeCmpUtils.getNodesInPostOrder(t1);
