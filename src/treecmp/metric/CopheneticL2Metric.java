@@ -42,7 +42,7 @@ public class CopheneticL2Metric extends BaseMetric implements Metric {
         super();
     }
 
-    public double getDistance(Tree t1, Tree t2) {
+    public double getDistance(Tree t1, Tree t2, int... indexes) {
 
         int extT1Num = t1.getExternalNodeCount();
         int extT2Num = t2.getExternalNodeCount();

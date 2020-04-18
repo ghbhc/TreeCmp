@@ -26,7 +26,7 @@ import treecmp.common.TreeCmpUtils;
 public class NodalL2Metric extends BaseMetric implements Metric {
 
     //This seems to be faster than old implementation
-    public double getDistance(Tree t1, Tree t2) {
+    public double getDistance(Tree t1, Tree t2, int... indexes) {
         double dist, diff;
 
         IdGroup id1 = TreeUtils.getLeafIdGroup(t1);

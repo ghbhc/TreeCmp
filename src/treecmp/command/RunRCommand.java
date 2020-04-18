@@ -112,7 +112,7 @@ public class RunRCommand extends Command {
             int j = 0; 
             while ((tree = reader.readNextTree()) != null) {
                 for (int k = 0; k < metrics.length; k++) {
-                    val = metrics[k].getDistance(refTree, tree);
+                    val = metrics[k].getDistance(refTree, tree, i + 1, j + 1);
                     //summary
                     sStatCalc[k].insertValue(val);
                 }

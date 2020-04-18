@@ -19,7 +19,7 @@ public class RMASTMetric extends BaseMetric implements Metric {
 	}
 
 	@Override
-	public double getDistance(Tree t1, Tree t2) {
+	public double getDistance(Tree t1, Tree t2, int... indexes) {
 		return Math.max(t1.getExternalNodeCount(), t2.getExternalNodeCount()) - crmast(t1, t2).getRMAST();
 	}
 	

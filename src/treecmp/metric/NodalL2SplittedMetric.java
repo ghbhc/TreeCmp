@@ -22,7 +22,7 @@ import pal.tree.TreeUtils;
 import treecmp.common.TreeCmpUtils;
 
 public class NodalL2SplittedMetric extends BaseMetric implements Metric{
-  public double getDistance(Tree t1, Tree t2) {
+  public double getDistance(Tree t1, Tree t2, int... indexes) {
  
       double dist,diff;
 

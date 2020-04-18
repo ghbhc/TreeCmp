@@ -25,7 +25,7 @@ import treecmp.common.TreeCmpUtils;
 public class TripletMetricSimple extends BaseMetric implements Metric {
   
 
-    public double getDistance(Tree t1, Tree t2) {
+    public double getDistance(Tree t1, Tree t2, int... indexes) {
         return getDistForArbitrary(t1, t2);
     }
 

@@ -35,7 +35,7 @@ public class MatchingClusterMetricFree extends BaseMetric implements Metric {
     protected short[][] assigncost;
     protected ClustIntersectInfoMatrix cIntM;
 
-    public double getDistance(Tree t1, Tree t2) {
+    public double getDistance(Tree t1, Tree t2, int... indexes) {
 
         int metric;
 

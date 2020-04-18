@@ -121,7 +121,7 @@ public class RunWCommand extends Command {
                         tree2 = tree_vec.get(j);
 
                         for (k = 0; k < metrics.length; k++) {
-                            val = metrics[k].getDistance(tree1, tree2) ;
+                            val = metrics[k].getDistance(tree1, tree2, i + 1, j + 1) ;
                             sStatCalc[k].insertValue(val);
                         }
                         //print row statistic

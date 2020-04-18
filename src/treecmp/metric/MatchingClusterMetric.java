@@ -35,7 +35,7 @@ public class MatchingClusterMetric extends BaseMetric implements Metric {
         mcFree = new MatchingClusterMetricFree();
     }
 
-    public double getDistance(Tree t1, Tree t2) {
+    public double getDistance(Tree t1, Tree t2, int... indexes) {
 
         if (IOSettings.getIOSettings().isOptMsMcByRf()) {
             return mcRF.getDistance(t1, t2);

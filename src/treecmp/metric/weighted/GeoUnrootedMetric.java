@@ -23,7 +23,7 @@ public class GeoUnrootedMetric extends BaseMetric implements Metric {
     }
 
     @Override
-    public double getDistance(Tree t1, Tree t2) {
+    public double getDistance(Tree t1, Tree t2, int... indexes) {
         int extT1Num = t1.getExternalNodeCount();
         Tree t1u, t2u;
         if (extT1Num <= 1) {

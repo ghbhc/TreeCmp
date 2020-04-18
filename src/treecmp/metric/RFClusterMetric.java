@@ -54,7 +54,7 @@ public class RFClusterMetric extends BaseMetric implements Metric{
 
     
 
-    public double getDistance(Tree t1, Tree t2) {
+    public double getDistance(Tree t1, Tree t2, int... indexes) {
 
         return RFClusterMetric.getRFClusterMetric(t1, t2);
 
