@@ -1,19 +1,19 @@
 /** This file is part of TreeCmp, a tool for comparing phylogenetic trees
-    using the Matching Split distance and other metrics.
-    Copyright (C) 2014,  Damian Bogdanowicz
+ using the Matching Split distance and other metrics.
+ Copyright (C) 2014,  Damian Bogdanowicz
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package treecmp.metric;
 
 import pal.misc.IdGroup;
@@ -33,11 +33,12 @@ public class MatchingTripletMetric extends BaseMetric implements Metric {
 
     public MatchingTripletMetric() {
         super();
+        this.rooted = false;
     }
 
     @Override
     public double getDistance(Tree t1, Tree t2, int... indexes) {
-        
+
         if (t1.getExternalNodeCount() <= 2){
             return 0.0;
         }
@@ -46,17 +47,17 @@ public class MatchingTripletMetric extends BaseMetric implements Metric {
 
         // ncv - nearest common vertex
 
-        Set<Node>[] verticesOutsideClade1 = TreeCmpUtils.getVerticesOutsideClade(t1);
-        Set<Node>[] verticesOutsideClade2 = TreeCmpUtils.getVerticesOutsideClade(t2);
-
-        int[][][] ncvMatrix1 = TreeCmpUtils.calcNcvMatrix(t1, null, verticesOutsideClade1);
-        int[][][] ncvMatrix2 = TreeCmpUtils.calcNcvMatrix(t2, id1, verticesOutsideClade2);
-
         int intT1Num = t1.getInternalNodeCount();
         int intT2Num = t2.getInternalNodeCount();
 
         Node[] postOrderT1 = TreeCmpUtils.getNodesInPostOrder(t1);
         Node[] postOrderT2 = TreeCmpUtils.getNodesInPostOrder(t2);
+
+        Set<Node>[] verticesOutsideClade1 = TreeCmpUtils.getVerticesOutsideClade(t1);
+        Set<Node>[] verticesOutsideClade2 = TreeCmpUtils.getVerticesOutsideClade(t2);
+
+        int [][] lcaMatrix1 = TreeCmpUtils.calcLcaMatrix(t1, null);
+        int [][] lcaMatrix2 = TreeCmpUtils.calcLcaMatrix(t1, id1);
 
         short[] cSize1 = new short[intT1Num];
         short[] cSize2 = new short[intT2Num];
@@ -76,15 +77,24 @@ public class MatchingTripletMetric extends BaseMetric implements Metric {
         colsol = new int[size];
         int[] u = new int[size];
         int[] v = new int[size];
-        
+
+        //int[][][] ncvMatrix1 = TreeCmpUtils.calcNcvMatrix(t1, null, lcaMatrix1);
+        //int[][][] ncvMatrix2 = TreeCmpUtils.calcNcvMatrix(t2, id1, lcaMatrix2);
+
+        int[] alias1 = TreeUtils.mapExternalIdentifiers(id1, t1);
+        int[] alias2 = TreeUtils.mapExternalIdentifiers(id1, t2);
+
         //iterate by all possible triplets of leaves
         //and fill assigncost with the value of intersection size
+        int ind1, ind2;
         for (int i = 0; i < N; i++){
             for (int j = i+1; j < N; j++){
                 for (int k = j+1; k < N; k++) {
-                    int int1 = ncvMatrix1[i][j][k];
-                    int int2 = ncvMatrix2[i][j][k];
-                    assigncost[int1][int2]++;
+                    ind1 = TreeCmpUtils.getNcv(t1, i, j, k, lcaMatrix1, alias1);
+                    ind2 = TreeCmpUtils.getNcv(t2, i, j, k, lcaMatrix2, alias2);
+                    //ind1 = ncvMatrix1[i][j][k];
+                    //ind2 = ncvMatrix2[i][j][k];
+                    assigncost[ind1][ind2]++;
                 }
             }
         }
@@ -106,19 +116,19 @@ public class MatchingTripletMetric extends BaseMetric implements Metric {
 
         //calc xor values of triplets sets and store it in assigncost matrix
         for (int i = 0; i < size; i++){
-            for (int j = 0; j < size; j++){
-                if (i < intT1Num && j < intT2Num){
-                    assigncost[i][j] = t1IntTripletCount[i]+t2IntTripletCount[j] - (assigncost[i][j] << 1);
-                } else if (i >= intT1Num && j < intT2Num){
+            for (int j = 0; j < size; j++) {
+                if (i < intT1Num && j < intT2Num) {
+                    assigncost[i][j] = t1IntTripletCount[i] + t2IntTripletCount[j] - (assigncost[i][j] << 1);
+                } else if (i >= intT1Num && j < intT2Num) {
                     assigncost[i][j] = t2IntTripletCount[j];
-                } else if (i < intT1Num && j >= intT2Num){
+                } else if (i < intT1Num && j >= intT2Num) {
                     assigncost[i][j] = t1IntTripletCount[i];
-                }else {
+                } else {
                     //normally should not happen
                     assigncost[i][j] = 0;
-                }    
+                }
             }
-        }   
+        }
         int metric = LapSolver.lap(size, assigncost, rowsol, colsol, u, v);
         return (0.5 * (double) metric);
     }
@@ -147,7 +157,7 @@ public class MatchingTripletMetric extends BaseMetric implements Metric {
         }
         return pairCount;
     }
-    
+
     int coutChildrenPairs(Node n, short[] clustSizeTab) {
         int chCount = n.getChildCount();
         int[] cSize = new int[chCount];

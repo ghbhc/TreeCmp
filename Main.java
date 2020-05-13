@@ -23,7 +23,6 @@ import java.net.URLDecoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javafx.animation.Animation;
 import pal.tree.TreeParseException;
 import treecmp.common.TreeCmpException;
 import treecmp.io.OutputFileType;
