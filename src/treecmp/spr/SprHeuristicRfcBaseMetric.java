@@ -21,33 +21,36 @@ import pal.tree.TreeUtils;
 public abstract class SprHeuristicRfcBaseMetric extends BaseMetric implements Metric {
 
     private Metric m = getMetric();
-    private Metric mRF =new RFClusterMetric();
+    private Metric mRF = new RFClusterMetric();
+    protected boolean reduceCommonBinarySubtreesTrees = false;
 
-    public double getDistance(Tree tree1, Tree tree2, int... indexes) {
+    public double getDistance(Tree tree1, Tree tree2, int...indexes) {
         double dist = 0;
         double startDist = 0;
-      //  OutputTarget out = OutputTarget.openString();
-     //   TreeUtils.printNH(tree1,out,false,false);
-     //   out.close();
-     //   System.out.println(super.getName());
-     //   System.out.print(out.getString());
-        ArrayList<Tree> bestTreeList = new  ArrayList<Tree>();
+        //  OutputTarget out = OutputTarget.openString();
+        //   TreeUtils.printNH(tree1,out,false,false);
+        //   out.close();
+        //   System.out.println(super.getName());
+        //   System.out.print(out.getString());
+        ArrayList<Tree> bestTreeList = new ArrayList<Tree>();
 
         try {
             startDist = mRF.getDistance(tree1, tree2);
             if (startDist == 0) {
                 return 0;
             }
-            int startLeafNum = tree1.getExternalNodeCount();
-        //    System.out.println("Number of leaves: " + startLeafNum);
-            Tree[] reducedTrees = SubtreeUtils.reduceCommonBinarySubtrees(tree1, tree2);
+            Tree t1 = tree1;
+            Tree t2 = tree2;
 
-            Tree t1 = reducedTrees[0];
-            Tree t2 = reducedTrees[1];
-
-            int reducedLeafNum = t1.getExternalNodeCount();
-
-         //   System.out.println("Number of leaves after reduction: " + reducedLeafNum);
+            if (reduceCommonBinarySubtreesTrees) {
+                int startLeafNum = tree1.getExternalNodeCount();
+                //    System.out.println("Number of leaves: " + startLeafNum);
+                Tree[] reducedTrees = SubtreeUtils.reduceCommonBinarySubtreesEx(tree1, tree2, null);
+                t1 = reducedTrees[0];
+                t2 = reducedTrees[1];
+                int reducedLeafNum = t1.getExternalNodeCount();
+                //   System.out.println("Number of leaves after reduction: " + reducedLeafNum);
+            }
 
             int sprDist = 0;
             Tree[] treeList;
@@ -57,7 +60,7 @@ public abstract class SprHeuristicRfcBaseMetric extends BaseMetric implements Me
             Tree currentStepTree = t1;
             double bestDist1 = Double.POSITIVE_INFINITY, bestDist2 = Double.POSITIVE_INFINITY;
             do {
-                treeList = SprUtils.generateSprNeighbours(currentStepTree);
+                treeList = SprUtils.generateRSprNeighbours(currentStepTree);
                 bestDist = Double.POSITIVE_INFINITY;
                 bestTreeList.clear();
                 tempDist = 0;
@@ -70,14 +73,14 @@ public abstract class SprHeuristicRfcBaseMetric extends BaseMetric implements Me
                         bestDist = tempDist;
                         bestTree = tempTree;
                         bestTreeList.add(bestTree);
-                    }else if (tempDist == bestDist){
+                    } else if (tempDist == bestDist) {
                         bestTreeList.add(tempTree);
                     }
                 }
-                currentStepTree = findBestTree(bestTreeList,t2);
+                currentStepTree = findBestTree(bestTreeList, t2);
                 bestDist1 = bestDist2;
                 bestDist2 = bestDist;
-                if (bestDist1 <= bestDist2){
+                if (bestDist1 <= bestDist2) {
                     return Double.POSITIVE_INFINITY;
                 }
 
@@ -110,7 +113,6 @@ public abstract class SprHeuristicRfcBaseMetric extends BaseMetric implements Me
 
         return bestTree;
     }
-
 
     protected abstract Metric getMetric();
 }

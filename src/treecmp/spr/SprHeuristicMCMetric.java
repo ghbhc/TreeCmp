@@ -7,7 +7,6 @@ package treecmp.spr;
 
 import treecmp.metric.MatchingClusterMetricO3;
 import treecmp.metric.Metric;
-import treecmp.metric.RFClusterMetric;
 
 /**
  *

@@ -16,6 +16,7 @@ import pal.tree.SimpleTree;
 import pal.tree.Tree;
 import pal.tree.TreeUtils;
 import treecmp.common.ClusterDist;
+import treecmp.common.TreeCmpException;
 import treecmp.metric.RFClusterMetric;
 
 
@@ -27,7 +28,7 @@ public class SprUtils {
 
 public static int num = 0;
 
-    public static Tree[] generateSprNeighbours(Tree tree){
+    public static Tree[] generateRSprNeighbours(Tree tree){
 
         int extNum = tree.getExternalNodeCount();
         int intNum = tree.getInternalNodeCount();
@@ -102,6 +103,145 @@ public static int num = 0;
             i++;
         }
         return sprTreeArray;
+    }
+
+
+    public static TreeValuePair findBestNeighbour(Tree tree, BestTreeChooser btc, double neighSizeFrac, double inputTreeValue) throws TreeCmpException{
+
+        int extNum = tree.getExternalNodeCount();
+        int intNum = tree.getInternalNodeCount();
+        IdGroup idGroup = TreeUtils.getLeafIdGroup(tree);
+        int neighSize = calcSprNeighbours(tree);
+        int estimatedMax = (extNum+intNum)*(extNum+intNum);
+        int analyzedTreeNum = 0;
+        double frac;
+
+       // System.out.println("Neigh siez="+neighSize);
+        Node s,t;
+        Tree resultTree,  bestTree = null;
+        double bestValue = Double.MAX_VALUE;
+        double resultValue = Double.MAX_VALUE;
+        //leaf to leaf
+        for (int i=0; i<extNum; i++){
+            s = tree.getExternalNode(i);
+            for (int j=0; j<extNum; j++){
+                t = tree.getExternalNode(j);
+                if (isValidMove(s,t)){
+                    resultTree = createSprTree(tree,s,t);
+                    analyzedTreeNum++;
+                    resultValue = btc.getValueForTree(resultTree);
+                    if (resultValue < bestValue){
+                        bestTree = resultTree;
+                        bestValue = resultValue;
+                    }
+                    printProgress(analyzedTreeNum, neighSize, estimatedMax, bestValue);
+                   frac = (double)analyzedTreeNum/(double)estimatedMax;
+                   if (frac > neighSizeFrac && inputTreeValue > bestValue){
+                        TreeValuePair tvPair = new TreeValuePair();
+                        tvPair.setTree(bestTree);
+                        tvPair.setValue(bestValue);
+                        return tvPair;
+                   }
+
+                    // System.out.println("neigbours/neighsize = "+sprTreeSet.size() +"/" +neighSize);
+                }
+            }
+        }
+        //non-leaf and non-root to leaf
+         for (int i=0; i<intNum; i++){
+            s = tree.getInternalNode(i);
+            if(s.isRoot())
+                continue;
+            for (int j=0; j<extNum; j++){
+                t = tree.getExternalNode(j);
+                if (isValidMove(s,t)){
+                    resultTree = createSprTree(tree,s,t);
+                    analyzedTreeNum++;
+                    resultValue = btc.getValueForTree(resultTree);
+                    if (resultValue < bestValue){
+                        bestTree = resultTree;
+                        bestValue = resultValue;
+                    }
+                    printProgress(analyzedTreeNum, neighSize, estimatedMax, bestValue);
+                    frac = (double)analyzedTreeNum/(double)estimatedMax;
+                    if (frac > neighSizeFrac && inputTreeValue > bestValue){
+                        TreeValuePair tvPair = new TreeValuePair();
+                        tvPair.setTree(bestTree);
+                        tvPair.setValue(bestValue);
+                        return tvPair;
+                   }
+                    //System.out.println("neigbours/neighsize = "+sprTreeSet.size() +"/" +neighSize);
+                }
+            }
+        }
+        //leaf - non-leaf
+         for (int i=0; i<extNum; i++){
+            s = tree.getExternalNode(i);
+            for (int j=0; j<intNum; j++){
+                t = tree.getInternalNode(j);
+                if (isValidMove(s,t)){
+                    resultTree = createSprTree(tree,s,t);
+                    analyzedTreeNum++;
+                    resultValue = btc.getValueForTree(resultTree);
+                    if (resultValue < bestValue){
+                        bestTree = resultTree;
+                        bestValue = resultValue;
+                    }
+                    printProgress(analyzedTreeNum, neighSize, estimatedMax, bestValue);
+                    frac = (double)analyzedTreeNum/(double)estimatedMax;
+                    if (frac > neighSizeFrac && inputTreeValue > bestValue){
+                        TreeValuePair tvPair = new TreeValuePair();
+                        tvPair.setTree(bestTree);
+                        tvPair.setValue(bestValue);
+                        return tvPair;
+                   }
+                     //System.out.println("neigbours/neighsize = "+sprTreeSet.size() +"/" +neighSize);
+                }
+            }
+        }
+
+        //non-leaf, non-root to non-leaf
+
+         for (int i=0; i<intNum; i++){
+            s = tree.getInternalNode(i);
+            if(s.isRoot())
+                continue;
+            for (int j=0; j<intNum; j++){
+                t = tree.getInternalNode(j);
+                if (isValidMove(s,t)){
+                    resultTree = createSprTree(tree,s,t);
+                    if (resultTree != null){
+                        analyzedTreeNum++;
+                        resultValue = btc.getValueForTree(resultTree);
+                        if (resultValue < bestValue && inputTreeValue > bestValue){
+                            bestTree = resultTree;
+                            bestValue = resultValue;
+                        }
+                        printProgress(analyzedTreeNum, neighSize, estimatedMax, bestValue);
+                        frac = (double)analyzedTreeNum/(double)estimatedMax;
+                        if (frac > neighSizeFrac){
+                            TreeValuePair tvPair = new TreeValuePair();
+                            tvPair.setTree(bestTree);
+                            tvPair.setValue(bestValue);
+                            return tvPair;
+                        }
+                       // System.out.println("neigbours/neighsize = "+sprTreeSet.size() +"/" +neighSize);
+                    }
+                }
+            }
+        }
+
+        TreeValuePair tvPair = new TreeValuePair();
+        tvPair.setTree(bestTree);
+        tvPair.setValue(bestValue);
+        return tvPair;
+
+    }
+
+    private static void printProgress(int stepNum, int max, int estimatedMax,  double bestVale){
+        if (stepNum % 100 == 0){
+            System.out.println(String.format("Step: %d, estimatedMax: %d, max: %d, best value: %f",stepNum, estimatedMax, max, bestVale));
+        }
     }
 
     public static boolean sameParent(Node n1, Node n2){
@@ -352,7 +492,7 @@ class TreeHolder {
         //        out.close();
          //       System.out.print(out.getString());
 
-        BitSet[] bsArray = ClusterDist.RootedTree2BitSetArray(t, idGroup);;
+        BitSet[] bsArray = ClusterDist.RootedTree2BitSetArray(t, idGroup);
         BitSet bs;
         int totlalHash = 0;
         int partialHash;

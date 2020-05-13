@@ -5,17 +5,18 @@
 
 package treecmp.spr;
 
-import treecmp.metric.MatchingClusterMetricO3;
 import treecmp.metric.Metric;
+import treecmp.metric.MatchingPairMetric;
+
 
 /**
  *
  * @author Damian
  */
-public class SprHeuristicMcRfcMetric extends SprHeuristicRfcBaseMetric{
+public class SprHeuristicMPMetric extends SprHeuristicBaseMetric{
 
  @Override
 protected Metric getMetric(){
-    return new MatchingClusterMetricO3();
+    return new MatchingPairMetric();
  }
 }
