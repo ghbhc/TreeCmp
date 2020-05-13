@@ -43,8 +43,6 @@ public class MatchingTripletMetric extends BaseMetric implements Metric {
             return 0.0;
         }
 
-        IdGroup id1 = TreeUtils.getLeafIdGroup(t1);
-
         // ncv - nearest common vertex
 
         int intT1Num = t1.getInternalNodeCount();
@@ -56,8 +54,9 @@ public class MatchingTripletMetric extends BaseMetric implements Metric {
         Set<Node>[] verticesOutsideClade1 = TreeCmpUtils.getVerticesOutsideClade(t1);
         Set<Node>[] verticesOutsideClade2 = TreeCmpUtils.getVerticesOutsideClade(t2);
 
+        IdGroup id1 = TreeUtils.getLeafIdGroup(t1);
         int [][] lcaMatrix1 = TreeCmpUtils.calcLcaMatrix(t1, null);
-        int [][] lcaMatrix2 = TreeCmpUtils.calcLcaMatrix(t1, id1);
+        int [][] lcaMatrix2 = TreeCmpUtils.calcLcaMatrix(t2, id1);
 
         short[] cSize1 = new short[intT1Num];
         short[] cSize2 = new short[intT2Num];
@@ -81,8 +80,7 @@ public class MatchingTripletMetric extends BaseMetric implements Metric {
         //int[][][] ncvMatrix1 = TreeCmpUtils.calcNcvMatrix(t1, null, lcaMatrix1);
         //int[][][] ncvMatrix2 = TreeCmpUtils.calcNcvMatrix(t2, id1, lcaMatrix2);
 
-        int[] alias1 = TreeUtils.mapExternalIdentifiers(id1, t1);
-        int[] alias2 = TreeUtils.mapExternalIdentifiers(id1, t2);
+        int[] alias = TreeUtils.mapExternalIdentifiers(id1, t1);
 
         //iterate by all possible triplets of leaves
         //and fill assigncost with the value of intersection size
@@ -90,8 +88,8 @@ public class MatchingTripletMetric extends BaseMetric implements Metric {
         for (int i = 0; i < N; i++){
             for (int j = i+1; j < N; j++){
                 for (int k = j+1; k < N; k++) {
-                    ind1 = TreeCmpUtils.getNcv(t1, i, j, k, lcaMatrix1, alias1);
-                    ind2 = TreeCmpUtils.getNcv(t2, i, j, k, lcaMatrix2, alias2);
+                    ind1 = TreeCmpUtils.getNcv(t1, i, j, k, lcaMatrix1, null);
+                    ind2 = TreeCmpUtils.getNcv(t2, i, j, k, lcaMatrix2, alias);
                     //ind1 = ncvMatrix1[i][j][k];
                     //ind2 = ncvMatrix2[i][j][k];
                     assigncost[ind1][ind2]++;
