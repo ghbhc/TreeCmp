@@ -1,19 +1,19 @@
 /** This file is part of TreeCmp, a tool for comparing phylogenetic trees
-    using the Matching Split distance and other metrics.
-    Copyright (C) 2011,  Damian Bogdanowicz
+ using the Matching Split distance and other metrics.
+ Copyright (C) 2011,  Damian Bogdanowicz
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
 package treecmp.common;
 
@@ -37,7 +37,7 @@ import pal.tree.TreeUtils;
 
 public class TreeCmpUtils {
 
-  public static int[][] calcLcaMatrix(Tree tree, IdGroup idGroup) {
+    public static int[][] calcLcaMatrix(Tree tree, IdGroup idGroup) {
 
         int leafNum = tree.getExternalNodeCount();
         int intNum = tree.getInternalNodeCount();
@@ -97,18 +97,16 @@ public class TreeCmpUtils {
         return lcaMatrix;
     }
 
-    public static int[][][] calcNcvMatrix(Tree tree, IdGroup idGroup, Set<Node>[] verticesOutsideClade) {
+    public static int[][][] calcNcvMatrix(Tree tree, IdGroup idGroup, int[][] lcaMatrix) {
 
         int leafNum = tree.getExternalNodeCount();
-        int intNum = tree.getInternalNodeCount();
+        //int intNum = tree.getInternalNodeCount();
         if (idGroup == null)
             idGroup = TreeUtils.getLeafIdGroup(tree);
 
         int[] alias = TreeUtils.mapExternalIdentifiers(idGroup, tree);
-        int[][] lcaMatrix = calcLcaMatrix(tree, idGroup);
-
-        if (verticesOutsideClade == null) {
-            verticesOutsideClade = getVerticesOutsideClade(tree);
+        if (lcaMatrix == null) {
+            lcaMatrix = calcLcaMatrix(tree, idGroup);
         }
 
         int[][][] ncvMatrix = new int[leafNum][leafNum][leafNum];
@@ -123,52 +121,58 @@ public class TreeCmpUtils {
 
         for (int i=0;i<leafNum;i++) {
             for (int j=i+1;j<leafNum;j++) {
-                for (Node thirdVertex: verticesOutsideClade[lcaMatrix[alias[i]][alias[j]]]) {
-                    int thirdVertexNumber = thirdVertex.getNumber();
-                    if (thirdVertexNumber != i && thirdVertexNumber != j) {
-                        ncvMatrix[alias[i]][alias[j]][alias[thirdVertexNumber]] =
-                        ncvMatrix[alias[i]][alias[thirdVertexNumber]][alias[j]] =
-                        ncvMatrix[alias[j]][alias[i]][alias[thirdVertexNumber]] =
-                        ncvMatrix[alias[j]][alias[thirdVertexNumber]][alias[i]] =
-                        ncvMatrix[alias[thirdVertexNumber]][alias[i]][alias[j]] =
-                        ncvMatrix[alias[thirdVertexNumber]][alias[j]][alias[i]] = lcaMatrix[alias[i]][alias[j]];
+                for (int k=j+1;k<leafNum;k++) {
+                    // ncv to unikalny z trzech lca (i,j), (i,k) albo (j,k).
+                    int i_j_lca = lcaMatrix[alias[i]][alias[j]];
+                    int i_k_lca = lcaMatrix[alias[i]][alias[k]];
+                    int j_k_lca = lcaMatrix[alias[j]][alias[k]];
+                    int ncv;
+                    if (i_j_lca == i_k_lca) {
+                        ncv = j_k_lca;
                     }
-                }
-                int lcaIndex = lcaMatrix[alias[i]][alias[j]];
-                Node lca = tree.getInternalNode(lcaIndex);
-                int lcaChildCount = lca.getChildCount();
-                for (int k = 0; k < lcaChildCount; k++) {
-                    Node child = lca.getChild(k);
-                    if (child.isLeaf()) {
-                        int thirdVertexNumber = child.getNumber();
-                        if (thirdVertexNumber != i && thirdVertexNumber != j) {
-                            ncvMatrix[alias[i]][alias[j]][alias[thirdVertexNumber]] =
-                            ncvMatrix[alias[i]][alias[thirdVertexNumber]][alias[j]] =
-                            ncvMatrix[alias[j]][alias[i]][alias[thirdVertexNumber]] =
-                            ncvMatrix[alias[j]][alias[thirdVertexNumber]][alias[i]] =
-                            ncvMatrix[alias[thirdVertexNumber]][alias[i]][alias[j]] =
-                            ncvMatrix[alias[thirdVertexNumber]][alias[j]][alias[i]] = lcaMatrix[alias[i]][alias[j]];
-                        }
+                    else if (i_j_lca == j_k_lca) {
+                        ncv = i_k_lca;
                     }
                     else {
-                        if (!verticesOutsideClade[child.getNumber()].contains(tree.getExternalNode(i))
-                                && !verticesOutsideClade[lca.getChild(k).getNumber()].contains(tree.getExternalNode(j))) {
-                            int thirdVertexNumber = lca.getChild(k).getNumber();
-                            if (thirdVertexNumber != i && thirdVertexNumber != j) {
-                                ncvMatrix[alias[i]][alias[j]][alias[thirdVertexNumber]] =
-                                ncvMatrix[alias[i]][alias[thirdVertexNumber]][alias[j]] =
-                                ncvMatrix[alias[j]][alias[i]][alias[thirdVertexNumber]] =
-                                ncvMatrix[alias[j]][alias[thirdVertexNumber]][alias[i]] =
-                                ncvMatrix[alias[thirdVertexNumber]][alias[i]][alias[j]] =
-                                ncvMatrix[alias[thirdVertexNumber]][alias[j]][alias[i]] = lcaMatrix[alias[i]][alias[j]];
-                            }
-                        }
+                        ncv = i_j_lca;
                     }
+                    ncvMatrix[alias[i]][alias[j]][alias[k]] =
+                            ncvMatrix[alias[i]][alias[k]][alias[j]] =
+                                    ncvMatrix[alias[j]][alias[i]][alias[k]] =
+                                            ncvMatrix[alias[j]][alias[k]][alias[i]] =
+                                                    ncvMatrix[alias[k]][alias[i]][alias[j]] =
+                                                            ncvMatrix[alias[k]][alias[j]][alias[i]] = ncv;
                 }
+
             }
         }
 
         return ncvMatrix;
+    }
+
+    public static int getNcv(Tree tree, int i, int j, int k, int[][] lcaMatrix, int[] alias) {
+
+        if (alias == null || lcaMatrix == null) {
+            IdGroup idGroup = TreeUtils.getLeafIdGroup(tree);
+            alias = TreeUtils.mapExternalIdentifiers(idGroup, tree);
+            lcaMatrix = calcLcaMatrix(tree, idGroup);
+        }
+
+        // ncv to unikalny z trzech lca (i,j), (i,k) albo (j,k).
+        int i_j_lca = lcaMatrix[alias[i]][alias[j]];
+        int i_k_lca = lcaMatrix[alias[i]][alias[k]];
+        int j_k_lca = lcaMatrix[alias[j]][alias[k]];
+        int ncv;
+        if (i_j_lca == i_k_lca) {
+            ncv = j_k_lca;
+        }
+        else if (i_j_lca == j_k_lca) {
+            ncv = i_k_lca;
+        }
+        else {
+            ncv = i_j_lca;
+        }
+        return ncv;
     }
 
     public static Set<Node>[] getVerticesOutsideClade(Tree tree) {
@@ -212,12 +216,12 @@ public class TreeCmpUtils {
     }
 
     /* This matix M contains the distances (number of edges) between
- * each of two leaves and their lowest common ancestor LCA (MRCA).
- * For any two leaves i and j:
- * - M[i][j] = distance from i to LCA(i,j),
- * - M[j][i] = distance from j to LCA(i,j).
- */
-public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
+     * each of two leaves and their lowest common ancestor LCA (MRCA).
+     * For any two leaves i and j:
+     * - M[i][j] = distance from i to LCA(i,j),
+     * - M[j][i] = distance from j to LCA(i,j).
+     */
+    public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
 
         int leafNum = tree.getExternalNodeCount();
         int intNum = tree.getInternalNodeCount();
@@ -225,7 +229,7 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
             idGroup = TreeUtils.getLeafIdGroup(tree);
 
         int[] alias = TreeUtils.mapExternalIdentifiers(idGroup, tree);
-            
+
         int[][] nodalSplittedMatrix = new int[leafNum][leafNum];
         /*for (int i=0;i<leafNum;i++)
             nodalSplittedMatrix[i][i] = 0;*/
@@ -307,7 +311,7 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
         for (i = 0; i < allT1Num; i++) {
             for (j = 0; j < allT2Num; j++) {
 
-                
+
                 uNode = postOrderT1[i];
                 uNodeNum = uNode.getNumber();
                 uNodeLeaf = uNode.isLeaf();
@@ -337,7 +341,7 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
 
                 //u - not leaf, v - any
                 if (!uNodeLeaf ) {
-                   
+
                     sum = 0;
                     for (k = 0; k < uNode.getChildCount(); k++) {
                         xNode = uNode.getChild(k);
@@ -368,18 +372,18 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
 
         return resultMatrix;
     }
-    
-	private static Node[] getInternalNodes(Tree t) {
-		int intTNum = t.getInternalNodeCount();
-		Node[] internalNodes = new Node[intTNum];
-		for (int i = 0; i < intTNum; i++) {
-			internalNodes[intTNum - i - 1] = t.getInternalNode(i);
-		}
-		return internalNodes;
-	}
-    
+
+    private static Node[] getInternalNodes(Tree t) {
+        int intTNum = t.getInternalNodeCount();
+        Node[] internalNodes = new Node[intTNum];
+        for (int i = 0; i < intTNum; i++) {
+            internalNodes[intTNum - i - 1] = t.getInternalNode(i);
+        }
+        return internalNodes;
+    }
+
     public static Node[] getNodesInPreOrder(Tree t){
-        
+
         int intTNum = t.getInternalNodeCount();
         int extTNum = t.getExternalNodeCount();
         int allTNum = intTNum + extTNum;
@@ -392,7 +396,7 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
             preOrderT[i] = curNode;
             i++;
             curNode = NodeUtils.preorderSuccessor(curNode);
-            
+
             if (curNode.isRoot()) {
                 loop = false;
             }
@@ -400,9 +404,9 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
         while (loop);
         return preOrderT;
     }
-    
+
     public static Node[] getNodesInPostOrder(Tree t){
-        
+
         int intTNum = t.getInternalNodeCount();
         int extTNum = t.getExternalNodeCount();
         int allTNum = intTNum + extTNum;
@@ -423,7 +427,7 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
         return postOrderT;
     }
 
-     public static Node[] getAllNodes(Tree t){
+    public static Node[] getAllNodes(Tree t){
 
         int intTNum = t.getInternalNodeCount();
         int extTNum = t.getExternalNodeCount();
@@ -452,13 +456,13 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
     // - Node[] postOrderNodes,
     //output:
     // - short[] cladeSizeTab
-    
+
     public static void calcCladeSizes(Tree t, Node[] postOrderNodes, short[] cladeSizeTab ){
-                        
+
         int intTNum = t.getInternalNodeCount();
         int extTNum = t.getExternalNodeCount();
         int allTNum = intTNum + extTNum;
-        
+
         int childNum = 0, childId = 0;
         int intId = 0;
         Node curNode = null, child = null;
@@ -480,12 +484,12 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
                 } else {
                     childId = child.getNumber();
                     cSize += cladeSizeTab[childId];
-                }              
+                }
             }
             cladeSizeTab[intId] = cSize;
         }
     }
-    
+
     //intput parametes:
     // - Tree t
     // - Node[] postOrderNodes,
@@ -525,21 +529,21 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
                 child = curNode.getChild(j);
                 if (child.isLeaf())
                     continue;
-               
-                 childId = child.getNumber();
-                 alfa_x = cladeSizeTab[childId];
-                 child_a_sum += ((alfa_x * (alfa_x - 1)) >> 1);
+
+                childId = child.getNumber();
+                alfa_x = cladeSizeTab[childId];
+                child_a_sum += ((alfa_x * (alfa_x - 1)) >> 1);
 
             }
             fi_v = gamma_v - child_a_sum * beta_v;
             R +=  fi_v;
         }
-            
+
         return R;
     }
 
-     public static long calcResolvedAndEqualTriplets(ClustIntersectInfoMatrix cIM, Node[] postOrderT1, Node[] postOrderT2){
-               
+    public static long calcResolvedAndEqualTriplets(ClustIntersectInfoMatrix cIM, Node[] postOrderT1, Node[] postOrderT2){
+
         int intT1Num = cIM.getT1().getInternalNodeCount();
         int extT1Num = cIM.getT1().getExternalNodeCount();
 
@@ -548,9 +552,9 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
 
         int allT1Num = intT1Num + extT1Num;
         int allT2Num = intT2Num + extT2Num;
-        
+
         long n = extT1Num;
-       
+
         Node uNode, vNode, xNode, yNode;
         boolean uNodeLeaf, vNodeLeaf, uNodeRoot, vNodeRoot;
         int uNodeNum, vNodeNum, xNodeNum, yNodeNum, childNodeCount, childNodeCount2;
@@ -568,7 +572,7 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
             if (uNodeLeaf || uNodeRoot)
                 continue;
 
-            for (j = 0; j < allT2Num; j++) {             
+            for (j = 0; j < allT2Num; j++) {
                 vNode = postOrderT2[j];
                 vNodeNum = vNode.getNumber();
                 vNodeLeaf = vNode.isLeaf();
@@ -581,7 +585,7 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
 
                 n1 = choose2(uvSize) * uvSizeNeg;
                 //n1 ----
-                
+
                 //n2 ----
                 childNodeCount = uNode.getChildCount();
                 child_u_sum = 0;
@@ -589,7 +593,7 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
                     xNode = uNode.getChild(k);
                     if (xNode.isLeaf())
                         continue;
-               
+
                     xNodeNum = xNode.getNumber();
                     xvSize = cIM.getT1Int_T2Int(xNodeNum,vNodeNum);
                     child_u_sum += choose2(xvSize);
@@ -627,9 +631,9 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
                         yNode = vNode.getChild(l);
                         if (yNode.isLeaf())
                             continue;
-                         yNodeNum = yNode.getNumber();
-                         xySize = cIM.getT1Int_T2Int(xNodeNum,yNodeNum);
-                         child_y_sum += choose2(xySize);
+                        yNodeNum = yNode.getNumber();
+                        xySize = cIM.getT1Int_T2Int(xNodeNum,yNodeNum);
+                        child_y_sum += choose2(xySize);
                     }
                     child_xy_sum += child_y_sum;
                 }
@@ -639,12 +643,12 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
                 s = n1 - n2 - n3 + n4;
                 S += s;
             }
-         }
-         return S;
-     }
+        }
+        return S;
+    }
 
 
-      public static long calcResolvedOnlyInT1(ClustIntersectInfoMatrix cIM, Node[] postOrderT1, Node[] postOrderT2){
+    public static long calcResolvedOnlyInT1(ClustIntersectInfoMatrix cIM, Node[] postOrderT1, Node[] postOrderT2){
 
         int intT1Num = cIM.getT1().getInternalNodeCount();
         int extT1Num = cIM.getT1().getExternalNodeCount();
@@ -673,118 +677,118 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
 
             for (j = 0; j < allT2Num; j++) {
                 vNode = postOrderT2[j];
-              
+
                 if (vNode.getChildCount() <= 2)
                     continue;
-                 r = r1(uNode,vNode, gammaMap,cIM);
+                r = r1(uNode,vNode, gammaMap,cIM);
 
                 R += r;
             }
-         }
-         return R;
-     }
+        }
+        return R;
+    }
 
-      private static long r1(Node u, Node v, Map<Triple,Long> gammaMap, ClustIntersectInfoMatrix cIM){
-          Node pa_u = u.getParent();
+    private static long r1(Node u, Node v, Map<Triple,Long> gammaMap, ClustIntersectInfoMatrix cIM){
+        Node pa_u = u.getParent();
 
-          int vNum = v.getNumber();
-          int uNum = u.getNumber();
-          int pa_uNum = pa_u.getNumber();
-          int xNum,childNum = u.getChildCount();
-          Triple t = new Triple();
-          Node x;
-          long sum = 0, gm;
-          Long g;
+        int vNum = v.getNumber();
+        int uNum = u.getNumber();
+        int pa_uNum = pa_u.getNumber();
+        int xNum,childNum = u.getChildCount();
+        Triple t = new Triple();
+        Node x;
+        long sum = 0, gm;
+        Long g;
 
-          for (int i = 0; i < childNum; i++){
-              x = u.getChild(i);
-              xNum = x.getNumber();
-              if (!x.isLeaf()){
-                  t.n1 = pa_uNum;
-                  t.n2 = xNum;
-                  t.n3 = vNum;
-                  g = gammaMap.get(t);
-                  if (g == null){
-                      gm = gamma(pa_u,x,v,cIM);
-                      gammaMap.put(t, gm);
-                      g = gm;
-                  }
+        for (int i = 0; i < childNum; i++){
+            x = u.getChild(i);
+            xNum = x.getNumber();
+            if (!x.isLeaf()){
+                t.n1 = pa_uNum;
+                t.n2 = xNum;
+                t.n3 = vNum;
+                g = gammaMap.get(t);
+                if (g == null){
+                    gm = gamma(pa_u,x,v,cIM);
+                    gammaMap.put(t, gm);
+                    g = gm;
+                }
 
-                  sum += g;
-              }
-          }
-          t.n1 = pa_uNum;
-          t.n2 = uNum;
-          t.n3 = vNum;
-          g = gammaMap.get(t);
-          if (g == null){
+                sum += g;
+            }
+        }
+        t.n1 = pa_uNum;
+        t.n2 = uNum;
+        t.n3 = vNum;
+        g = gammaMap.get(t);
+        if (g == null){
             gm = gamma(pa_u,u,v,cIM);
             gammaMap.put(t, gm);
             g = gm;
-          }
-          long r1 = g - sum;
+        }
+        long r1 = g - sum;
 
-          return r1;
-      }
-
-
-       private static long gamma(Node u1, Node uk, Node v, ClustIntersectInfoMatrix cIM){
-           
-           Node u2;
-           long sum, u2Negx;
-           if (uk.getParent().getNumber() == u1.getNumber())
-               u2 = uk;
-           else
-               u2 = uk.getParent();
-           //n1
-           long u2Negv = cIM.getSizeT2(v) - cIM.getInterSize(u2, v);
-           long n1 = choose2(cIM.getInterSize(uk, v))* u2Negv;
-
-           int childNum = v.getChildCount();
-           Node x;
-
-           sum = 0;
-           for (int i = 0; i<childNum; i++){
-               x = v.getChild(i);
-               u2Negx = cIM.getSizeT2(x) - cIM.getInterSize(u2, x);
-               sum += choose2(cIM.getInterSize(uk, x))* u2Negx;
-           }
-           long n2 = sum;
-
-           sum =0;
-           for (int i = 0; i<childNum; i++){
-               x = v.getChild(i);
-               u2Negv = cIM.getSizeT2(v) - cIM.getInterSize(u2, v);
-               u2Negx = cIM.getSizeT2(x) - cIM.getInterSize(u2, x);
-
-               sum += choose2(cIM.getInterSize(uk, x))* (u2Negv - u2Negx);
-           }
-           long n3 = sum;
-
-           sum =0;
-           for (int i = 0; i<childNum; i++){
-               x = v.getChild(i);
-               u2Negx = cIM.getSizeT2(x) - cIM.getInterSize(u2, x);
-               sum += cIM.getInterSize(uk, x)*u2Negx*(cIM.getInterSize(uk, v) - cIM.getInterSize(uk, x));
-           }
-           long n4 = sum;
-
-           long r1 = n1 - n2 - n3 - n4;
-
-           return r1;
-
-       }
+        return r1;
+    }
 
 
-     public static long choose2(long n){
+    private static long gamma(Node u1, Node uk, Node v, ClustIntersectInfoMatrix cIM){
 
-         if (n < 2)
-             return 0;
-         else if (n == 2)
-             return 1;
-         else
+        Node u2;
+        long sum, u2Negx;
+        if (uk.getParent().getNumber() == u1.getNumber())
+            u2 = uk;
+        else
+            u2 = uk.getParent();
+        //n1
+        long u2Negv = cIM.getSizeT2(v) - cIM.getInterSize(u2, v);
+        long n1 = choose2(cIM.getInterSize(uk, v))* u2Negv;
+
+        int childNum = v.getChildCount();
+        Node x;
+
+        sum = 0;
+        for (int i = 0; i<childNum; i++){
+            x = v.getChild(i);
+            u2Negx = cIM.getSizeT2(x) - cIM.getInterSize(u2, x);
+            sum += choose2(cIM.getInterSize(uk, x))* u2Negx;
+        }
+        long n2 = sum;
+
+        sum =0;
+        for (int i = 0; i<childNum; i++){
+            x = v.getChild(i);
+            u2Negv = cIM.getSizeT2(v) - cIM.getInterSize(u2, v);
+            u2Negx = cIM.getSizeT2(x) - cIM.getInterSize(u2, x);
+
+            sum += choose2(cIM.getInterSize(uk, x))* (u2Negv - u2Negx);
+        }
+        long n3 = sum;
+
+        sum =0;
+        for (int i = 0; i<childNum; i++){
+            x = v.getChild(i);
+            u2Negx = cIM.getSizeT2(x) - cIM.getInterSize(u2, x);
+            sum += cIM.getInterSize(uk, x)*u2Negx*(cIM.getInterSize(uk, v) - cIM.getInterSize(uk, x));
+        }
+        long n4 = sum;
+
+        long r1 = n1 - n2 - n3 - n4;
+
+        return r1;
+
+    }
+
+
+    public static long choose2(long n){
+
+        if (n < 2)
+            return 0;
+        else if (n == 2)
+            return 1;
+        else
             return ((n * (n - 1)) >> 1);
-     }
+    }
 
     public static boolean isBinary(Tree tree, boolean isRooted){
         int intNum = tree.getInternalNodeCount();
@@ -798,12 +802,12 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
                     if (childNum != 2)
                         return false;
                 }else {
-                     if (childNum != 3)
+                    if (childNum != 3)
                         return false;
                 }
             }else {
                 if (childNum != 2)
-                        return false;
+                    return false;
             }
         }
         return true;
@@ -824,7 +828,7 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
         return neighbors;
     }
 
-     public static int getNodeDepth(Node node){
+    public static int getNodeDepth(Node node){
         int depth=0;
 
         if (node.isRoot())
@@ -839,9 +843,9 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
     }
 
     public static Tree unrootTreeIfNeeded(Tree t) {
-    if(t.getExternalNodeCount() == 2) {
-        return t;
-    }
+        if(t.getExternalNodeCount() == 2) {
+            return t;
+        }
         Tree ut = null;
         if (t != null) {
             Node r = t.getRoot();
@@ -866,7 +870,7 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
 
         }
 
-         for (int i =0; i<g2Num;i++){
+        for (int i =0; i<g2Num;i++){
             String name = g2.getIdentifier(i).getName();
             if (!nameSet.contains(name))
                 nameSet.add(name);
@@ -881,14 +885,14 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
         IdGroup g = new SimpleIdGroup(idTab);
         return g;
     }
-    
+
     /**
-     * Note that in order to use the method 
+     * Note that in order to use the method
      * both the input trees must be rooted binary trees.
      * @param tree1
      * @param tree2
      * @param idGroup
-     * @return 
+     * @return
      */
     public static IntersectInfoMatrix calcMastIntersectMatrix(Tree tree1, Tree tree2, IdGroup idGroup) {
         int intT1Num = tree1.getInternalNodeCount();
@@ -908,7 +912,7 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
         Node aNode, wNode, xNode, yNode, bNode, cNode;
         boolean aNodeLeaf, wNodeLeaf;
         int aNodeNum, wNodeNum;
-  
+
         for (int i = 0; i < allT1Num; i++) {
             for (int j = 0; j < allT2Num; j++) {
                 aNode = postOrderT1[i];
@@ -918,7 +922,7 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
                 wNode = postOrderT2[j];
                 wNodeNum = wNode.getNumber();
                 wNodeLeaf = wNode.isLeaf();
-                
+
                 if (aNodeLeaf && wNodeLeaf) { //a - leaf node, w - leaf node
                     continue;
                 } else  if (aNodeLeaf && (!wNodeLeaf)) { //a - leaf node, w - not leaf
@@ -942,7 +946,7 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
                     }
                     resultMatrix.setT1Int_T2Ext(aNodeNum, wNodeNum, mastSize);
                 } else { //a - not leaf, w - not leaf
-                    short mastTab[] = new short[6]; 
+                    short mastTab[] = new short[6];
                     bNode = aNode.getChild(0);
                     cNode = aNode.getChild(1);
                     xNode = wNode.getChild(0);
@@ -960,7 +964,7 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
         }
         return resultMatrix;
     }
-    
+
     /**
      *
      * @param t
@@ -1028,7 +1032,7 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
             }
         }
     }
-    
+
     public static short max (short [] tab){
         short currMax = tab[0];
         for (int i = 1; i < tab.length; i++){
@@ -1038,13 +1042,14 @@ public static int[][] calcNodalSplittedMatrix(Tree tree, IdGroup idGroup) {
         }
         return currMax;
     }
+
 }
 
-	
+
 
 
 class TCUtilsNode{
-     private List< List<Integer> > leafSets;
+    private List< List<Integer> > leafSets;
 
     public List<List<Integer>> getLeafSets() {
         return leafSets;
@@ -1058,31 +1063,31 @@ class TCUtilsNode{
         this.leafSets = leafSets;
     }
 
-     public TCUtilsNode() {
-         this.leafSets = new ArrayList<List<Integer>>();
+    public TCUtilsNode() {
+        this.leafSets = new ArrayList<List<Integer>>();
     }
 
-     void add(TCUtilsNode node){
-         List<Integer> tempList = new LinkedList<Integer>();
+    void add(TCUtilsNode node){
+        List<Integer> tempList = new LinkedList<Integer>();
 
-         for(List<Integer> li: node.getLeafSets()){
-             for (Integer i:li ){
-                 tempList.add( new Integer(i));
-             }
-         }
-         this.leafSets.add(tempList);
-     }
+        for(List<Integer> li: node.getLeafSets()){
+            for (Integer i:li ){
+                tempList.add( new Integer(i));
+            }
+        }
+        this.leafSets.add(tempList);
+    }
 
-     void addLeaf(Integer leaf){
-         List<Integer> tempList = new LinkedList<Integer>();
+    void addLeaf(Integer leaf){
+        List<Integer> tempList = new LinkedList<Integer>();
 
-         tempList.add(new Integer(leaf));
-         this.leafSets.add(tempList);  
-     }
+        tempList.add(new Integer(leaf));
+        this.leafSets.add(tempList);
+    }
 }
 
- class TCUtilsNodeEx{
-     private List< List<NodeExInfo> > leafSets;
+class TCUtilsNodeEx{
+    private List< List<NodeExInfo> > leafSets;
 
     public List<List<NodeExInfo>> getLeafSets() {
         return leafSets;
@@ -1096,34 +1101,34 @@ class TCUtilsNode{
         this.leafSets = leafSets;
     }
 
-     public TCUtilsNodeEx() {
-         this.leafSets = new ArrayList<List<NodeExInfo>>();
+    public TCUtilsNodeEx() {
+        this.leafSets = new ArrayList<List<NodeExInfo>>();
     }
 
-     void add(TCUtilsNodeEx node){
-         List<NodeExInfo> tempList = new LinkedList<NodeExInfo>();
+    void add(TCUtilsNodeEx node){
+        List<NodeExInfo> tempList = new LinkedList<NodeExInfo>();
 
-         for(List<NodeExInfo> li: node.getLeafSets()){
-             for (NodeExInfo i:li ){
-                 NodeExInfo newNode = new NodeExInfo();
-                 newNode.dist = i.dist + 1;
-                 newNode.leafId = i.leafId;
-                 tempList.add(newNode);
-             }
-         }
-         this.leafSets.add(tempList);
-     }
+        for(List<NodeExInfo> li: node.getLeafSets()){
+            for (NodeExInfo i:li ){
+                NodeExInfo newNode = new NodeExInfo();
+                newNode.dist = i.dist + 1;
+                newNode.leafId = i.leafId;
+                tempList.add(newNode);
+            }
+        }
+        this.leafSets.add(tempList);
+    }
 
-     void addLeaf(int leaf){
-         List<NodeExInfo> tempList = new LinkedList<NodeExInfo>();
+    void addLeaf(int leaf){
+        List<NodeExInfo> tempList = new LinkedList<NodeExInfo>();
 
-         NodeExInfo nodeExInfo = new NodeExInfo();
-         nodeExInfo.leafId = leaf;
-         nodeExInfo.dist = 1;
+        NodeExInfo nodeExInfo = new NodeExInfo();
+        nodeExInfo.leafId = leaf;
+        nodeExInfo.dist = 1;
 
-         tempList.add(nodeExInfo);
-         this.leafSets.add(tempList);
-     }
+        tempList.add(nodeExInfo);
+        this.leafSets.add(tempList);
+    }
 
 }
 
@@ -1151,20 +1156,20 @@ class Triple {
         if ((obj == null) || (obj.getClass() != this.getClass())) {
             return false;
         }
-       Triple ref = (Triple)obj;
-       if (n1 == ref.n1 && n2 == ref.n2 && n3 == ref.n3)
-           return true;
-       else
-           return false;
+        Triple ref = (Triple)obj;
+        if (n1 == ref.n1 && n2 == ref.n2 && n3 == ref.n3)
+            return true;
+        else
+            return false;
 
     }
 
     @Override
     public int hashCode() {
         int prime = 31;
-        int hash = (n1 + prime * n2)^n3;  
+        int hash = (n1 + prime * n2)^n3;
         return hash;
     }
 
-   
+
 }
