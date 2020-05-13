@@ -16,7 +16,7 @@
             <year>20??</year>
             <full_description>????</full_description>
         </metric>
-        <metric> 
+        <metric>
             <name>MatchingSplit</name>
             <command_name>ms</command_name>
             <class>treecmp.metric.MatchingSplitMetric</class>
@@ -26,9 +26,9 @@
             <aln_file_suffix>.aln_MS.txt</aln_file_suffix>
             <fullname>Matching Split distance</fullname>
             <complexity>|L|^2.5*log|L|</complexity>
-            <authors>Bogdanowicz and Giaro</authors>             
+            <authors>Bogdanowicz and Giaro</authors>
             <publication>Matching split distance for unrooted binary phylogenetic trees</publication>
-            <year>2012</year>         
+            <year>2012</year>
             <full_description>Matching Split distance is based on comparing splits in two trees. A split A|B of a set L is an unordered pair (ie, A|B = B|A) of its subsets, such that L = A∪B and A∩B = ∅. To compare splits in two trees, MS finds a minimum-weight perfect matching in bipartite graphs whose vertices correspond to splits in these two trees and edges connect each split from one tree to a split in another tree. If the number of splits in the trees differs, the smaller set is extended by the missing number of "dummy" elements.</full_description>
         </metric>
         <metric>
@@ -40,7 +40,7 @@
             <yule_data>yule_UM.txt</yule_data>
             <fullname>Unrooted Maximum Agreement Subtree distance</fullname>
             <complexity>|L|^(2+o(1))</complexity>
-            <authors>Farach and Thorup</authors>             
+            <authors>Farach and Thorup</authors>
             <publication>Fast comparison of evolutionary trees</publication>
             <year>1994</year>
             <full_description>Given a set of species L and two unrooted trees leaves uniquely labeled by the items of L, Unrooted Maximum Agreement Subtree distance is the difference between cardinality of L and cardinality of the largest subset A of L such that the subtrees of compared trees induced by A are isomorphic</full_description>
@@ -54,9 +54,9 @@
             <yule_data>yule_PD.txt</yule_data>
             <fullname>Path difference distance</fullname>
             <complexity>|L|^2</complexity>
-            <authors>Steel and Penny</authors>             
+            <authors>Steel and Penny</authors>
             <publication>Distributions of tree comparison metrics — Some new results</publication>
-            <year>1993</year>         
+            <year>1993</year>
             <full_description>Path difference distance is the square root of the sum of squares of the differences in the distance between individual pairs of leaves in the compared trees.</full_description>
         </metric>
         <metric>
@@ -68,7 +68,7 @@
             <yule_data>yule_QT.txt</yule_data>
             <fullname>Quartet distance</fullname>
             <complexity>|L|^3</complexity>
-            <authors>Estabrook, McMorris and Meacham</authors>          
+            <authors>Estabrook, McMorris and Meacham</authors>
             <publication>Comparison of undirected phylogenetic trees based on subtrees of four evolutionary units</publication>
             <year>1985</year>
             <full_description>The Quartet distance is based on comparing sets of quartets induced by two trees. A set of quartets induced by an unrooted tree is the set of the topologies of all 4-species subsets of its leaves consistent with its topology. Quartet distance between two trees is the number of different quartets in two respective sets.</full_description>
@@ -82,10 +82,19 @@
             <yule_data>yule_RF.txt</yule_data>
             <fullname>Robinson-Foulds distance</fullname>
             <complexity>|L|</complexity>
-            <authors>Robinson and Foulds</authors>             
+            <authors>Robinson and Foulds</authors>
             <publication>Comparison of phylogenetic trees</publication>
-            <year>1981</year>        
+            <year>1981</year>
             <full_description>The Robinson-Foulds distance is one of the most commonly used methods to measure the dissimilarity of phylogenetic trees. This metric is equal to the number of different splits in compared trees (divided by 2). A split A|B of a set L is an unordered pair (ie, A|B = B|A) of its subsets, such that L = A∪B and A∩B = ∅.</full_description>
+        </metric>
+        <metric>
+            <name>MatchingPairUnrooted</name>
+            <command_name>mpu</command_name>
+            <class>treecmp.metric.MatchingPairUnrootedMetric</class>
+            <description>-Matching Pair Unrooted metric</description>
+            <unif_data>unif_MPU.txt</unif_data>
+            <yule_data>yule_MPU.txt</yule_data>
+            <fullname>Matching Pair Unrooted metric</fullname>
         </metric>
         <!-- weighted unrooted metric -->
         <metric>
@@ -115,7 +124,7 @@
             <full_description>Metric is based on concept of a continuous tree space consists of a set of Euclidean regions, called orthants, one for each tree topology. Orthants are joined together whenever one tree topology can be made into another by exchanging edges between the trees. Within an orthant, the coordinates of each point represent the edge lengths for a particular tree with the topology associated with that orthant. The geodesic between two trees is the unique shortest path connecting the two associated points in this space. Thus traversing the geodesic corresponds to continuously transforming one tree into the other.</full_description>
         </metric>
         <!-- rooted metrics -->
-        <metric> 
+        <metric>
             <name>MatchingPair</name>
             <command_name>mp</command_name>
             <class>treecmp.metric.MatchingPairMetric</class>
@@ -125,7 +134,7 @@
             <rooted>true</rooted>
             <fullname>Matching Pair metric</fullname>
             <complexity>|L|^2.5*log|L|</complexity>
-            <authors>Bogdanowicz and Giaro</authors>             
+            <authors>Bogdanowicz and Giaro</authors>
             <publication>Comparing phylogenetic trees by matching nodes using the transfer distance between partitions</publication>
             <year>2017</year>
             <full_description>The Matching Pair metric uses the concept of the minimum-weight perfect matching in a complete bipartite graph constructed from partitions of all pairs of leaves of the compared phylogenetic trees. This metric becomes the transfer distance between partitions of the set of unordered leaf pairs determined by compared trees.</full_description>
@@ -141,7 +150,7 @@
             <rooted>true</rooted>
             <fullname>Matching Cluster metric</fullname>
             <complexity>|L|^2.5*log|L|</complexity>
-            <authors>Bogdanowicz and Giaro</authors>             
+            <authors>Bogdanowicz and Giaro</authors>
             <publication>On a matching distance between rooted phylogenetic trees</publication>
             <year>2013</year>
             <full_description>Matching Cluster metric is based on comparing clusters in two trees. A cluster associated with a vertex v in a rooted tree T with leaves L is a subset of leaves that are descendants of v. To measure the dissimilarity between clusters, MC uses function hC(A, B) = |A⊕B|.  If the number of clusters in the trees differs, the smaller set is extended by the missing number of "dummy" elements.</full_description>
@@ -171,7 +180,7 @@
             <rooted>true</rooted>
             <fullname>Nodal Splitted metric with L2 norm</fullname>
             <complexity>|L|^2</complexity>
-            <authors>Cardona, Llabres, Rossello and Valiente</authors>             
+            <authors>Cardona, Llabres, Rossello and Valiente</authors>
             <publication>Nodal distances for rooted phylogenetic trees</publication>
             <year>2010</year>
             <full_description>Nodal Splitted metric is L2 norm of two splitted path lengths matrices with rows and columns indexed by taxa and where every entry is the distance from the least common ancestor of the pair of nodes.</full_description>
@@ -186,7 +195,7 @@
             <rooted>true</rooted>
             <fullname>Triples metric</fullname>
             <complexity>|L|^2</complexity>
-            <authors>Critchlow, Pearl and Qian</authors>           
+            <authors>Critchlow, Pearl and Qian</authors>
             <publication>Triples Distance for rooted bifurcating phylogenetic trees</publication>
             <year>1996</year>
             <full_description>The Triples metric is based on comparing sets of triples induced by two trees. A set of triples induced by a rooted tree is a set of the topologies of all 3-species rooted subtrees consistent with this tree. Triplets distance between two trees is the number of different triples in the respective sets.</full_description>
@@ -201,7 +210,7 @@
             <rooted>true</rooted>
             <fullname>Rooted Maximum Agreement Subtree distance</fullname>
             <complexity>|L|^2</complexity>
-            <authors>Farach and Thorup</authors>             
+            <authors>Farach and Thorup</authors>
             <publication>Fast comparison of evolutionary trees</publication>
             <year>1994</year>
             <full_description>Given a set L of n species and two rooted trees leaves uniquely labeled by the items of L, Maximum Agreement Subtree distance is the difference between cardinality of L and cardinality of the largest subset B of L such that the subtrees of compared trees induced by B are isomorphic</full_description>
@@ -216,9 +225,9 @@
             <rooted>true</rooted>
             <fullname>Robinson-Foulds metric based on clusters</fullname>
             <complexity>|L|</complexity>
-            <authors>Robinson and Foulds</authors>             
+            <authors>Robinson and Foulds</authors>
             <publication>Comparison of phylogenetic trees</publication>
-            <year>1981</year>        
+            <year>1981</year>
             <full_description>The Robinson-Foulds Cluster distance is one of the most commonly used methods to measure the dissimilarity of phylogenetic trees. This metric is equal to the number of different clusters in compared trees (divided by 2). A cluster associated with a vertex v in a rooted tree T with leaves L is a subset of leaves that are descendants of v.</full_description>
         </metric>
         <!-- weighted rooted metric -->
