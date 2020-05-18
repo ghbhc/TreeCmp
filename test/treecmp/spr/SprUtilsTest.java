@@ -156,10 +156,22 @@ class SprUtilsTest {
     @Test
     public void testGenerateUSprNeighboursShouldReturnExactly_90_Neighbours_testing_one_8_labels_tree() {
         SprUtils instance = new SprUtils();
-        Tree baseTree = TreeCreator.getTreeFromString("((4,(((2,5),(3,6)),7)),1,8);");
+        Tree baseTree = TreeCreator.getTreeFromString("(1,2,(3,(4,(5,(6,(7,8))))));");
+        //Tree baseTree = TreeCreator.getTreeFromString("((4,(((2,5),(3,6)),7)),1,8);");
         Tree[] treeList;
         //int neighSizeExpResult = instance.calcUsprNeighbours(baseTree);
         int neighSizeExpResult = 90;
+        treeList = SprUtils.generateUSprNeighbours(baseTree);
+        assertEquals(neighSizeExpResult, treeList.length);
+    }
+
+    @Test
+    public void testGenerateUSprNeighboursShouldReturnExactly_37442_Neighbours_testing_one_100_labels_tree() {
+        SprUtils instance = new SprUtils();
+        Tree baseTree = TreeCreator.getUnrootrdTreeWith_100_Labels();
+        Tree[] treeList;
+        //int neighSizeExpResult = instance.calcUsprNeighbours(baseTree);
+        int neighSizeExpResult = 37442;
         treeList = SprUtils.generateUSprNeighbours(baseTree);
         assertEquals(neighSizeExpResult, treeList.length);
     }

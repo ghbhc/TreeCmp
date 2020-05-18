@@ -5,13 +5,10 @@
 
 package treecmp.spr;
 
-import java.io.Console;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.BitSet;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
 
 import pal.io.InputSource;
 import pal.misc.IdGroup;
@@ -19,7 +16,7 @@ import pal.misc.Identifier;
 import pal.tree.*;
 import treecmp.common.ClusterDist;
 import treecmp.common.TreeCmpException;
-import treecmp.metric.Metric;
+import treecmp.common.TreeCmpUtils;
 import treecmp.metric.RFClusterMetric;
 import treecmp.metric.RFMetric;
 
@@ -390,24 +387,27 @@ public static int num = 0;
         if (isChildParent(s, t)) {
             return false;
         }
-/*        if (isInnerMove(s, t)) {
-            return false;
-        }*/
         if (s.isRoot() || t.isRoot()) {
             return false;
         }
-/*        if (distanceEqual3(s, t) && !hasBrotherExcept(s, t.getParent())) {
+        if (distanceEqual3(s, t) && !isSmalestInNNI(s, t)) {
             return false;
         }
-        if (distanceEqual3(s, t) && hasBrotherExcept(s, t.getParent()) && hasBrotherExcept(t,t.getParent()) && !isSmaler(s, t)) {
+        if (distanceEqual2Inner(s, t) && !isSmalestInNNI(s.getParent(), t)) {
             return false;
-        }*/
+        }
+        if (distanceEqual2Inner(s, t) && !isSmalestInNNI(findOtherChild(s.getParent(), s), t)) {
+            return false;
+        }
         return true;
     }
 
     private static boolean distanceEqual3(Node s, Node t) {
         Node sParent = s.getParent();
         Node tParent = t.getParent();
+        if (sParent.isRoot() || tParent.isRoot()) {
+            return false;
+        }
         if(sParent != null) {
             for (int i = 0; i < sParent.getChildCount(); i++) {
                 if (sParent.getChild(i) == tParent) {
@@ -422,28 +422,16 @@ public static int num = 0;
                 }
             }
         }
+        return false;
+    }
+
+    private static boolean distanceEqual2Inner(Node s, Node t) {
         if (!s.isLeaf()) {
             for (int i = 0; i < s.getChildCount(); i++) {
                 Node child = s.getChild(i);
                 for (int j = 0; j < child.getChildCount(); j++) {
-                    Node grandChild = child.getChild(j);
-                    for (int k = 0; k < grandChild.getChildCount(); k++) {
-                        if (grandChild.getChild(k) == t) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        if (!t.isLeaf()) {
-            for (int i = 0; i < t.getChildCount(); i++) {
-                Node child = t.getChild(i);
-                for (int j = 0; j < child.getChildCount(); j++) {
-                    Node grandChild = child.getChild(j);
-                    for (int k = 0; k < grandChild.getChildCount(); k++) {
-                        if (grandChild.getChild(k) == s) {
-                            return true;
-                        }
+                    if (child.getChild(j) == t) {
+                        return true;
                     }
                 }
             }
@@ -473,30 +461,19 @@ public static int num = 0;
         }
     }
 
-    private static boolean hasBrotherExcept(Node s, Node except) {
-        if (s.getParent() != null) {
-            for (int i = 0; i < s.getParent().getChildCount(); i++) {
-                if (s.getParent().getChild(i) != s && s.getParent().getChild(i) != except) {
-                    return true;
-                }
-            }
-            if (s.getParent().getParent() != s && s.getParent().getParent() != except) {
-                return true;
-            }
+    private static boolean isSmalestInNNI(Node s, Node t) {
+        if(isSmaler(t, s)) {
+            return false;
         }
-        return false;
-    }
-
-    private static Node getBrotherExcept(Node s, Node except) {
-        for (int i = 0; i < s.getParent().getChildCount(); i++) {
-            if(s.getParent().getChild(i) != s && s.getParent().getChild(i) != except) {
-                return  s.getParent().getChild(i);
-            }
+        Node sBrother = findOtherChild(s.getParent(), s);
+        if(isSmaler(sBrother, s)) {
+            return false;
         }
-        if (s.getParent().getParent() != s && s.getParent().getParent() != except) {
-            return s.getParent().getParent();
+        Node tBrother = findOtherChild(t.getParent(), t);
+        if(isSmaler(tBrother, s)) {
+            return false;
         }
-        return  null;
+        return true;
     }
 
     public static int getNodeDepth(Node node){
