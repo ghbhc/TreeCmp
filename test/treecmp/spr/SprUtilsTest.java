@@ -80,7 +80,7 @@ class SprUtilsTest {
      */
 
     @Test
-    public void testGenerateUSprNeighboursShouldReturnExactly_12_Neighbours_testing_all_5_labels_trees() {
+    public void testGenerateUSprNeighboursShouldReturnExactly_12_Neighbours_testing_all_5_labels_trees() throws TreeCmpException {
         SprUtils instance = new SprUtils();
         Tree baseTree = TreeCreator.getTreeFromString("(((0,1),2),3,4);");
         Tree[] treeList;
@@ -92,7 +92,7 @@ class SprUtilsTest {
     }
 
     @Test
-    public void testGenerateUSprNeighboursShouldReturnExactly_12_Neighbours_testing_one_5_labels_tree() {
+    public void testGenerateUSprNeighboursShouldReturnExactly_12_Neighbours_testing_one_5_labels_tree() throws TreeCmpException {
         SprUtils instance = new SprUtils();
         Tree baseTrees[] = TreeCreator.getAllUnrootedTreesWith_5_Labels();
         Tree[] treeList;
@@ -105,7 +105,7 @@ class SprUtilsTest {
     }
 
     @Test
-    public void testGenerateUSprNeighboursShouldReturnExactly_30_Neighbours_testing_one_6_labels_tree() {
+    public void testGenerateUSprNeighboursShouldReturnExactly_30_Neighbours_testing_one_6_labels_tree() throws TreeCmpException {
         SprUtils instance = new SprUtils();
         Tree baseTrees[] = TreeCreator.getAllUnrootedTreesWith_6_Labels();
         Tree[] treeList;
@@ -118,7 +118,7 @@ class SprUtilsTest {
     }
 
     @Test
-    public void testGenerateUSprNeighboursShouldReturnExactly_30_Neighbours_testing_all_6_labels_trees() {
+    public void testGenerateUSprNeighboursShouldReturnExactly_30_Neighbours_testing_all_6_labels_trees() throws TreeCmpException {
         SprUtils instance = new SprUtils();
         //Tree baseTree = TreeCreator.getTreeFromString("(((1,4),(2,5)),3,6);");
         Tree baseTree = TreeCreator.getTreeFromString("(0,1,(2,(3,(4,5))));");
@@ -130,7 +130,7 @@ class SprUtilsTest {
     }
 
     @Test
-    public void testGenerateUSprNeighboursShouldReturnExactly_56_Neighbours_testing_one_7_labels_tree() {
+    public void testGenerateUSprNeighboursShouldReturnExactly_56_Neighbours_testing_one_7_labels_tree() throws TreeCmpException {
         SprUtils instance = new SprUtils();
         Tree baseTree = TreeCreator.getTreeFromString("((0,((1,2),(3,4))),5,6);");
         Tree[] treeList;
@@ -141,7 +141,7 @@ class SprUtilsTest {
     }
 
     @Test
-    public void testGenerateUSprNeighboursShouldReturnExactly_56_Neighbours_testing_some_7_labels_trees() {
+    public void testGenerateUSprNeighboursShouldReturnExactly_56_Neighbours_testing_some_7_labels_trees() throws TreeCmpException {
         SprUtils instance = new SprUtils();
         Tree baseTrees[] = TreeCreator.getSomeUnrootedTreesWith_7_Labels();
         Tree[] treeList;
@@ -154,7 +154,7 @@ class SprUtilsTest {
     }
 
     @Test
-    public void testGenerateUSprNeighboursShouldReturnExactly_90_Neighbours_testing_one_8_labels_tree() {
+    public void testGenerateUSprNeighboursShouldReturnExactly_90_Neighbours_testing_one_8_labels_tree() throws TreeCmpException {
         SprUtils instance = new SprUtils();
         Tree baseTree = TreeCreator.getTreeFromString("(1,2,(3,(4,(5,(6,(7,8))))));");
         //Tree baseTree = TreeCreator.getTreeFromString("((4,(((2,5),(3,6)),7)),1,8);");
@@ -166,7 +166,7 @@ class SprUtilsTest {
     }
 
     @Test
-    public void testGenerateUSprNeighboursShouldReturnExactly_37442_Neighbours_testing_one_100_labels_tree() {
+    public void testGenerateUSprNeighboursShouldReturnExactly_37442_Neighbours_testing_one_100_labels_tree() throws TreeCmpException {
         SprUtils instance = new SprUtils();
         Tree baseTree = TreeCreator.getUnrootrdTreeWith_100_Labels();
         Tree[] treeList;
@@ -177,7 +177,7 @@ class SprUtilsTest {
     }
 
     @Test
-    public void testGenerateUSprNeighboursShouldReturnTreesWithRoot3Degree_testing_some_7_labels_trees() {
+    public void testGenerateUSprNeighboursShouldReturnTreesWithRoot3Degree_testing_some_7_labels_trees() throws TreeCmpException {
         SprUtils instance = new SprUtils();
         Tree baseTrees[] = TreeCreator.getSomeUnrootedTreesWith_7_Labels();
         Tree[] treeList;
@@ -190,7 +190,7 @@ class SprUtilsTest {
     }
 
     @Test
-    public void testGenerateUSprNeighboursShouldReturnTreesWithRoot3Degree_testing_100_labels_tree() {
+    public void testGenerateUSprNeighboursShouldReturnTreesWithRoot3Degree_testing_100_labels_tree() throws TreeCmpException {
         SprUtils instance = new SprUtils();
         Tree baseTree = TreeCreator.getUnrootedTreeWith_50_Labels();
         //Tree baseTree = TreeCreator.getUnrootrdTreeWith_100_Labels();
@@ -202,7 +202,7 @@ class SprUtilsTest {
     }
 
     @Test
-    public void testGenerateUSprNeighboursShoudReturnUniqueTrees() {
+    public void testGenerateUSprNeighboursShoudReturnUniqueTrees() throws TreeCmpException {
         SprUtils instance = new SprUtils();
         Metric rf = new RFMetric();
         Tree baseTree = TreeCreator.getTreeFromString("(((1,2),(3,4)),5,6);");
@@ -223,7 +223,7 @@ class SprUtilsTest {
     }
 
     @Test
-    public void testGenerateUSprNeighboursFookingFor_1_Neightbour() {
+    public void testGenerateUSprNeighboursFookingFor_1_Neightbour() throws TreeCmpException {
         SprUtils instance = new SprUtils();
         Metric rf = new RFMetric();
         Tree baseTree = TreeCreator.getTreeFromString("(1,2,(3,(4,(5,6))));");
@@ -244,7 +244,7 @@ class SprUtilsTest {
     }
 
     @Test
-    public void testGenerateUSprNeighboursFookingFor_30_Neightbours() {
+    public void testGenerateUSprNeighboursFookingFor_30_Neightbours() throws TreeCmpException {
         SprUtils instance = new SprUtils();
         Metric rf = new RFMetric();
         Tree baseTree = TreeCreator.getTreeFromString("(1,2,(3,(4,(5,6))));");
@@ -586,7 +586,7 @@ class SprUtilsTest {
     }
 
     @Test
-    public void testCreateUsprTree_LookingForSomeUnwantedTrees() {
+    public void testCreateUsprTree_LookingForSomeUnwantedTrees() throws TreeCmpException {
         Tree baseTree = TreeCreator.getTreeFromString("(0,1,(2,(3,(4,5))));");
         Tree unwantedTree = TreeCreator.getTreeFromString("(0,1,(2,(3,(4,5))));");
         Tree[] treeList;
@@ -607,7 +607,7 @@ class SprUtilsTest {
     }
 
     @Test
-    public void testCreateUsprTree_LookingForSomeWantedTrees() {
+    public void testCreateUsprTree_LookingForSomeWantedTrees() throws TreeCmpException {
         Tree baseTree = TreeCreator.getTreeFromString("(1,2,(3,(4,(5,6))));");
         Tree wantedTrees[] = TreeCreator.getAll_30_NeightboursOfSome_6_Labels_Tree();
         Tree[] treeList;

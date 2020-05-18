@@ -119,7 +119,7 @@ public static int num = 0;
         return tree;
     }
 
-    public static Tree[] generateUSprNeighbours(Tree tree){
+    public static Tree[] generateUSprNeighbours(Tree tree) throws TreeCmpException {
 
         int extNum = tree.getExternalNodeCount();
         int intNum = tree.getInternalNodeCount();
@@ -184,6 +184,9 @@ public static int num = 0;
             }
         }
         int n = usprTreeSet.size();
+        if (n != neighSize) {
+            throw new TreeCmpException("Bad number of neighbors generated");
+        }
         Tree [] usprTreeArray = new Tree[n];
         int i=0;
         for (TreeUnootedHolder th: usprTreeSet ){
