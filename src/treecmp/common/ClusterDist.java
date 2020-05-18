@@ -17,7 +17,11 @@
 
 package treecmp.common;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.BitSet;
+import java.util.Comparator;
+
 import pal.misc.IdGroup;
 import pal.tree.Node;
 import pal.tree.Tree;
@@ -52,14 +56,48 @@ public class ClusterDist {
                 continue;
             }
             bsA[j] = new BitSet(n);
-            markNode(idGroup, node, bsA[j]);
+            markRootedTreeNode(idGroup, node, bsA[j]);
             j++;
         }
 
         return bsA;
     }
+
+    public static BitSet[] UnuootedTree2BitSetArray(Tree t, IdGroup idGroup) {
+        int N = t.getInternalNodeCount();
+        int n = t.getExternalNodeCount();
+        Node node;
+        int j = 0;
+        BitSet[] bsA = new BitSet[N];
+
+        for (int i = 0; i < N; i++) {
+            node = t.getInternalNode(i);
+            bsA[j] = new BitSet(n);
+            markUnrootedTreeNode(idGroup, node, bsA[j]);
+            j++;
+        }
+
+        Arrays.sort(bsA, (BitSet lhs, BitSet rhs) -> compare(lhs, rhs));
+        return bsA;
+    }
+
+    private static int compare(BitSet lhs, BitSet rhs) {
+        if (lhs.equals(rhs)) return 0;
+        if (lhs.cardinality() != rhs.cardinality()) {
+            return lhs.cardinality() > rhs.cardinality() ? 1 : - 1;
+        }
+        else {
+            return lhs.nextSetBit(0) > rhs.nextSetBit(0) ? 1 : - 1;
+        }
+    }
+
+    private static void swap(BitSet lhs, BitSet rhs) {
+        lhs.xor(rhs);
+        rhs.xor(lhs);
+        lhs.xor(rhs);
+    }
      
-    static void markNode(IdGroup idGroup, Node node, BitSet cluster) {
+    static void markRootedTreeNode(IdGroup idGroup, Node node, BitSet cluster) {
         if (node.isLeaf()) {
             String name = node.getIdentifier().getName();
             int index = idGroup.whichIdNumber(name);
@@ -67,13 +105,25 @@ public class ClusterDist {
             if (index < 0) {
                 throw new IllegalArgumentException("INCOMPATIBLE IDENTIFIER (" + name + ")");
             }
-
             cluster.set(index);
         } else {
             for (int i = 0; i < node.getChildCount(); i++) {
-                markNode(idGroup, node.getChild(i), cluster);
+                markRootedTreeNode(idGroup, node.getChild(i), cluster);
             }
         }
+    }
+
+    private static void markUnrootedTreeNode(IdGroup idGroup, Node node, BitSet cluster) {
+        BitSet[] subTrees = new BitSet[3];
+        for (int i = 0; i < 3; i++) subTrees[i] = new BitSet();
+        markRootedTreeNode(idGroup, node.getChild(0), subTrees[0]);
+        markRootedTreeNode(idGroup, node.getChild(1), subTrees[1]);
+        subTrees[2].set(0, idGroup.getIdCount(), true);
+        subTrees[2].andNot(subTrees[0]);
+        subTrees[2].andNot(subTrees[1]);
+        Arrays.sort(subTrees, (BitSet lhs, BitSet rhs) -> compare(lhs, rhs));
+        cluster.or(subTrees[0]);
+        cluster.or(subTrees[1]);
     }
 
     public static int getDistXorBit(BitSet cluster1, BitSet cluster2) {

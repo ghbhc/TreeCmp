@@ -287,6 +287,13 @@
             <year>2013</year>
             <full_description>For every rooted phylogenetic tree T, let its cophenetic vector φ(T) consist of all pairs of cophenetic values (depth of lowest common ancestor of a pair of nodes) between pairs of taxa in T and all depths of taxa in T. Cophenetic Metric comparing cophenetic vectors φ(T) of two trees by means of L2 norm distance.</full_description>
         </metric>
+        <!-- Unrooted Spr Heuristics -->
+        <metric>
+            <name>UsprHuristicRF</name>
+            <command_name>srf</command_name>
+            <class>treecmp.spr.UsprHeuristicRFMetric</class>
+            <description>-rSPR RF heuristic</description>
+        </metric>
         <!-- Rooted Spr Heuristics -->
          <metric>
             <name>SprHuristicRFC</name>
@@ -379,7 +386,6 @@
             <description>-rSPR Cophenetic-RFC heuristic</description>
             <rooted>true</rooted>
         </metric>
-        <!-- Unooted Spr Heuristics -->
     </defined_metrics>
     <reporting>
         <filed_separator>tab</filed_separator>

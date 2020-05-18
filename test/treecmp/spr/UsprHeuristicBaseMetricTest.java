@@ -6,11 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import pal.tree.Tree;
-
-import java.util.List;
-
-class SubtreeUtilsTest {
+class UsprHeuristicBaseMetricTest {
 
     @BeforeEach
     void setUp() {
@@ -19,5 +15,4 @@ class SubtreeUtilsTest {
     @AfterEach
     void tearDown() {
     }
-
 }
