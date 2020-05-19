@@ -4,9 +4,14 @@
  */
 package treecmp.spr;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import pal.io.InputSource;
+import pal.tree.ReadTree;
+import pal.tree.SimpleTree;
+import pal.tree.TreeParseException;
 import treecmp.common.TreeCmpException;
 import treecmp.metric.*;
 import pal.tree.Tree;
@@ -74,7 +79,16 @@ public abstract class UsprHeuristicBaseMetric extends BaseMetric implements Metr
                         bestTree = tempTree;
                     }
                 }
-                currentStepTree = bestTree;
+                //todo:poprawić
+                // zapisuję do stringu i odczytuje bo inaczej powstają błędy
+                // w postaci wierzchołków wewnętrznych stopnia 1
+                {
+                    String bestTreeString = bestTree.toString();
+                    InputSource is = InputSource.openString(bestTreeString);
+                    currentStepTree = new ReadTree(is);
+                    is.close();
+                }
+
                 bestDist1 = bestDist2;
                 bestDist2 = bestDist;
                 if (bestDist1 <= bestDist2) {
@@ -86,9 +100,13 @@ public abstract class UsprHeuristicBaseMetric extends BaseMetric implements Metr
             dist = (double) sprDist;
         } catch (TreeCmpException ex) {
             Logger.getLogger(SprHeuristicBaseMetric.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TreeParseException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        return dist;
+            return dist;
     }
 
     protected abstract Metric getMetric();

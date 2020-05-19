@@ -289,49 +289,85 @@
         </metric>
         <!-- Unrooted Spr Heuristics -->
         <metric>
-            <name>UsprHuristicRF</name>
+            <name>UsprHeuristicRF</name>
             <command_name>srf</command_name>
             <class>treecmp.spr.UsprHeuristicRFMetric</class>
             <description>-rSPR RF heuristic</description>
         </metric>
+        <metric>
+            <name>UsprHeuristicM3</name>
+            <command_name>sm3</command_name>
+            <class>treecmp.spr.UsprHeuristicM3Metric</class>
+            <description>-rSPR M3 heuristic</description>
+        </metric>
+        <metric>
+            <name>UsprHeuristicMPU</name>
+            <command_name>smpu</command_name>
+            <class>treecmp.spr.UsprHeuristicMPUMetric</class>
+            <description>-rSPR MPU heuristic</description>
+        </metric>
+        <metric>
+            <name>UsprHeuristicMS</name>
+            <command_name>sms</command_name>
+            <class>treecmp.spr.UsprHeuristicMSMetric</class>
+            <description>-rSPR MS heuristic</description>
+        </metric>
+        <metric>
+            <name>UsprHeuristicPD</name>
+            <command_name>spd</command_name>
+            <class>treecmp.spr.UsprHeuristicPDMetric</class>
+            <description>-rSPR PD heuristic</description>
+        </metric>
+        <metric>
+            <name>UsprHeuristicQT</name>
+            <command_name>sqt</command_name>
+            <class>treecmp.spr.UsprHeuristicQTMetric</class>
+            <description>-rSPR QT heuristic</description>
+        </metric>
+        <metric>
+            <name>UsprHeuristicUM</name>
+            <command_name>sum</command_name>
+            <class>treecmp.spr.UsprHeuristicUMMetric</class>
+            <description>-rSPR MU heuristic</description>
+        </metric>
         <!-- Rooted Spr Heuristics -->
          <metric>
-            <name>SprHuristicRFC</name>
+            <name>SprHeuristicRFC</name>
             <command_name>src</command_name>
             <class>treecmp.spr.SprHeuristicRFCMetric</class>
             <description>-rSPR RFC heuristic</description>
             <rooted>true</rooted>
         </metric>
         <metric>
-            <name>SprHuristicMC</name>
+            <name>SprHeuristicMC</name>
             <command_name>smc</command_name>
             <class>treecmp.spr.SprHeuristicMCMetric</class>
             <description>-rSPR MC heuristic</description>
             <rooted>true</rooted>
         </metric>
         <metric>
-            <name>SprHuristicNS</name>
+            <name>SprHeuristicNS</name>
             <command_name>sns</command_name>
             <class>treecmp.spr.SprHeuristicNSMetric</class>
             <description>-rSPR NS heuristic</description>
             <rooted>true</rooted>
         </metric>
         <metric>
-            <name>SprHuristicTT</name>
+            <name>SprHeuristicTT</name>
             <command_name>stt</command_name>
             <class>treecmp.spr.SprHeuristicTTMetric</class>
             <description>-rSPR TT heuristic</description>
             <rooted>true</rooted>
         </metric>
         <metric>
-            <name>SprHuristicMP</name>
+            <name>SprHeuristicMP</name>
             <command_name>smp</command_name>
             <class>treecmp.spr.SprHeuristicMPMetric</class>
             <description>-rSPR MP heuristic</description>
             <rooted>true</rooted>
         </metric>
          <metric>
-            <name>SprHuristicMast</name>
+            <name>SprHeuristicMast</name>
             <command_name>smt</command_name>
             <class>treecmp.spr.SprHeuristicMastMetric</class>
             <description>-rSPR MAST heuristic</description>
@@ -345,35 +381,35 @@
             <rooted>true</rooted>
         </metric>
         <metric>
-            <name>SprHuristicMcRfc</name>
+            <name>SprHeuristicMcRfc</name>
             <command_name>smcrc</command_name>
             <class>treecmp.spr.SprHeuristicMcRfcMetric</class>
             <description>-rSPR MC-RFC heuristic</description>
             <rooted>true</rooted>
         </metric>
         <metric>
-            <name>SprHuristicNsRfc</name>
+            <name>SprHeuristicNsRfc</name>
             <command_name>snsrc</command_name>
             <class>treecmp.spr.SprHeuristicNsRfcMetric</class>
             <description>-rSPR NS-RFC heuristic</description>
             <rooted>true</rooted>
         </metric>
         <metric>
-            <name>SprHuristicTtRfc</name>
+            <name>SprHeuristicTtRfc</name>
             <command_name>sttrc</command_name>
             <class>treecmp.spr.SprHeuristicTtRfcMetric</class>
             <description>-rSPR TT-RFC heuristic</description>
             <rooted>true</rooted>
         </metric>
         <metric>
-            <name>SprHuristicMpRfc</name>
+            <name>SprHeuristicMpRfc</name>
             <command_name>smprc</command_name>
             <class>treecmp.spr.SprHeuristicMpRfcMetric</class>
             <description>-rSPR MP-RFC heuristic</description>
             <rooted>true</rooted>
         </metric>
         <metric>
-            <name>SprHuristicMastRfc</name>
+            <name>SprHeuristicMastRfc</name>
             <command_name>smtrc</command_name>
             <class>treecmp.spr.SprHeuristicMastRfcMetric</class>
             <description>-rSPR MAST-RFC heuristic</description>

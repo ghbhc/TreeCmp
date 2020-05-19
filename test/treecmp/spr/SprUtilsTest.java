@@ -421,6 +421,21 @@ class SprUtilsTest {
     }
 
     @Test
+    public void testCreateUsprTree_CreateByNonRootNonLeaf_7_to_Leaf_3_exchange_on_12_labels_tree() {
+        Tree baseTree = TreeCreator.getTreeFromString("(0:0.0000000,(((2:0.0000000,3:0.0000000):0.0000000,((5:0.0000000,6:0.0000000):0.0000000,(1:0.0000000,((7:0.0000000,8:0.0000000):0.0000000,(9:0.0000000,10:0.0000000):0.0000000):0.0000000):0.0000000):0.0000000):0.0000000,4:0.0000000):0.0000000,11:0.0000000);");
+        Node s = baseTree.getInternalNode(7); //((2,3),((5,6),(1,((7,8),(9,10)))))
+        Node t = baseTree.getExternalNode(3); //5.0
+        Tree expTree = TreeCreator.getTreeFromString("(0,(((6,((1,((7,8),(9,10))),(2,3))),5),4),11);");
+        Tree result = SprUtils.createUsprTree(baseTree, s, t);
+        Metric rf = new RFMetric();
+        try {
+            assertEquals(0.0, rf.getDistance(expTree, result));
+        } catch (TreeCmpException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void testCreateUsprTree_CreateByLeaf_0_toNonRootNonLeaf_0_exchange_on_6_labels_tree() {
         Tree baseTree = TreeCreator.getTreeFromString("(1,2,(3,(4,(5,6))));");
         Node s = baseTree.getExternalNode(0);

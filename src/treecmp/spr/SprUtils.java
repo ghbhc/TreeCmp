@@ -150,7 +150,12 @@ public static int num = 0;
                 t = tree.getExternalNode(j);
                 if (isValidUsprMove(s,t)) {
                     resultTree = createUsprTree(tree,s,t);
-                    usprTreeSet.add(new TreeUnootedHolder(resultTree,idGroup));
+                    try {
+                        usprTreeSet.add(new TreeUnootedHolder(resultTree, idGroup));
+                    }
+                    catch (Exception e) {
+                        int lalal = 9;
+                    }
                     // System.out.println("neigbours/neighsize = "+usprTreeSet.size() +"/" +neighSize);
                 }
             }
@@ -680,10 +685,6 @@ public static int num = 0;
             if(isInnerMove) {
                 int sourcePos = findChildPos(source, sourceParent);
                 sourceParent.removeChild(sourcePos);
-                // todo: usunąć jak będzie wszystko ok
-                /*for (int i = 0; i < otherSourceChildren.length; i++) {
-                    sourceParent2.setChild(i, otherSourceChildren[i]);
-                }*/
             }
             else {
                 for (int i = 0; i < otherSourceChildren.length; i++) {

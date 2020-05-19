@@ -332,4 +332,38 @@ public class TreeCreator {
         return treeStr;
     }
 
+    public static Tree[] getTwoMarsupialsSPR_1_distance_trees() {
+        Tree treeStr[] = new Tree[2];
+        treeStr[0] = getTreeFromString("((Phalanger_matanim,Strigocuscus_gymnotis),(Phalanger_carmelitae,Phalanger_orientalis),Phalanger_vestitus);");
+        treeStr[1] = getTreeFromString("(Phalanger_matanim,Strigocuscus_gymnotis,(Phalanger_orientalis,(Phalanger_carmelitae,Phalanger_vestitus)));");
+        return treeStr;
+    }
+
+    public static Tree[] getTwoMarsupialsSPR_2_distance_trees() {
+        Tree treeStr[] = new Tree[2];
+        treeStr[0] = getTreeFromString("(Acrobates_pygmaeus,((Trichosurus_vulpecula,(Cercartetus_caudatus,Burramys_parvus)),((Dactylopsila_trivirgata,Petauroides_volans),Distoechurus_pennatus)),Tarsipes_rostratus);");
+        treeStr[1] = getTreeFromString("(Trichosurus_vulpecula,(Burramys_parvus,Cercartetus_caudatus),((Acrobates_pygmaeus,Distoechurus_pennatus),(Petauroides_volans,(Tarsipes_rostratus,Dactylopsila_trivirgata))));");
+        return treeStr;
+    }
+
+    public static Tree[] getTwoMarsupialsSPR_3_distance_trees() {
+        Tree treeStr[] = new Tree[2];
+        treeStr[0] = getTreeFromString("(Caluromys_philander,(((((Didelphis_virginiana,Philander_opossum),Lutreolina_crassicaudata),Chironectes_minimus),Metachirus_nudicaudatus),((Gracilinanus_agilis,((Thylamys_pallidior,(Thylamys_macrura,Thylamys_pusilla)),Lestodelphys_halli)),(Marmosops_parvidens,Marmosops_dorothea))),((Monodelphis_dimidiata,Monodelphis_domestica),((Marmosa_murina,Marmosa_robinsoni),Micoureus_constantiae)));");
+        treeStr[1] = getTreeFromString("(Caluromys_philander,((Monodelphis_domestica,Monodelphis_dimidiata),(Marmosa_robinsoni,(Micoureus_constantiae,Marmosa_murina))),((Metachirus_nudicaudatus,(Chironectes_minimus,(Lutreolina_crassicaudata,(Didelphis_virginiana,Philander_opossum)))),((Marmosops_parvidens,(Gracilinanus_agilis,Marmosops_dorothea)),(Lestodelphys_halli,(Thylamys_pusilla,(Thylamys_macrura,Thylamys_pallidior))))));");
+        return treeStr;
+    }
+
+    public static Tree[] getTwoMarsupialsSPR_4_distance_trees() {
+        Tree treeStr[] = new Tree[2];
+        treeStr[0] = getTreeFromString("(Acrobates_pygmaeus,((((Macropus_eugenii,(((Trichosurus_vulpecula,Cercartetus_nanus),Petaurus_breviceps),(Vombatus_ursinus,Phascolarctos_cinereus))),(Isoodon_macrourus,Macrotis_lagotis)),Sminthopsis_macroura),Dasyurus_viverrinus),Tarsipes_rostratus);");
+        treeStr[1] = getTreeFromString("((Cercartetus_nanus,((Vombatus_ursinus,Phascolarctos_cinereus),((Macropus_eugenii,Trichosurus_vulpecula),(Tarsipes_rostratus,(Acrobates_pygmaeus,Petaurus_breviceps))))),(Isoodon_macrourus,Macrotis_lagotis),(Sminthopsis_macroura,Dasyurus_viverrinus));");
+        return treeStr;
+    }
+
+    public static Tree[] getTwoMarsupialsSPR_4_distance_trees_withoutLabels() {
+        Tree treeStr[] = new Tree[2];
+        treeStr[0] = getTreeFromString("(0,((((1,(((2,3),4),(5,6))),(7,8)),9),10),11);");
+        treeStr[1] = getTreeFromString("((3,((5,6),((1,2),(11,(0,4))))),(7,8),(9,10));");
+        return treeStr;
+    }
 }
