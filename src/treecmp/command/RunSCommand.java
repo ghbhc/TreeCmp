@@ -55,6 +55,9 @@ public class RunSCommand extends Command {
         for(int i=0;i<metrics.length;i++){
             statsMetrics[i]=new StatCalculator(metrics[i]);
         }
+        if (ioSet.isGenSackinIndexes()) {
+            countSackinIndexes(reader);
+        }
         pairCompareEx(reader, out, statsMetrics);
     }
 
@@ -98,7 +101,7 @@ private void pairCompareEx(TreeReader reader, ResultWriter out, StatCalculator[]
                  //summary
                 sStatCalc[i].insertValue(val);
             }
-            row = ReportUtils.getResultRow(num, num, num + 1, metrics);
+            row = ReportUtils.getResultRow(num, num, num + 1, metrics, sackin_ind_vec, sackin_unrooted_ind_vec);
             out.setRow(row);
             out.write();
 

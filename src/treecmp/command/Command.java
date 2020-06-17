@@ -17,15 +17,20 @@
 
 package treecmp.command;
 
+import pal.tree.Tree;
 import pal.tree.TreeParseException;
 import treecmp.common.TreeCmpException;
+import treecmp.common.TreeCmpUtils;
+import treecmp.config.IOSettings;
 import treecmp.io.ResultWriter;
 import treecmp.io.TreeReader;
 
+import java.util.ArrayList;
 
 
 public class Command {
 
+    protected static IOSettings ioSet = IOSettings.getIOSettings();
     int paramNumber;
     TreeReader reader;
     ResultWriter out;
@@ -33,7 +38,8 @@ public class Command {
     int param;
     String errorMsg;
     String args[];
-
+    ArrayList<Double> sackin_ind_vec = new ArrayList<>();
+    ArrayList<Double> sackin_unrooted_ind_vec = new ArrayList<>();
 
     public String[] getArgs() {
         return args;
@@ -45,6 +51,17 @@ public class Command {
 
     public String getName() {
         return name;
+    }
+
+
+    protected void countSackinIndexes(TreeReader reader) throws TreeParseException {
+        pal.tree.Tree tree;
+        while ((tree = reader.readNextTree()) != null) {
+            sackin_ind_vec.add(TreeCmpUtils.getSackinIndex(tree));
+            sackin_unrooted_ind_vec.add(TreeCmpUtils.getSackinUnrootedIndex(tree));
+        }
+        reader.close();
+        reader.open();
     }
 
     public Command(int paramNumber, String name) {

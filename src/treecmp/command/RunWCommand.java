@@ -126,7 +126,7 @@ public class RunWCommand extends Command {
                         }
                         //print row statistic
                         base = num + 1;
-                        row = ReportUtils.getResultRow((int)counter, base+ i, base + j, metrics);
+                        row = ReportUtils.getResultRow((int)counter, base+ i, base + j, metrics, sackin_ind_vec, sackin_unrooted_ind_vec);
                         out.setRow(row);
                         out.write();
 
@@ -152,6 +152,9 @@ public class RunWCommand extends Command {
 
         for(int i = 0; i < metrics.length;i++){
             statsMetrics[i]=new StatCalculator(metrics[i]);
+        }
+        if (ioSet.isGenSackinIndexes()) {
+            countSackinIndexes(reader);
         }
         windowCompareEx(reader, winSize, out, statsMetrics);
     }

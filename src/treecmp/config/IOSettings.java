@@ -39,6 +39,7 @@ public class IOSettings {
     private boolean rootedMetricUsed;
     private boolean saveComparedTreePairs;
     private boolean saveOnlyBinaryComparedTreePairs;
+    private boolean genSackinIndexes;
 
     public boolean isUseMsMcFreeLeafSet() {
         return useMsMcFreeLeafSet;
@@ -186,6 +187,9 @@ public class IOSettings {
     }
     public boolean isSaveOnlyBinaryComparedTreePairs() { return saveOnlyBinaryComparedTreePairs; }
 
+    public void setGenSackinIndexes(boolean genSackinIndexes) { this.genSackinIndexes = genSackinIndexes; }
+
+    public boolean isGenSackinIndexes() { return genSackinIndexes; }
 }
 
 

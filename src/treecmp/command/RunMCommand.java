@@ -97,7 +97,7 @@ public class RunMCommand extends Command {
                     val = metrics[k].getDistance(tree1, tree2, i + 1, j + 1);
                     sStatCalc[k].insertValue(val);
                 }   
-                row = ReportUtils.getResultRow((int)counter, i + 1, j + 1, metrics);
+                row = ReportUtils.getResultRow((int)counter, i + 1, j + 1, metrics, sackin_ind_vec, sackin_unrooted_ind_vec);
                 out.setRow(row);
                 out.write();
 
@@ -122,6 +122,9 @@ public class RunMCommand extends Command {
 
             if(IOSettings.getIOSettings().isCalcCorrelation())//temprary set statcalc to hold valuse
                 statsMetrics[i].setRecordValues(true);
+        }
+        if (ioSet.isGenSackinIndexes()) {
+            countSackinIndexes(reader);
         }
         matrixCompareEx(reader, out, statsMetrics);
     }

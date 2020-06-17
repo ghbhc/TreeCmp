@@ -29,11 +29,7 @@ import java.util.Set;
 import pal.misc.IdGroup;
 import pal.misc.Identifier;
 import pal.misc.SimpleIdGroup;
-import pal.tree.Node;
-import pal.tree.NodeUtils;
-import pal.tree.Tree;
-import pal.tree.TreeTool;
-import pal.tree.TreeUtils;
+import pal.tree.*;
 
 public class TreeCmpUtils {
 
@@ -1041,6 +1037,41 @@ public class TreeCmpUtils {
             }
         }
         return currMax;
+    }
+
+    static int countSackinIndex(Node node, int depth) {
+        if(node.isLeaf()) {
+            return depth;
+        }
+        else{
+            int sackinIndex = 0;
+            final int numberOfChildren = node.getChildCount();
+            for (int i=0; i<numberOfChildren; i++) {
+                sackinIndex += countSackinIndex(node.getChild(i),depth+1);
+            }
+            return sackinIndex;
+        }
+    }
+
+    public static double getSackinIndex(Tree tree) {
+        Node node = tree.getRoot();
+        int depth = 0;
+        return (double) countSackinIndex(node, depth);
+    }
+
+    public static double getSackinUnrootedIndex(Tree tree) {
+        Tree unrootedTree = unrootTreeIfNeeded(tree);
+        final SimpleTree t = new SimpleTree(unrootedTree);
+        int treeInternalNodeCount = t.getInternalNodeCount();
+        double minSackinIndex = Double.MAX_VALUE;
+        for (int i=0; i<treeInternalNodeCount; i++) {
+            t.reroot(t.getInternalNode(i));
+            double tmpSackinIndex = getSackinIndex(t);
+            if (minSackinIndex > tmpSackinIndex) {
+                minSackinIndex = tmpSackinIndex;
+            }
+        }
+        return minSackinIndex;
     }
 
 }

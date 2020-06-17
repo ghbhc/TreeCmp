@@ -17,6 +17,7 @@
 
 package treecmp.common;
 
+import java.util.ArrayList;
 import java.util.Locale;
 import treecmp.config.IOSettings;
 
@@ -28,6 +29,7 @@ public class ReportUtils {
     private static IOSettings ioSet = IOSettings.getIOSettings();
     private static boolean pruneTrees = ioSet.isPruneTrees();
     private static boolean randomComparison = ioSet.isRandomComparison();
+    private static boolean genSackinIndexes = ioSet.isGenSackinIndexes();
 
     public final static String NUM_COLUMN = "No";
     public final static String T1_COLUMN = "Tree1";
@@ -42,6 +44,10 @@ public class ReportUtils {
     public final static String YULE_FRAC= "_toYuleAvg";
     public final static String UNIF_FRAC= "_toUnifAvg";
     public final static String NA_FRAC= "N/A";
+    public final static String T1_SACKIN = "Tree1SackinInd";
+    public final static String T2_SACKIN = "Tree2SackinInd";
+    public final static String T1_SACKIN_UNROOTED = "Tree1SackinUnrootInd";
+    public final static String T2_SACKIN_UNROOTED = "Tree2SackinUnrootInd";
     //it t2 ==-1 do not print t2
 
     private static int rowCount;
@@ -49,12 +55,13 @@ public class ReportUtils {
     public static void setRowCount(int metricsCount) {
         int rc = metricsCount;
         if (randomComparison) rc *= 3;
+        if (genSackinIndexes) rc += 4;
         if (pruneTrees) rc += 3;
         rc += 3;
         rowCount = rc;
     }
 
-     public static Object[] getResultRow(int rowNum, int t1, int t2, StatCalculator[] stats){
+     public static Object[] getResultRow(int rowNum, int t1, int t2, StatCalculator[] stats, ArrayList<Double> sackin_ind_vec, ArrayList<Double> sackin_unrooted_ind_vec){
 
          Object[] row = new Object[rowCount];
          double dist, distToYuleAvg, distToUnifAvg;
@@ -63,6 +70,19 @@ public class ReportUtils {
          row[cellNum++] = rowNum;
          row[cellNum++] = t1;
          row[cellNum++] = t2;
+         //to do if report Sackin indexes enabled
+         if(genSackinIndexes) {
+             row[cellNum++] = sackin_ind_vec.get(t1 - 1);
+         }
+         if(genSackinIndexes) {
+             row[cellNum++] = sackin_ind_vec.get(t2 - 1);
+         }
+         if(genSackinIndexes) {
+             row[cellNum++] = sackin_unrooted_ind_vec.get(t1 - 1);
+         }
+         if(genSackinIndexes) {
+             row[cellNum++] = sackin_unrooted_ind_vec.get(t2 - 1);
+         }
 
         //to do if prune enabled
         if (pruneTrees && stats.length > 0){
@@ -207,6 +227,20 @@ public class ReportUtils {
             }
 
             row[cellNum++] = COMMON_TAXA;
+        }
+
+        //to do if report Sackin indexes enabled
+        if(genSackinIndexes) {
+            row[cellNum++] = T1_SACKIN;
+        }
+        if(genSackinIndexes) {
+            row[cellNum++] = T2_SACKIN;
+        }
+        if(genSackinIndexes) {
+            row[cellNum++] =T1_SACKIN_UNROOTED;
+        }
+        if(genSackinIndexes) {
+            row[cellNum++] =T2_SACKIN_UNROOTED;
         }
 
         for (int i = 0; i < stats.length; i++) {

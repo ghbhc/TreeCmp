@@ -50,6 +50,8 @@ public class CommandLineParser {
     private final static String P_DESC = "- Prune compared trees if needed (trees can have different leaf sets).";
     private final static String SS_DESC = "- Report normalized distances.";
     private final static String II_DESC = "- Include summary section in the output file.";
+    private final static String SC_DESC = "- Report Sackin indexes (for unrooted trees, the lowest value of all possible rootings).";
+
     private final static String B_DESC = "- Bifurcating trees only.";
     private final static String A_DESC = "- Generate alignment files (only for MS and MC metrics). Cannot be used with -O option.";
     private final static String OO_DESC = "- Use MS/MC metrics optimized for similar trees. Cannot be used with -A option.";
@@ -146,6 +148,7 @@ public class CommandLineParser {
         Option oSS = new Option("N", SS_DESC);
         Option oII = new Option("I", II_DESC);
         Option oB = new Option("B", B_DESC);
+        Option oSC = new Option("S", SC_DESC);
 
         Option oOO = new Option("O", OO_DESC);
       //  Option oF = new Option("F", F_DESC);
@@ -168,6 +171,7 @@ public class CommandLineParser {
         opts.addOption(oSS);
         opts.addOption(oII);
         opts.addOption(oB);
+        opts.addOption(oSC);
         opts.addOption(oST);
         opts.addOption(oSBT);
         opts.addOptionGroup(customMOpts);
@@ -282,6 +286,14 @@ public class CommandLineParser {
                 else {
                     IOset.setBifurcatingOnly(false);
                     custOpts.remove(oB);
+                }
+                if (commandLine.hasOption(oSC.getOpt())) {
+                    IOset.setGenSackinIndexes(true);
+                    custOpts.add(oSC);
+                }
+                else {
+                    IOset.setGenSackinIndexes(false);
+                    custOpts.remove(oSC);
                 }
                 /*
                 if (commandLine.hasOption(oF.getOpt())) {

@@ -70,7 +70,9 @@ public class RunRCommand extends Command {
         for (int i = 0; i < metrics.length; i++) {
             statsMetrics[i] = new StatCalculator(metrics[i]);
         }
-
+        if (ioSet.isGenSackinIndexes()) {
+            countSackinIndexes(reader);
+        }
         refTreeCompareEx(reader, out, statsMetrics);
 
     }
@@ -117,7 +119,7 @@ public class RunRCommand extends Command {
                     sStatCalc[k].insertValue(val);
                 }
 
-                row = ReportUtils.getResultRow((int) num, i + 1, j + 1, metrics);
+                row = ReportUtils.getResultRow((int) num, i + 1, j + 1, metrics, sackin_ind_vec, sackin_unrooted_ind_vec);
                 out.setRow(row);
                 out.write();
 
