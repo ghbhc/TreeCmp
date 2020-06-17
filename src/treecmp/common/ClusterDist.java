@@ -77,7 +77,13 @@ public class ClusterDist {
             j++;
         }
 
-        Arrays.sort(bsA, (BitSet lhs, BitSet rhs) -> compare(lhs, rhs));
+        // Arrays.sort(bsA, (BitSet lhs, BitSet rhs) -> compare(lhs, rhs));
+        Arrays.sort(bsA, new Comparator<BitSet>() {
+            @Override
+            public int compare(BitSet lhs, BitSet rhs) {
+                return compare(lhs, rhs);
+            }
+        });
         return bsA;
     }
 
@@ -121,7 +127,13 @@ public class ClusterDist {
         subTrees[2].set(0, idGroup.getIdCount(), true);
         subTrees[2].andNot(subTrees[0]);
         subTrees[2].andNot(subTrees[1]);
-        Arrays.sort(subTrees, (BitSet lhs, BitSet rhs) -> compare(lhs, rhs));
+        //Arrays.sort(subTrees, (BitSet lhs, BitSet rhs) -> compare(lhs, rhs));
+        Arrays.sort(subTrees, new Comparator<BitSet>() {
+            @Override
+            public int compare(BitSet lhs, BitSet rhs) {
+                return compare(lhs, rhs);
+            }
+        });
         cluster.or(subTrees[0]);
         cluster.or(subTrees[1]);
     }
