@@ -88,7 +88,7 @@ public class MatchingTripletMetric extends BaseMetric implements Metric {
         for (int i = 0; i < N; i++){
             for (int j = i+1; j < N; j++){
                 for (int k = j+1; k < N; k++) {
-                    ind1 = TreeCmpUtils.getNcv(t1, i, j, k, lcaMatrix1, null);
+                    ind1 = TreeCmpUtils.getNcv(t1, i, j, k, lcaMatrix1, alias);
                     ind2 = TreeCmpUtils.getNcv(t2, i, j, k, lcaMatrix2, alias);
                     //ind1 = ncvMatrix1[i][j][k];
                     //ind2 = ncvMatrix2[i][j][k];
