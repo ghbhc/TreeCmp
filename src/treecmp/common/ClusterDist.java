@@ -77,17 +77,17 @@ public class ClusterDist {
             j++;
         }
 
-        // Arrays.sort(bsA, (BitSet lhs, BitSet rhs) -> compare(lhs, rhs));
+        // Arrays.sort(bsA, (BitSet lhs, BitSet rhs) -> compareBitSets(lhs, rhs));
         Arrays.sort(bsA, new Comparator<BitSet>() {
             @Override
             public int compare(BitSet lhs, BitSet rhs) {
-                return compare(lhs, rhs);
+                return compareBitSets(lhs, rhs);
             }
         });
         return bsA;
     }
 
-    private static int compare(BitSet lhs, BitSet rhs) {
+    private static int compareBitSets(BitSet lhs, BitSet rhs) {
         if (lhs.equals(rhs)) return 0;
         if (lhs.cardinality() != rhs.cardinality()) {
             return lhs.cardinality() > rhs.cardinality() ? 1 : - 1;
@@ -127,11 +127,11 @@ public class ClusterDist {
         subTrees[2].set(0, idGroup.getIdCount(), true);
         subTrees[2].andNot(subTrees[0]);
         subTrees[2].andNot(subTrees[1]);
-        //Arrays.sort(subTrees, (BitSet lhs, BitSet rhs) -> compare(lhs, rhs));
+        //Arrays.sort(subTrees, (BitSet lhs, BitSet rhs) -> compareBitSets(lhs, rhs));
         Arrays.sort(subTrees, new Comparator<BitSet>() {
             @Override
             public int compare(BitSet lhs, BitSet rhs) {
-                return compare(lhs, rhs);
+                return compareBitSets(lhs, rhs);
             }
         });
         cluster.or(subTrees[0]);
